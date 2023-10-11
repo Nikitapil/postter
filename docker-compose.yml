@@ -9,4 +9,4 @@ services:
       - '27017:27017'
       - '28017:28017'
     volumes:
-      - ./data/mongo:/data/db
+      - ./mongo/mongo:/data/db
