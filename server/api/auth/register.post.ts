@@ -1,5 +1,6 @@
 import {sendError} from "h3";
 import {createUser} from "~/server/database/users";
+import {userTransformer} from "~/server/transformers/user";
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
@@ -17,10 +18,11 @@ export default defineEventHandler(async (event) => {
         username,
         email,
         password,
-        name
+        name,
+        profileImage: 'https://loremflickr.com/200/200'
     }
 
     const user = await createUser(userData)
 
-    return user
+    return userTransformer(user)
 })
