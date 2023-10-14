@@ -1,5 +1,5 @@
 export default defineEventHandler( async (event) => {
     return {
-        user: event.context.auth
+        user: event.context.auth.user
     }
 })
