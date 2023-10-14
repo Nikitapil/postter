@@ -5,7 +5,7 @@
       <AppInput v-model="userData.password" label="Password" placeholder="password" type="password" />
 
       <div>
-        <button @click="handleLogin">Login</button>
+        <button class="dark:text-white" @click="handleLogin">Login</button>
       </div>
     </div>
   </div>

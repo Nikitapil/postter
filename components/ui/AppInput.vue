@@ -2,7 +2,7 @@
   <div>
     <label
         v-if="label"
-        class="block pl-3 ml-px text-sm font-medium text-gray-700"
+        class="block pl-3 ml-px text-sm font-medium text-gray-700 dark:text-white"
         for=""
     >
       {{ label }}

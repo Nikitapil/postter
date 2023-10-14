@@ -10,3 +10,8 @@ export interface IUser {
     profileImage: string | null;
     username: string;
 }
+
+export interface IJwtDecodedToken {
+    exp: number;
+    iat: number;
+}

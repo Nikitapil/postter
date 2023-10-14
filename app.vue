@@ -23,6 +23,8 @@
         </div>
       </div>
 
+      <LoadingPage v-else-if="isAuthLoading" />
+
       <AuthPage v-else />
 
     </div>
@@ -35,10 +37,17 @@ import LeftSidebar from "~/components/sidebars/left/LeftSidebar.vue";
 import RightSidebar from "~/components/sidebars/right/RightSidebar.vue";
 import AuthPage from "~/components/Auth/AuthPage.vue";
 import useAuth from "~/compasables/useAuth";
+import Spinner from "~/components/ui/Spinner.vue";
 
 const darkMode = ref(false)
 
-const { useAuthUser } = useAuth()
+const { useAuthUser, initAuth, useAuthLoading } = useAuth()
 
 const user = useAuthUser()
+const isAuthLoading = useAuthLoading()
+
+onBeforeMount(async () => {
+  await initAuth()
+})
+
 </script>
