@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 
 export default () => {
     const useAuthToken = () => useState<string>('auth_token')
-    const useAuthUser = () => useState('auth_user')
+    const useAuthUser = () => useState<IUser>('auth_user')
     const useAuthLoading = () => useState('isLoading', () => true)
 
     const setToken = (newToken: string) => {
@@ -47,7 +47,6 @@ export default () => {
 
         const newRefreshTime = jwt.exp - 60000
 
-        console.log(newRefreshTime)
 
         setTimeout(() => {
             refreshToken()

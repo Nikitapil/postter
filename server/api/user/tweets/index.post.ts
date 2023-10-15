@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
     const form = formidable({})
 
 
+
     try {
         const [fields, files] = await form.parse(event.node.req)
 
@@ -22,18 +23,18 @@ export default defineEventHandler(async (event) => {
 
         const filePromises = Object.keys(files).map(async key => {
             return createMediaFile({
-                url: '',
+                // TODO handle all the files from an array
+                url: files[key]?.[0]?.filepath || '',
                 providerPublicId: 'random_id',
                 userId: userId,
                 tweetId: tweet.id
             })
         })
 
-        await Promise.all(filePromises)
+        const filesFromDb = await Promise.all(filePromises)
 
         return {
-            // tweet: tweetTransformer(tweet)
-            files
+            tweet: {...tweetTransformer(tweet), mediaFiles: filesFromDb}
         }
     } catch (e) {
         //TODO handle this error

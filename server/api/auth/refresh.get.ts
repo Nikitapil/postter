@@ -24,7 +24,17 @@ export default defineEventHandler(async (event) => {
         ))
     }
 
+
+
     const decodedToken = decodeRefreshToken(refreshTokenDataFromDb.token)
+
+    if (!decodedToken) {
+        return sendError(event, createError( {
+                statusMessage: 'Refresh token is invalid',
+                statusCode: 401
+            }
+        ))
+    }
 
     try {
         const user = await getUserById(decodedToken?.userId)
