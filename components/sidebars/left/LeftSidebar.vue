@@ -79,12 +79,27 @@
           More
         </template>
       </Tab>
+
+      <div class="hidden xl:block">
+        <AppButton size="lg" liquid>
+          <span class="font-bold">Tweet</span>
+        </AppButton>
+      </div>
+
+      <div class="block xl:hidden">
+        <AppButton size="sm">
+          <div class=" w-6 h-6">
+            <PencilIcon/>
+          </div>
+        </AppButton>
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import TwitterLogo from "~/components/logo/TwitterLogo.vue";
-import { HomeIcon, HashtagIcon, BellIcon, InboxIcon, BookmarkIcon, DocumentTextIcon, UserIcon, CircleStackIcon } from '@heroicons/vue/24/solid'
+import { HomeIcon, HashtagIcon, BellIcon, InboxIcon, BookmarkIcon, DocumentTextIcon, UserIcon, CircleStackIcon, PencilIcon } from '@heroicons/vue/24/solid'
 import Tab from "~/components/sidebars/left/Tab.vue";
+import AppButton from "~/components/ui/AppButton.vue";
 
 </script>

@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
 
     const { accessToken, refreshToken } = generateTokens(user)
 
+    // TODO dont create refresh token every time just update it
     await createRefreshToken({ token: refreshToken, userId: user.id })
 
     setCookie(event, 'twi-refresh-token', refreshToken, {

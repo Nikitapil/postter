@@ -6,3 +6,57 @@ export const createTweet = (tweetData: ITweetDto) => {
         data: tweetData
     })
 }
+
+export const getTweets = () => {
+    // TODO refactor this, if for replies need only count than get only count of them
+    return prisma.tweet.findMany({
+        include: {
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    username: true,
+                    profileImage: true
+                }
+            },
+            mediaFiles: {
+                select: {
+                    id: true,
+                    url: true
+                }
+            },
+            replies: {
+                include: {
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            username: true,
+                            profileImage: true
+                        }
+                    }
+                }
+            },
+            replyTo: {
+                include: {
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            username: true,
+                            profileImage: true
+                        }
+                    }
+                }
+            }
+        },
+        orderBy: [
+            {
+                createdAt: 'desc'
+            }
+        ]
+    })
+}

@@ -2,6 +2,7 @@ import formidable from "formidable";
 import {createTweet} from "~/server/database/tweets";
 import {tweetTransformer} from "~/server/transformers/tweet";
 import {createMediaFile} from "~/server/database/mediaFiles";
+import {ITweetDto} from "~/server/types/tweets-types";
 
 export default defineEventHandler(async (event) => {
 
@@ -14,9 +15,16 @@ export default defineEventHandler(async (event) => {
 
         const userId = event.context?.auth?.user?.id as string
 
-        const tweetData = {
+        const tweetData: ITweetDto = {
             authorId: userId,
             text: fields.text?.toString() || ''
+        }
+
+        //TODO pass this field from frontend
+        const replyToId = fields.replyToId?.toString() || ''
+
+        if (replyToId) {
+            tweetData.replyToId = replyToId
         }
 
         const tweet =  await createTweet(tweetData)
