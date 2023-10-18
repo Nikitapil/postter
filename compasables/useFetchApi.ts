@@ -1,7 +1,7 @@
 import {IMap} from "~/types/common-types";
 import useAuth from "~/compasables/useAuth";
 
-export default (url: string, options: IMap = {}) => {
+export default <T>(url: string, options: IMap = {}): Promise<T> => {
     const {useAuthToken} = useAuth()
 
     const token = useAuthToken()

@@ -1,0 +1,28 @@
+<template>
+   <li class="pb-4 border-b hover:bg-gray-100 dark:hover:bg-dim-300 default-transition cursor-pointer">
+
+     <TweetHeader :tweet="tweet" />
+
+     <div class="ml-16">
+       <p class="flex-shrink font-medium text-gray-800 w-auto dark:text-white">
+         {{ tweet.text }}
+       </p>
+       <div v-if="tweet.mediaFiles">
+         <div
+             v-for="image in tweet.mediaFiles" :key="image.id"
+             class="flex my-3 mr-2 border-2 rounded-2xl max-h-72 justify-center bg-gray-400"
+         >
+           <img class="rounded-2xl object-cover" :src="image.url">
+         </div>
+       </div>
+     </div>
+
+   </li>
+</template>
+<script setup lang="ts">
+import {ITweet} from "~/types/tweet-client-types";
+
+defineProps<{
+  tweet: ITweet
+}>()
+</script>
