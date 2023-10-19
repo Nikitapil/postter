@@ -15,12 +15,17 @@
            <img class="rounded-2xl object-cover" :src="image.url">
          </div>
        </div>
+
+       <div class="mt-2">
+         <TweetActions :tweet="tweet" />
+       </div>
      </div>
 
    </li>
 </template>
 <script setup lang="ts">
 import {ITweet} from "~/types/tweet-client-types";
+import TweetActions from "~/components/tweet/TweetActions/TweetActions.vue";
 
 defineProps<{
   tweet: ITweet

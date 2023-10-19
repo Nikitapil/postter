@@ -26,7 +26,7 @@ const user = useAuthUser()
 const loading = ref(false)
 
 const homeTweets = ref<ITweet[]>([])
-// TODO get limited tweets and load by scroll
+// TODO get limited tweets and load by scroll(implement infinite scroll)
 onBeforeMount(async () => {
   loading.value = true
   homeTweets.value = await getTweets()
