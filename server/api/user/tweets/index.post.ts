@@ -20,7 +20,6 @@ export default defineEventHandler(async (event) => {
             text: fields.text?.toString() || ''
         }
 
-        //TODO pass this field from frontend
         const replyToId = fields.replyToId?.toString() || ''
 
         if (replyToId) {

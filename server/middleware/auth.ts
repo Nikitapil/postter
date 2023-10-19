@@ -7,7 +7,8 @@ import {userTransformer} from "~/server/transformers/user";
 export default defineEventHandler(async (event) => {
     const endpoints = [
         '/api/auth/user',
-        '/api/user/tweets'
+        '/api/user/tweets',
+        '/api/user/tweets/:id'
     ]
 
     const isHandledByThisMiddleware = endpoints.some(endpoints => {

@@ -6,7 +6,9 @@
     </div>
 
     <ul v-else>
-      <Tweet v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
+      <li v-for="tweet in tweets" :key="tweet.id" @click="redirectToTweet(tweet.id)">
+        <Tweet :tweet="tweet" compact />
+      </li>
     </ul>
 
   </div>
@@ -17,4 +19,8 @@ import {ITweet} from "~/types/tweet-client-types.js";
 defineProps<{
   tweets: ITweet[]
 }>()
+
+const redirectToTweet = (id: string) => {
+  navigateTo(`/status/${id}`)
+}
 </script>

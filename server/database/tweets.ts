@@ -60,3 +60,72 @@ export const getTweets = () => {
         ]
     })
 }
+
+export const getTweetById = (id: string) => {
+    return prisma.tweet.findUnique({
+        // TODO refactor this params
+        where: { id },
+        include: {
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    username: true,
+                    profileImage: true
+                }
+            },
+            mediaFiles: {
+                select: {
+                    id: true,
+                    url: true
+                }
+            },
+            replies: {
+                include: {
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            username: true,
+                            profileImage: true
+                        }
+                    },
+                    mediaFiles: {
+                        select: {
+                            id: true,
+                            url: true
+                        }
+                    },
+                    replyTo: {
+                        include: {
+                            author: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    email: true,
+                                    username: true,
+                                    profileImage: true
+                                }
+                            }
+                        }
+                    }
+                },
+            },
+            replyTo: {
+                include: {
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            username: true,
+                            profileImage: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+}

@@ -1,9 +1,9 @@
 <template>
-   <li class="pb-4 border-b hover:bg-gray-100 dark:hover:bg-dim-300 default-transition cursor-pointer">
+   <div class="pb-4 border-b hover:bg-gray-100 dark:hover:bg-dim-300 default-transition cursor-pointer">
 
-     <TweetHeader :tweet="tweet" />
+     <TweetHeader :tweet="tweet" @click.stop />
 
-     <div class="ml-16">
+     <div :class="tweetBodyWrapper">
        <p class="flex-shrink font-medium text-gray-800 w-auto dark:text-white">
          {{ tweet.text }}
        </p>
@@ -21,13 +21,18 @@
        </div>
      </div>
 
-   </li>
+   </div>
 </template>
 <script setup lang="ts">
 import {ITweet} from "~/types/tweet-client-types";
 import TweetActions from "~/components/tweet/TweetActions/TweetActions.vue";
 
-defineProps<{
-  tweet: ITweet
-}>()
+const props = withDefaults(defineProps<{
+  tweet: ITweet,
+  compact?: boolean
+}>(), {
+  compact: false
+})
+
+const tweetBodyWrapper = computed(() => props.compact ? 'ml-16' : 'ml-2 mt-4')
 </script>

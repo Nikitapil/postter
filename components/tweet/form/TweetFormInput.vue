@@ -14,7 +14,7 @@
         <textarea
             v-model="text"
             class="w-full h-10 text-lg text-gray-900 placeholder:text-gray-400 bg-transparent border-0 dark:text-white focus:ring-0"
-            placeholder="What's happening?"
+            :placeholder="placeholder"
         >
         </textarea>
       </div>
@@ -117,7 +117,8 @@ import {ITweetFormData} from "~/types/tweet-client-types";
 import AppButton from "~/components/ui/AppButton.vue";
 
 defineProps<{
-  user: IUser
+  user: IUser,
+  placeholder: string;
 }>()
 
 const emit = defineEmits<{

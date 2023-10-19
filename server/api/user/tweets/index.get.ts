@@ -6,6 +6,7 @@ export default defineEventHandler(async (event) => {
 
     return {
         // Todo get repliesCount from DB and transfer this to service method or mapper
+        // TODO convert postedAt at service method
         tweets: tweets.map(tweet =>
             ({ ...tweet,
                 repliesCount: tweet.replies.length,

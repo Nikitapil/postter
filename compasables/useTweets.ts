@@ -1,4 +1,4 @@
-import {ITweet, ITweetFormData, ITweetResponse} from "~/types/tweet-client-types";
+import {ISingleTweetResponse, ITweet, ITweetFormData, ITweetResponse} from "~/types/tweet-client-types";
 import useFetchApi from "~/compasables/useFetchApi";
 import {awaitExpression} from "@babel/types";
 
@@ -12,6 +12,10 @@ export default () => {
         data.mediaFiles.forEach(file => {
             form.append(`media_file_${file.name}`, file)
         })
+
+        if (data.replyToId) {
+            form.append('replyToId', data.replyToId)
+        }
 
         return useFetchApi('/api/user/tweets', {
             method: 'POST',
@@ -31,5 +35,16 @@ export default () => {
         }
     }
 
-    return { postTweet, getTweets }
+    const getTweetById = async (tweetId: string): Promise<ITweet | null> => {
+        try {
+            const { tweet } = await useFetchApi<ISingleTweetResponse>(`/api/user/tweets/${tweetId}`, {
+                method: 'GET'
+            })
+            return tweet
+        } catch (e) {
+            return null
+        }
+    }
+
+    return { postTweet, getTweets, getTweetById }
 }

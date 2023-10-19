@@ -9,6 +9,7 @@ export default {
   ],
   darkMode: 'class',
 
+
   theme: {
 
     screens: {

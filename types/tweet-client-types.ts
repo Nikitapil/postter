@@ -4,6 +4,7 @@ import {IMediaFile} from "~/types/media-files";
 export interface ITweetFormData {
     text: string,
     mediaFiles: File[]
+    replyToId?: string
 }
 
 export interface ITweet {
@@ -23,4 +24,8 @@ export interface ITweet {
 
 export interface ITweetResponse {
     tweets: ITweet[]
+}
+
+export interface ISingleTweetResponse {
+    tweet: ITweet
 }
