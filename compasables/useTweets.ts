@@ -1,4 +1,10 @@
-import {ISingleTweetResponse, ITweet, ITweetFormData, ITweetResponse} from "~/types/tweet-client-types";
+import {
+    IGetTweetsParams,
+    ISingleTweetResponse,
+    ITweet,
+    ITweetFormData,
+    ITweetResponse
+} from "~/types/tweet-client-types";
 import useFetchApi from "~/compasables/useFetchApi";
 import {awaitExpression} from "@babel/types";
 
@@ -25,10 +31,13 @@ export default () => {
         return tweet
     }
 
-    const getTweets = async (): Promise<ITweet[]> => {
+    const getTweets = async ({query = ''}: IGetTweetsParams = {}): Promise<ITweet[]> => {
         try {
             const { tweets } = await useFetchApi<ITweetResponse>('/api/user/tweets', {
-                method: 'GET'
+                method: 'GET',
+                params: {
+                    query
+                }
             })
             return tweets
         } catch (e) {

@@ -7,9 +7,15 @@ export const createTweet = (tweetData: ITweetDto) => {
     })
 }
 
-export const getTweets = () => {
+export const getTweets = (search: string) => {
     // TODO refactor this, if for replies need only count than get only count of them
     return prisma.tweet.findMany({
+        where: {
+            text: {
+                contains: search,
+                mode: 'insensitive'
+            }
+        },
         include: {
             author: {
                 select: {

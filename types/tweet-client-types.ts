@@ -7,6 +7,10 @@ export interface ITweetFormData {
     replyToId?: string
 }
 
+export interface IGetTweetsParams {
+    query?: string
+}
+
 export interface ITweet {
     id: string;
     text: string;

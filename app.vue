@@ -17,7 +17,7 @@
 
           <section class="hidden md:block xl:col-span-4 md:col-span-3">
             <div class="sticky top-0">
-              <RightSidebar />
+              <RightSidebar @toggle-theme="toggleTheme" />
             </div>
           </section>
         </div>
@@ -76,6 +76,8 @@ const handleTweetSuccess = (tweetId: string) => {
   }
   navigateTo(`/status/${tweetId}`)
 }
+
+const toggleTheme = () => darkMode.value = !darkMode.value
 
 onBeforeMount(async () => {
   await initAuth()

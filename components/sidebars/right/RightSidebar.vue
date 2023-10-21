@@ -1,5 +1,20 @@
 <template>
   <div class="flex flex-col">
+
+    <div class="relative m-2">
+      <div class="absolute flex items-center h-full pl-4 text-gray-600 cursor-pointer">
+        <div class="w-6 h-6">
+          <MagnifyingGlassIcon @click="handleSearch" />
+        </div>
+      </div>
+      <input
+          v-model="search"
+          class="flex items-center w-full pl-12 text-sm font-normal text-gray-800 dark:text-gray-100 bg-gray-200 border border-gray-200 rounded-full shadow dark:bg-dim-400 dark:border-dim-400 focus:bg-gray-100 dark:focus:bg-dim-100 h-9"
+          type="text"
+          placeholder="Search tweets"
+      >
+    </div>
+
     <PreviewCard title="What's happening">
       <PreviewCardItem v-for="item in whatsHappeningItems" :key="item.id">
         <div>
@@ -27,12 +42,40 @@
         </div>
       </PreviewCardItem>
     </PreviewCard>
+
+    <footer>
+      <ul class="mx-2 my-4 text-xs text-gray-500">
+        <li class="inline-block mx-2">
+          <a href="#" class="hover:underline" @click.prevent="$emit('toggleTheme')">Dark mode</a>
+        </li>
+        <li class="inline-block mx-2">
+          <a href="#" class="hover:underline">Privacy policy</a>
+        </li>
+        <li class="inline-block mx-2">
+          <a href="#" class="hover:underline">Cookie Police</a>
+        </li>
+        <li class="inline-block mx-2">
+          <a href="#" class="hover:underline">Ads info</a>
+        </li>
+        <li class="inline-block mx-2">
+          © 2023 Twitter, Inc.
+        </li>
+      </ul>
+    </footer>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import PreviewCard from "~/components/sidebars/right/PreviewCard/PreviewCard.vue";
 import PreviewCardItem from "~/components/sidebars/right/PreviewCard/PreviewCardItem.vue";
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+
+defineEmits<{
+  toggleTheme: []
+}>()
+
+const search = ref('')
 
 const whatsHappeningItems = ref([
   {
@@ -68,4 +111,14 @@ const whoToFollowItems = ref([
   },
 
 ])
+
+const handleSearch = () => {
+  const router = useRouter()
+  router.push({
+    path: '/search',
+    query: {
+      q: search.value
+    }
+  })
+}
 </script>
