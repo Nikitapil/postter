@@ -108,8 +108,7 @@ const whoToFollowItems = ref([
     name: 'Joe',
     handle: '@Joe',
     image: 'https://loremflickr.com/200/200'
-  },
-
+  }
 ])
 
 const handleSearch = () => {

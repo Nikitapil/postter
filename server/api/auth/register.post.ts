@@ -19,10 +19,13 @@ export default defineEventHandler(async (event) => {
         email,
         password,
         name,
+        // TODO add real image
         profileImage: 'https://loremflickr.com/200/200'
     }
 
     const user = await createUser(userData)
+
+    //TODO set cookie here and implement this on frontend
 
     return userTransformer(user)
 })

@@ -1,17 +1,18 @@
 import {IJwtDecodedToken, ILoginData, IUser} from "~/types/auth-types";
 import jwtDecode from "jwt-decode";
+import useFetchApi from "~/compasables/useFetchApi";
 
 export default () => {
-    const useAuthToken = () => useState<string>('auth_token')
-    const useAuthUser = () => useState<IUser>('auth_user')
+    const useAuthToken = () => useState<string | null>('auth_token')
+    const useAuthUser = () => useState<IUser | null>('auth_user')
     const useAuthLoading = () => useState('isLoading', () => true)
 
-    const setToken = (newToken: string) => {
+    const setToken = (newToken: string | null) => {
         const authToken = useAuthToken()
         authToken.value = newToken
     }
 
-    const setUser = (newUser: IUser) => {
+    const setUser = (newUser: IUser | null) => {
         const user = useAuthUser()
         user.value = newUser
     }
@@ -39,7 +40,7 @@ export default () => {
     const reRefreshAccessToken = () => {
         const authToken = useAuthToken()
 
-        if (!authToken) {
+        if (!authToken.value) {
             return
         }
 
@@ -76,6 +77,18 @@ export default () => {
             setAuthLoading(false)
         }
     }
+    const logout = async () => {
+        try {
+            await useFetchApi('api/auth/logout', {
+                method: 'POST'
+            })
+            setToken(null)
+            setUser(null)
+        } catch (e) {
+            // TODO handle this error
+            throw e
+        }
+    }
 
-    return { login, useAuthUser, useAuthToken, initAuth, useAuthLoading }
+    return { login, useAuthUser, useAuthToken, initAuth, useAuthLoading, logout }
 }

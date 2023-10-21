@@ -7,7 +7,7 @@
 
           <section class="hidden md:block xs-col-span-1 xl:col-span-2">
             <div class="sticky top-0">
-              <LeftSidebar @open-tweet-modal="openTweetModal" />
+              <LeftSidebar  :user="user" @open-tweet-modal="openTweetModal" @logout="handleUserLogout" />
             </div>
           </section>
 
@@ -48,7 +48,7 @@ import {ITweet} from "~/types/tweet-client-types";
 
 const darkMode = ref(false)
 
-const { useAuthUser, initAuth, useAuthLoading } = useAuth()
+const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
 
 const user = useAuthUser()
 const isAuthLoading = useAuthLoading()
@@ -78,6 +78,10 @@ const handleTweetSuccess = (tweetId: string) => {
 }
 
 const toggleTheme = () => darkMode.value = !darkMode.value
+
+const handleUserLogout = () => {
+  logout()
+}
 
 onBeforeMount(async () => {
   await initAuth()

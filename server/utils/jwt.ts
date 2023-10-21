@@ -1,6 +1,5 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
 import {IUserFormDb} from "~/server/types/users-types";
-import config from "tailwindcss/defaultConfig";
 
 const generateAccessToken = (user: IUserFormDb) => {
     const config = useRuntimeConfig()

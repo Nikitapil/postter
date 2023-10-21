@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen">
+  <div class="h-screen flex flex-col">
     <div class="p-2 my-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/10 default-transition">
       <NuxtLink class="max-w-fit block" to="/">
         <div class="w-8 h-8">
@@ -94,16 +94,43 @@
         </AppButton>
       </div>
     </div>
+
+    <div class="flex items-center p-2 mt-auto mb-5 rounded-full cursor-pointer 2-14 xl:w-full hover:bg-gray-100 dark:hover:bg-dim-800 default-transition" @click="$emit('logout')">
+      <div class="flex">
+<!--        TODO create component for user avatar-->
+        <img class="w-10 h-10 rounded-full" :src="user.profileImage" alt="user avatar" >
+        <div class="hidden flex-col ml-2 xl:flex">
+          <h1 class="text-sm font-bold text-gray-800 :dar">
+            {{ user.name }}
+          </h1>
+          <p class="text-sm text-gray-400">
+            @{{ user.username }}
+          </p>
+        </div>
+      </div>
+
+      <div class="hidden ml-auto xl:block">
+        <div class="h-6 w-6">
+          <ChevronDownIcon />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import TwitterLogo from "~/components/logo/TwitterLogo.vue";
-import { HomeIcon, HashtagIcon, BellIcon, InboxIcon, BookmarkIcon, DocumentTextIcon, UserIcon, CircleStackIcon, PencilIcon } from '@heroicons/vue/24/solid'
+import { HomeIcon, HashtagIcon, BellIcon, InboxIcon, BookmarkIcon, DocumentTextIcon, UserIcon, CircleStackIcon, PencilIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 import Tab from "~/components/sidebars/left/Tab.vue";
 import AppButton from "~/components/ui/AppButton.vue";
+import {IUser} from "~/types/auth-types";
+
+defineProps<{
+  user: IUser
+}>()
 
 defineEmits<{
-  openTweetModal: []
+  openTweetModal: [],
+  logout: []
 }>()
 
 </script>
