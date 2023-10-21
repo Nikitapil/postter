@@ -7,7 +7,7 @@
 
           <section class="hidden md:block xs-col-span-1 xl:col-span-2">
             <div class="sticky top-0">
-              <LeftSidebar />
+              <LeftSidebar @open-tweet-modal="openTweetModal" />
             </div>
           </section>
 
@@ -27,6 +27,11 @@
 
       <AuthPage v-else />
 
+      <Modal v-if="user" :is-open="isTweetModalOpen" @close-modal="closeTweetModal">
+<!--        TODO go to tweet-->
+        <TweetForm :user="user" @on-success="handleTweetSuccess" :reply-to="replyToTweet" />
+      </Modal>
+
     </div>
 
   </div>
@@ -37,7 +42,9 @@ import LeftSidebar from "~/components/sidebars/left/LeftSidebar.vue";
 import RightSidebar from "~/components/sidebars/right/RightSidebar.vue";
 import AuthPage from "~/components/Auth/AuthPage.vue";
 import useAuth from "~/compasables/useAuth";
-import Spinner from "~/components/ui/Spinner.vue";
+import Modal from "~/components/ui/Modal.vue";
+import useEmitter from "~/compasables/useEmitter";
+import {ITweet} from "~/types/tweet-client-types";
 
 const darkMode = ref(false)
 
@@ -45,6 +52,30 @@ const { useAuthUser, initAuth, useAuthLoading } = useAuth()
 
 const user = useAuthUser()
 const isAuthLoading = useAuthLoading()
+const emitter = useEmitter()
+const replyToTweet = ref<ITweet | null>(null)
+
+emitter.$on('replyTweet', (tweet) => {
+  replyToTweet.value = tweet
+  openTweetModal()
+})
+
+const isTweetModalOpen = ref(false)
+
+
+const openTweetModal = () => isTweetModalOpen.value = true
+const closeTweetModal = () => isTweetModalOpen.value = false
+
+
+const handleTweetSuccess = (tweetId: string) => {
+  closeTweetModal()
+  if (replyToTweet.value) {
+    navigateTo(`/status/${replyToTweet.value.id}`)
+    replyToTweet.value = null
+    return
+  }
+  navigateTo(`/status/${tweetId}`)
+}
 
 onBeforeMount(async () => {
   await initAuth()

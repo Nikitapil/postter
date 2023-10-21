@@ -6,7 +6,7 @@
       </Head>
 
       <div class="border-b">
-        <TweetForm :user="user" placeholder="What's happening" />
+        <TweetForm :user="user" placeholder="What's happening?" />
       </div>
 
       <ListFeed :tweets="homeTweets" />

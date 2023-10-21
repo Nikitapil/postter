@@ -16,16 +16,21 @@ import useTweets from "~/compasables/useTweets";
 
 const props = withDefaults(defineProps<{
   user: IUser,
-  placeholder: string;
-  // TODO get only replyToId
   replyTo?: ITweet | null
 }>(), {
   replyTo: null
 })
 
+const emit = defineEmits<{
+  onSuccess: [id: string]
+}>()
+
+
 const { postTweet } = useTweets()
 
 const loading = ref(false)
+
+const placeholder = computed(() => props.replyTo ? 'Tweet your reply' : "What's happening?")
 
 const handleFormSubmit = async (data: ITweetFormData) => {
   try {
@@ -33,7 +38,10 @@ const handleFormSubmit = async (data: ITweetFormData) => {
     if (props.replyTo) {
       data.replyToId = props.replyTo.id
     }
-    await postTweet(data)
+    const tweet = await postTweet(data)
+    if (tweet) {
+      emit('onSuccess', tweet?.id)
+    }
   } catch (e) {
     //TODO handle this error
     console.log(e)

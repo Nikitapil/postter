@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-around w-full">
-    <TweetActionsIcon>
+    <TweetActionsIcon @click="$emit('commentClick')">
       <template #icon="{ classes }">
         <ChatBubbleBottomCenterTextIcon :class="classes" />
       </template>
@@ -49,6 +49,10 @@ import {ITweet} from "~/types/tweet-client-types";
 
 defineProps<{
   tweet: ITweet
+}>()
+
+defineEmits<{
+  commentClick: []
 }>()
 
 // TODO delete this after implementing of retweets, likes and shares

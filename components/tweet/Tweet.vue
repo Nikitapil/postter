@@ -17,7 +17,7 @@
        </div>
 
        <div class="mt-2">
-         <TweetActions :tweet="tweet" />
+         <TweetActions :tweet="tweet" @comment-click="handleCommentClick" />
        </div>
      </div>
 
@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import {ITweet} from "~/types/tweet-client-types";
 import TweetActions from "~/components/tweet/TweetActions/TweetActions.vue";
+import useEmitter from "~/compasables/useEmitter";
 
 const props = withDefaults(defineProps<{
   tweet: ITweet,
@@ -34,5 +35,11 @@ const props = withDefaults(defineProps<{
   compact: false
 })
 
+const emitter = useEmitter()
+
 const tweetBodyWrapper = computed(() => props.compact ? 'ml-16' : 'ml-2 mt-4')
+
+const handleCommentClick = () => {
+  emitter.$emit('replyTweet', props.tweet)
+}
 </script>

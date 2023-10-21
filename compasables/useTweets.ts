@@ -3,7 +3,7 @@ import useFetchApi from "~/compasables/useFetchApi";
 import {awaitExpression} from "@babel/types";
 
 export default () => {
-    const postTweet = (data: ITweetFormData) => {
+    const postTweet = async (data: ITweetFormData): Promise<ITweet | null> => {
         // TODO add try catch and handle errors
         const form = new FormData()
 
@@ -17,10 +17,12 @@ export default () => {
             form.append('replyToId', data.replyToId)
         }
 
-        return useFetchApi('/api/user/tweets', {
+        const { tweet } = await useFetchApi<ISingleTweetResponse>('/api/user/tweets', {
             method: 'POST',
             body: form
         })
+
+        return tweet
     }
 
     const getTweets = async (): Promise<ITweet[]> => {

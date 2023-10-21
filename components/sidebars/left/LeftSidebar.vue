@@ -81,13 +81,13 @@
       </Tab>
 
       <div class="hidden xl:block">
-        <AppButton size="lg" liquid>
+        <AppButton size="lg" liquid @click="$emit('openTweetModal')">
           <span class="font-bold">Tweet</span>
         </AppButton>
       </div>
 
       <div class="block xl:hidden">
-        <AppButton size="sm">
+        <AppButton size="sm" @click="$emit('openTweetModal')">
           <div class=" w-6 h-6">
             <PencilIcon/>
           </div>
@@ -101,5 +101,9 @@ import TwitterLogo from "~/components/logo/TwitterLogo.vue";
 import { HomeIcon, HashtagIcon, BellIcon, InboxIcon, BookmarkIcon, DocumentTextIcon, UserIcon, CircleStackIcon, PencilIcon } from '@heroicons/vue/24/solid'
 import Tab from "~/components/sidebars/left/Tab.vue";
 import AppButton from "~/components/ui/AppButton.vue";
+
+defineEmits<{
+  openTweetModal: []
+}>()
 
 </script>
