@@ -119,7 +119,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import TwitterLogo from '~/components/logo/PostterLogo.vue';
+import TwitterLogo from '~/components/PostterLogo/PostterLogo.vue';
 import {
   HomeIcon,
   HashtagIcon,

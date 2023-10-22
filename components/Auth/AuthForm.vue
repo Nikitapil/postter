@@ -36,7 +36,7 @@
 import AppInput from '~/components/ui/AppInput.vue';
 import useAuth from '~/compasables/useAuth';
 import AppButton from '~/components/ui/AppButton.vue';
-import TwitterLogo from '~/components/logo/PostterLogo.vue';
+import TwitterLogo from '~/components/PostterLogo/PostterLogo.vue';
 
 const { login } = useAuth();
 
