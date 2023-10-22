@@ -31,9 +31,9 @@ export default () => {
 
       setToken(data.accessToken);
       setUser(data.user);
-    } catch (e) {
-      // TODO handle this error
-      throw e;
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.response?.statusMessage || 'Incorrect user data');
     }
   };
 

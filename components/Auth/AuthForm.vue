@@ -1,11 +1,14 @@
 <template>
   <div class="w-full">
     <div class="flex justify-center">
-      <div class="w-10 h-10">
+      <div class="w-16 h-16">
         <TwitterLogo />
       </div>
     </div>
-    <div class="pt-5 space-y-6">
+    <form
+      class="pt-5 space-y-6"
+      @submit.prevent
+    >
       <AppInput
         v-model="userData.username"
         label="Username"
@@ -21,18 +24,19 @@
       <AppButton
         class="dark:text-white"
         liquid
-        :disabled="loading"
+        :disabled="isSubmitDisable"
         @click="handleLogin"
-        >Login</AppButton
       >
-    </div>
+        Login
+      </AppButton>
+    </form>
   </div>
 </template>
 <script setup lang="ts">
 import AppInput from '~/components/ui/AppInput.vue';
 import useAuth from '~/compasables/useAuth';
 import AppButton from '~/components/ui/AppButton.vue';
-import TwitterLogo from '~/components/logo/TwitterLogo.vue';
+import TwitterLogo from '~/components/logo/PostterLogo.vue';
 
 const { login } = useAuth();
 
@@ -46,6 +50,10 @@ const loading = ref(false);
 const handleLogin = async () => {
   loading.value = true;
   await login(userData.value);
-  loading.value = true;
+  loading.value = false;
 };
+
+const isSubmitDisable = computed(
+  () => loading.value || !userData.value.username || !userData.value.password
+);
 </script>
