@@ -43,18 +43,23 @@
 </template>
 
 <script setup lang="ts">
-import TweetActionsIcon from "~/components/tweet/TweetActions/TweetActionsIcon.vue";
-import { ChatBubbleBottomCenterTextIcon, ArrowPathIcon, HeartIcon, ArrowUpTrayIcon } from '@heroicons/vue/24/outline'
-import {ITweet} from "~/types/tweet-client-types";
+import TweetActionsIcon from '~/components/tweet/TweetActions/TweetActionsIcon.vue';
+import {
+  ChatBubbleBottomCenterTextIcon,
+  ArrowPathIcon,
+  HeartIcon,
+  ArrowUpTrayIcon
+} from '@heroicons/vue/24/outline';
+import { ITweet } from '~/types/tweet-client-types';
 
 defineProps<{
-  tweet: ITweet
-}>()
+  tweet: ITweet;
+}>();
 
 defineEmits<{
-  commentClick: []
-}>()
+  commentClick: [];
+}>();
 
 // TODO delete this after implementing of retweets, likes and shares
-const getRandomNumber = () => Math.floor(Math.random() * 101)
+const getRandomNumber = () => Math.floor(Math.random() * 101);
 </script>

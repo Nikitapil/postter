@@ -1,18 +1,25 @@
 <template>
-  <div :class="{dark: darkMode}">
+  <div :class="{ dark: darkMode }">
     <div class="bg-white dark:bg-dim-900">
-
-      <div v-if="user" class="min-h-full">
-        <div class="grid grid-cols-12 mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:gap-5">
-
+      <div
+        v-if="user"
+        class="min-h-full"
+      >
+        <div
+          class="grid grid-cols-12 mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:gap-5"
+        >
           <section class="hidden md:block xs-col-span-1 xl:col-span-2">
             <div class="sticky top-0">
-              <LeftSidebar  :user="user" @open-tweet-modal="openTweetModal" @logout="handleUserLogout" />
+              <LeftSidebar
+                :user="user"
+                @open-tweet-modal="openTweetModal"
+                @logout="handleUserLogout"
+              />
             </div>
           </section>
 
           <main class="col-span-12 md:col-span-8 xl:col-span-6">
-            <NuxtPage/>
+            <NuxtPage />
           </main>
 
           <section class="hidden md:block xl:col-span-4 md:col-span-3">
@@ -27,64 +34,67 @@
 
       <AuthPage v-else />
 
-      <Modal v-if="user" :is-open="isTweetModalOpen" @close-modal="closeTweetModal">
-<!--        TODO go to tweet-->
-        <TweetForm :user="user" @on-success="handleTweetSuccess" :reply-to="replyToTweet" />
+      <Modal
+        v-if="user"
+        :is-open="isTweetModalOpen"
+        @close-modal="closeTweetModal"
+      >
+        <!--        TODO go to tweet-->
+        <TweetForm
+          :user="user"
+          :reply-to="replyToTweet"
+          @on-success="handleTweetSuccess"
+        />
       </Modal>
-
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import LeftSidebar from "~/components/sidebars/left/LeftSidebar.vue";
-import RightSidebar from "~/components/sidebars/right/RightSidebar.vue";
-import AuthPage from "~/components/Auth/AuthPage.vue";
-import useAuth from "~/compasables/useAuth";
-import Modal from "~/components/ui/Modal.vue";
-import useEmitter from "~/compasables/useEmitter";
-import {ITweet} from "~/types/tweet-client-types";
+import LeftSidebar from '~/components/sidebars/left/LeftSidebar.vue';
+import RightSidebar from '~/components/sidebars/right/RightSidebar.vue';
+import AuthPage from '~/components/Auth/AuthPage.vue';
+import useAuth from '~/compasables/useAuth';
+import Modal from '~/components/ui/Modal.vue';
+import useEmitter from '~/compasables/useEmitter';
+import { ITweet } from '~/types/tweet-client-types';
 
-const darkMode = ref(false)
+const darkMode = ref(false);
 
-const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
+const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth();
 
-const user = useAuthUser()
-const isAuthLoading = useAuthLoading()
-const emitter = useEmitter()
-const replyToTweet = ref<ITweet | null>(null)
+const user = useAuthUser();
+const isAuthLoading = useAuthLoading();
+const emitter = useEmitter();
+const replyToTweet = ref<ITweet | null>(null);
 
 emitter.$on('replyTweet', (tweet) => {
-  replyToTweet.value = tweet
-  openTweetModal()
-})
+  replyToTweet.value = tweet;
+  openTweetModal();
+});
 
-const isTweetModalOpen = ref(false)
+const isTweetModalOpen = ref(false);
 
-
-const openTweetModal = () => isTweetModalOpen.value = true
-const closeTweetModal = () => isTweetModalOpen.value = false
-
+const openTweetModal = () => (isTweetModalOpen.value = true);
+const closeTweetModal = () => (isTweetModalOpen.value = false);
 
 const handleTweetSuccess = (tweetId: string) => {
-  closeTweetModal()
+  closeTweetModal();
   if (replyToTweet.value) {
-    navigateTo(`/status/${replyToTweet.value.id}`)
-    replyToTweet.value = null
-    return
+    navigateTo(`/status/${replyToTweet.value.id}`);
+    replyToTweet.value = null;
+    return;
   }
-  navigateTo(`/status/${tweetId}`)
-}
+  navigateTo(`/status/${tweetId}`);
+};
 
-const toggleTheme = () => darkMode.value = !darkMode.value
+const toggleTheme = () => (darkMode.value = !darkMode.value);
 
 const handleUserLogout = () => {
-  logout()
-}
+  logout();
+};
 
 onBeforeMount(async () => {
-  await initAuth()
-})
-
+  await initAuth();
+});
 </script>

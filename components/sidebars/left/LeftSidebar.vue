@@ -1,7 +1,12 @@
 <template>
   <div class="h-screen flex flex-col">
-    <div class="p-2 my-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/10 default-transition">
-      <NuxtLink class="max-w-fit block" to="/">
+    <div
+      class="p-2 my-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/10 default-transition"
+    >
+      <NuxtLink
+        class="max-w-fit block"
+        to="/"
+      >
         <div class="w-8 h-8">
           <TwitterLogo />
         </div>
@@ -10,102 +15,98 @@
     <div class="mt-2 space-y-3">
       <Tab active>
         <template #icon>
-          <HomeIcon/>
+          <HomeIcon />
         </template>
-        <template #name>
-          Home
-        </template>
+        <template #name> Home </template>
       </Tab>
 
       <Tab>
         <template #icon>
-          <HashtagIcon/>
+          <HashtagIcon />
         </template>
-        <template #name>
-          Explore
-        </template>
+        <template #name> Explore </template>
       </Tab>
 
       <Tab>
         <template #icon>
           <BellIcon />
         </template>
-        <template #name>
-          Notifications
-        </template>
+        <template #name> Notifications </template>
       </Tab>
 
       <Tab>
         <template #icon>
           <InboxIcon />
         </template>
-        <template #name>
-          Messages
-        </template>
+        <template #name> Messages </template>
       </Tab>
 
       <Tab>
         <template #icon>
           <BookmarkIcon />
         </template>
-        <template #name>
-          Bookmarks
-        </template>
+        <template #name> Bookmarks </template>
       </Tab>
 
       <Tab>
         <template #icon>
           <DocumentTextIcon />
         </template>
-        <template #name>
-          Lists
-        </template>
+        <template #name> Lists </template>
       </Tab>
 
       <Tab>
         <template #icon>
           <UserIcon />
         </template>
-        <template #name>
-          Profile
-        </template>
+        <template #name> Profile </template>
       </Tab>
 
       <Tab>
         <template #icon>
           <CircleStackIcon />
         </template>
-        <template #name>
-          More
-        </template>
+        <template #name> More </template>
       </Tab>
 
       <div class="hidden xl:block">
-        <AppButton size="lg" liquid @click="$emit('openTweetModal')">
+        <AppButton
+          size="lg"
+          liquid
+          @click="$emit('openTweetModal')"
+        >
           <span class="font-bold">Tweet</span>
         </AppButton>
       </div>
 
       <div class="block xl:hidden">
-        <AppButton size="sm" @click="$emit('openTweetModal')">
-          <div class=" w-6 h-6">
-            <PencilIcon/>
+        <AppButton
+          size="sm"
+          @click="$emit('openTweetModal')"
+        >
+          <div class="w-6 h-6">
+            <PencilIcon />
           </div>
         </AppButton>
       </div>
     </div>
 
-    <div class="flex items-center p-2 mt-auto mb-5 rounded-full cursor-pointer 2-14 xl:w-full hover:bg-gray-100 dark:hover:bg-dim-800 default-transition" @click="$emit('logout')">
+    <div
+      class="flex items-center p-2 mt-auto mb-5 rounded-full cursor-pointer 2-14 xl:w-full hover:bg-gray-100 dark:hover:bg-dim-800 default-transition"
+      @click="$emit('logout')"
+    >
       <div class="flex">
-<!--        TODO create component for user avatar-->
-        <img class="w-10 h-10 rounded-full" :src="user.profileImage" alt="user avatar" >
+        <!--        TODO create component for user avatar-->
+        <img
+          class="w-10 h-10 rounded-full"
+          :src="user.profileImage"
+          alt="user avatar"
+        />
         <div class="hidden flex-col ml-2 xl:flex">
           <h1 class="text-sm font-bold text-gray-800 :dar">
             {{ user.name }}
           </h1>
-          <p class="text-sm text-gray-400">
-            @{{ user.username }}
-          </p>
+          <p class="text-sm text-gray-400">@{{ user.username }}</p>
         </div>
       </div>
 
@@ -118,19 +119,29 @@
   </div>
 </template>
 <script setup lang="ts">
-import TwitterLogo from "~/components/logo/TwitterLogo.vue";
-import { HomeIcon, HashtagIcon, BellIcon, InboxIcon, BookmarkIcon, DocumentTextIcon, UserIcon, CircleStackIcon, PencilIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
-import Tab from "~/components/sidebars/left/Tab.vue";
-import AppButton from "~/components/ui/AppButton.vue";
-import {IUser} from "~/types/auth-types";
+import TwitterLogo from '~/components/logo/TwitterLogo.vue';
+import {
+  HomeIcon,
+  HashtagIcon,
+  BellIcon,
+  InboxIcon,
+  BookmarkIcon,
+  DocumentTextIcon,
+  UserIcon,
+  CircleStackIcon,
+  PencilIcon,
+  ChevronDownIcon
+} from '@heroicons/vue/24/solid';
+import Tab from '~/components/sidebars/left/Tab.vue';
+import AppButton from '~/components/ui/AppButton.vue';
+import { IUser } from '~/types/auth-types';
 
 defineProps<{
-  user: IUser
-}>()
+  user: IUser;
+}>();
 
 defineEmits<{
-  openTweetModal: [],
-  logout: []
-}>()
-
+  openTweetModal: [];
+  logout: [];
+}>();
 </script>
