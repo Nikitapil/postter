@@ -3,6 +3,7 @@ export interface ICreateUserData {
   name?: string;
   username: string;
   password: string;
+  repeatPassword: string;
   profileImage?: string;
 }
 
