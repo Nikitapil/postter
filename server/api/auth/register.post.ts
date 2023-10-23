@@ -4,6 +4,8 @@ import { userTransformer } from '~/server/transformers/user';
 import formidable from 'formidable';
 import { firstValues } from 'formidable/src/helpers/firstValues.js';
 import { imageToBase64 } from '~/server/utils/images';
+import { handleError } from '~/server/utils/ErrorHandler';
+import { ApiError } from '~/server/utils/ApiError';
 
 export default defineEventHandler(async (event) => {
   const form = formidable();
@@ -24,13 +26,7 @@ export default defineEventHandler(async (event) => {
     }
 
     if (password !== repeatPassword) {
-      return sendError(
-        event,
-        createError({
-          statusCode: 400,
-          statusMessage: 'Passwords are not equal'
-        })
-      );
+      throw ApiError.BadRequest('Passwords are not equal');
     }
 
     const { profileImage } = firstValues(form, files);
@@ -51,10 +47,6 @@ export default defineEventHandler(async (event) => {
 
     return userTransformer(user);
   } catch (e) {
-    console.log(e);
-    return sendError(
-      event,
-      createError({ statusCode: 400, statusMessage: 'Something went wrong' })
-    );
+    return handleError(event, e);
   }
 });
