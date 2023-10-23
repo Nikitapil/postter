@@ -61,41 +61,6 @@
         </div>
       </PreviewCardItem>
     </PreviewCard>
-
-    <footer>
-      <ul class="mx-2 my-4 text-xs text-gray-500">
-        <li class="inline-block mx-2">
-          <a
-            href="#"
-            class="hover:underline"
-            @click.prevent="$emit('toggleTheme')"
-            >Dark mode</a
-          >
-        </li>
-        <li class="inline-block mx-2">
-          <a
-            href="#"
-            class="hover:underline"
-            >Privacy policy</a
-          >
-        </li>
-        <li class="inline-block mx-2">
-          <a
-            href="#"
-            class="hover:underline"
-            >Cookie Police</a
-          >
-        </li>
-        <li class="inline-block mx-2">
-          <a
-            href="#"
-            class="hover:underline"
-            >Ads info</a
-          >
-        </li>
-        <li class="inline-block mx-2">© 2023 Twitter, Inc.</li>
-      </ul>
-    </footer>
   </div>
 </template>
 

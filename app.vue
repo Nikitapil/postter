@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ dark: darkMode }">
+  <div :class="{ dark: isDarkMode }">
     <div class="bg-white dark:bg-dim-900">
       <div
         v-if="user"
@@ -58,8 +58,9 @@ import useAuth from '~/compasables/useAuth';
 import Modal from '~/components/ui/Modal.vue';
 import useEmitter from '~/compasables/useEmitter';
 import { ITweet } from '~/types/tweet-client-types';
+import useTheme from '~/compasables/useTheme';
 
-const darkMode = ref(false);
+const { isDarkMode } = useTheme();
 
 const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth();
 
