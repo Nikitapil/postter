@@ -3,7 +3,7 @@ import { getUserByUsername } from '~/server/database/users';
 import { userTransformer } from '~/server/transformers/user';
 import bcrypt from 'bcrypt';
 import { generateTokens } from '~/server/utils/jwt';
-import { createRefreshToken } from '~/server/database/refresh-tokens';
+import { updateRefreshToken } from '~/server/database/refresh-tokens';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
   const { accessToken, refreshToken } = generateTokens(user);
 
   // TODO dont create refresh token every time just update it
-  await createRefreshToken({ token: refreshToken, userId: user.id });
+  await updateRefreshToken({ token: refreshToken, userId: user.id });
 
   setCookie(event, 'twi-refresh-token', refreshToken, {
     httpOnly: true,

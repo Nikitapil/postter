@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { IUserFormDb } from '~/server/types/users-types';
+import { IUserDataFiltered } from '~/server/types/users-types';
 
-const generateAccessToken = (user: IUserFormDb) => {
+const generateAccessToken = (user: IUserDataFiltered) => {
   const config = useRuntimeConfig();
 
   return jwt.sign({ userId: user.id }, config.jwtAccessSecret, {
@@ -9,7 +9,7 @@ const generateAccessToken = (user: IUserFormDb) => {
   });
 };
 
-const generateRefreshToken = (user: IUserFormDb) => {
+const generateRefreshToken = (user: IUserDataFiltered) => {
   const config = useRuntimeConfig();
 
   return jwt.sign({ userId: user.id }, config.jwtRefreshSecret, {
@@ -35,9 +35,8 @@ export const decodeAccessToken = (token: string) => {
   }
 };
 
-export const generateTokens = (user: IUserFormDb) => {
+export const generateTokens = (user: IUserDataFiltered) => {
   const accessToken = generateAccessToken(user);
-
   const refreshToken = generateRefreshToken(user);
 
   return {

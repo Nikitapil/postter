@@ -17,3 +17,11 @@ export interface IUserFormDb {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IUserDataFiltered {
+  id: string;
+  email: string;
+  name: string | null;
+  username: string;
+  profileImage: string | null;
+}

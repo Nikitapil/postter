@@ -25,11 +25,14 @@ export default defineEventHandler(async (event) => {
       profileImage: profileImage ? imageToBase64(profileImage.filepath) : ''
     };
 
-    const user = await createUser(userData);
+    const { accessToken, refreshToken, user } = await createUser(userData);
 
-    //TODO set cookie here and implement this on frontend
+    setCookie(event, 'twi-refresh-token', refreshToken, {
+      httpOnly: true,
+      sameSite: true
+    });
 
-    return user;
+    return { accessToken, user };
   } catch (e) {
     console.log(e);
     return handleError(event, e);

@@ -1,8 +1,10 @@
 import { prisma } from '~/server/database/index';
 import bcrypt from 'bcrypt';
-import { ICreateUserData } from '~/server/types/users-types';
+import { ICreateUserData, IUserDataFiltered } from '~/server/types/users-types';
 import { z } from 'zod';
 import { ApiError } from '~/server/utils/ApiError';
+import { generateTokens } from '~/server/utils/jwt';
+import { updateRefreshToken } from '~/server/database/refresh-tokens';
 
 const createUserSchema = z.object({
   username: z.string().min(1),
@@ -12,6 +14,8 @@ const createUserSchema = z.object({
   name: z.string(),
   profileImage: z.string()
 });
+
+//TODO wrap this into class
 
 export const createUser = async (userData: ICreateUserData) => {
   const { username, email, password, repeatPassword, name, profileImage } =
@@ -34,7 +38,8 @@ export const createUser = async (userData: ICreateUserData) => {
     profileImage,
     password: bcrypt.hashSync(userData.password, 10)
   };
-  return prisma.user.create({
+
+  const userFromDb = await prisma.user.create({
     data: finalUserData,
     select: {
       id: true,
@@ -44,6 +49,8 @@ export const createUser = async (userData: ICreateUserData) => {
       profileImage: true
     }
   });
+
+  return createUserDataWithTokens(userFromDb);
 };
 
 export const getUserByUsername = (username: string) => {
@@ -56,4 +63,15 @@ export const getUserById = (id: string) => {
   return prisma.user.findUnique({
     where: { id }
   });
+};
+
+//TODO this method must be private
+export const createUserDataWithTokens = async (user: IUserDataFiltered) => {
+  const { accessToken, refreshToken } = generateTokens(user);
+  await updateRefreshToken({ token: refreshToken, userId: user.id });
+  return {
+    accessToken,
+    refreshToken,
+    user
+  };
 };

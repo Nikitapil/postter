@@ -1,14 +1,18 @@
 import { prisma } from '~/server/database/index';
 import { ISaveRefreshTokenData } from '~/server/types/refresh-tokens-types';
 
-export const createRefreshToken = ({
+export const updateRefreshToken = ({
   token,
   userId
 }: ISaveRefreshTokenData) => {
-  return prisma.refreshToken.create({
-    data: {
+  return prisma.refreshToken.upsert({
+    where: { userId },
+    create: {
       token,
       userId
+    },
+    update: {
+      token
     }
   });
 };
