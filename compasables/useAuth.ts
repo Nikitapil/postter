@@ -39,7 +39,7 @@ export default () => {
     });
 
     try {
-      const data = await $fetch('/api/auth/login', {
+      const data = await $fetch('/api/auth/register', {
         method: 'POST',
         body: formData
       });
@@ -48,7 +48,7 @@ export default () => {
       setUser(data.user);
     } catch (e: any) {
       const { $toast } = useNuxtApp();
-      $toast.error(e?.response?.statusMessage || 'Incorrect user data');
+      $toast.error(e?.statusMessage || 'Incorrect user data');
     }
   };
 
@@ -120,5 +120,5 @@ export default () => {
     }
   };
 
-  return { login, useAuthUser, useAuthToken, initAuth, useAuthLoading, logout };
+  return { login, useAuthUser, useAuthToken, initAuth, useAuthLoading, logout, register };
 };

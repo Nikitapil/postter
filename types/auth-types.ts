@@ -1,7 +1,7 @@
 export interface IRegisterData {
   username: string;
   password: string;
-  repeatedPassword: string;
+  repeatPassword: string;
   email: string;
   name: string;
   profileImage?: File | null;
