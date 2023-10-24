@@ -1,4 +1,10 @@
-import { IJwtDecodedToken, ILoginData, IUser } from '~/types/auth-types';
+import {
+  IJwtDecodedToken,
+  ILoginData,
+  IRegisterData,
+  IUser,
+  TRegisteredDataKey
+} from '~/types/auth-types';
 import jwtDecode from 'jwt-decode';
 import useFetchApi from '~/compasables/useFetchApi';
 
@@ -20,6 +26,30 @@ export default () => {
   const setAuthLoading = (value: boolean) => {
     const isLoading = useAuthLoading();
     isLoading.value = value;
+  };
+
+  const register = async (data: IRegisterData) => {
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      const dataItem = data[key as TRegisteredDataKey];
+      if (dataItem) {
+        formData.append(key, dataItem);
+      }
+    });
+
+    try {
+      const data = await $fetch('/api/auth/login', {
+        method: 'POST',
+        body: formData
+      });
+
+      setToken(data.accessToken);
+      setUser(data.user);
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.response?.statusMessage || 'Incorrect user data');
+    }
   };
 
   const login = async (loginData: ILoginData) => {
@@ -76,6 +106,7 @@ export default () => {
       setAuthLoading(false);
     }
   };
+
   const logout = async () => {
     try {
       await useFetchApi('api/auth/logout', {

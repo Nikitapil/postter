@@ -1,3 +1,14 @@
+export interface IRegisterData {
+  username: string;
+  password: string;
+  repeatedPassword: string;
+  email: string;
+  name: string;
+  profileImage?: File | null;
+}
+
+export type TRegisteredDataKey = keyof IRegisterData;
+
 export interface ILoginData {
   username: string;
   password: string;
