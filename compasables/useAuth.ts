@@ -63,7 +63,7 @@ export default () => {
       setUser(data.user);
     } catch (e: any) {
       const { $toast } = useNuxtApp();
-      $toast.error(e?.response?.statusMessage || 'Incorrect user data');
+      $toast.error(e?.statusMessage || 'Incorrect user data');
     }
   };
 
@@ -76,7 +76,9 @@ export default () => {
 
     const jwt: IJwtDecodedToken = jwtDecode(authToken.value);
 
-    const newRefreshTime = jwt.exp - 60000;
+    // Updating token when 1 minute left
+    const newRefreshTime =
+      new Date(jwt.exp * 1000).getTime() - new Date().getTime() - 60000;
 
     setTimeout(() => {
       refreshToken();
@@ -90,8 +92,8 @@ export default () => {
       setUser(data.user);
       reRefreshAccessToken();
     } catch (e) {
-      // TODO handle this error
-      throw e;
+      setToken(null);
+      setUser(null);
     }
   };
 
@@ -100,8 +102,8 @@ export default () => {
       setAuthLoading(true);
       await refreshToken();
     } catch (e) {
-      // TODO handle this error
-      throw e;
+      setToken(null);
+      setUser(null);
     } finally {
       setAuthLoading(false);
     }
@@ -114,11 +116,19 @@ export default () => {
       });
       setToken(null);
       setUser(null);
-    } catch (e) {
-      // TODO handle this error
-      throw e;
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Service Unavailable, try again later');
     }
   };
 
-  return { login, useAuthUser, useAuthToken, initAuth, useAuthLoading, logout, register };
+  return {
+    login,
+    useAuthUser,
+    useAuthToken,
+    initAuth,
+    useAuthLoading,
+    logout,
+    register
+  };
 };
