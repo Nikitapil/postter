@@ -10,7 +10,6 @@
         </button>
       </li>
       <li class="inline-block mx-2">
-        <!--    TODO add link to About page-->
         <a
           href="https://github.com/Nikitapil/nuxt-twi-clone"
           class="hover:underline"

@@ -2,7 +2,7 @@
   <div class="w-full">
     <div class="flex justify-center">
       <div class="w-16 h-16">
-        <TwitterLogo />
+        <PostterLogo />
       </div>
     </div>
     <form
@@ -13,12 +13,14 @@
         v-model="userData.username"
         label="Username"
         placeholder="@username"
+        :disabled="loading"
       />
       <AppInput
         v-model="userData.password"
         label="Password"
         placeholder="password"
         type="password"
+        :disabled="loading"
       />
 
       <template v-if="registeredMode">
@@ -27,22 +29,26 @@
           label="Repeat password"
           placeholder="password"
           type="password"
+          :disabled="loading"
         />
         <AppInput
           v-model="userData.email"
           label="Email"
           placeholder="your email"
+          :disabled="loading"
         />
         <AppInput
           v-model="userData.name"
           label="Name"
           placeholder="your name"
+          :disabled="loading"
         />
         <input
           id="profile-image"
           type="file"
           hidden
           accept="image/png, image/gif, image/jpeg"
+          :disabled="loading"
           @change="handleProfileImageChange"
         />
         <div class="flex w-full justify-between items-center">
@@ -54,10 +60,11 @@
           />
           <button
             v-if="userData.profileImage"
-            class="hover:underline text-gray-500 dark:text-gray-300 block mr-auto ml-2"
+            class="hover:underline text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white block mr-auto ml-2 default-transition"
+            :disabled="loading"
             @click="onDeleteProfileImage"
           >
-            x
+            <XMarkIcon class="w-4 h-4" />
           </button>
           <label
             for="profile-image"
@@ -77,7 +84,8 @@
         {{ submitButtonText }}
       </AppButton>
       <button
-        class="hover:underline text-xs text-gray-500 dark:text-gray-300 block ml-auto"
+        class="hover:underline text-xs text-gray-500 dark:text-gray-300 block ml-auto disabled:cursor-not-allowed"
+        :disabled="loading"
         @click="toggleForm"
       >
         {{ toggleButtonText }}
@@ -89,8 +97,9 @@
 import AppInput from '~/components/ui/AppInput.vue';
 import useAuth from '~/compasables/useAuth';
 import AppButton from '~/components/ui/AppButton.vue';
-import TwitterLogo from '~/components/PostterLogo/PostterLogo.vue';
+import PostterLogo from '~/components/PostterLogo/PostterLogo.vue';
 import { IRegisterData } from '~/types/auth-types';
+import { XMarkIcon } from '@heroicons/vue/24/solid';
 
 const { login, register } = useAuth();
 

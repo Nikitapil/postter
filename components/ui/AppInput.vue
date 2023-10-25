@@ -9,10 +9,11 @@
     </label>
     <div class="mt-1">
       <input
-        class="block px-4 w-full border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-bue-500 sm:text-sm"
+        class="block px-4 w-full border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-bue-500 sm:text-sm disabled:bg-gray-100"
         :type="type"
         :value="modelValue"
         :placeholder="placeholder"
+        :disabled="disabled"
         @input="(event) => $emit('update:modelValue', event.target.value)"
       />
     </div>
@@ -26,11 +27,13 @@ withDefaults(
     placeholder?: string;
     label?: string;
     type?: 'text' | 'password';
+    disabled: boolean;
   }>(),
   {
     placeholder: '',
     label: '',
-    type: 'text'
+    type: 'text',
+    disabled: false
   }
 );
 
