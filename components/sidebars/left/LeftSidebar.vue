@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen flex flex-col">
+  <div class="h-screen flex flex-col p-2">
     <div
-      class="p-2 my-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/10 default-transition"
+      class="my-2 px-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/10 default-transition"
     >
       <NuxtLink
         class="max-w-fit block"
@@ -72,7 +72,6 @@
       <div class="hidden xl:block">
         <AppButton
           size="lg"
-          liquid
           @click="$emit('openTweetModal')"
         >
           <span class="font-bold">Tweet</span>
