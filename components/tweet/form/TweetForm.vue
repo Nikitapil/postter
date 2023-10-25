@@ -17,13 +17,13 @@
 </template>
 <script setup lang="ts">
 import { IUser } from '~/types/auth-types';
-import { ITweet, ITweetFormData } from '~/types/tweet-client-types';
-import useTweets from '~/compasables/useTweets';
+import { IPost, IPostFormData } from '~/types/tweet-client-types';
+import useTweets from '~/compasables/usePosts';
 
 const props = withDefaults(
   defineProps<{
     user: IUser;
-    replyTo?: ITweet | null;
+    replyTo?: IPost | null;
   }>(),
   {
     replyTo: null
@@ -34,7 +34,7 @@ const emit = defineEmits<{
   onSuccess: [id: string];
 }>();
 
-const { postTweet } = useTweets();
+const { createPost } = useTweets();
 
 const loading = ref(false);
 
@@ -42,13 +42,13 @@ const placeholder = computed(() =>
   props.replyTo ? 'Tweet your reply' : "What's happening?"
 );
 
-const handleFormSubmit = async (data: ITweetFormData) => {
+const handleFormSubmit = async (data: IPostFormData) => {
   try {
     loading.value = true;
     if (props.replyTo) {
       data.replyToId = props.replyTo.id;
     }
-    const tweet = await postTweet(data);
+    const tweet = await createPost(data);
     if (tweet) {
       emit('onSuccess', tweet?.id);
     }

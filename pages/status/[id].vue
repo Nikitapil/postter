@@ -17,8 +17,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import useTweets from '~/compasables/useTweets';
-import { ITweet } from '~/types/tweet-client-types';
+import useTweets from '~/compasables/usePosts';
+import { IPost } from '~/types/tweet-client-types';
 import useAuth from '~/compasables/useAuth';
 
 const { getTweetById } = useTweets();
@@ -27,7 +27,7 @@ const { useAuthUser } = useAuth();
 const user = useAuthUser();
 
 const loading = ref(false);
-const tweet = ref<ITweet | null>(null);
+const tweet = ref<IPost | null>(null);
 
 const getTweet = async () => {
   loading.value = true;

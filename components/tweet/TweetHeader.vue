@@ -41,10 +41,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ITweet } from '~/types/tweet-client-types';
+import { IPost } from '~/types/tweet-client-types';
 
 const props = defineProps<{
-  tweet: ITweet;
+  tweet: IPost;
 }>();
 const replyToTweetUrl = computed(() => `/status/${props.tweet.replyTo?.id}`);
 </script>

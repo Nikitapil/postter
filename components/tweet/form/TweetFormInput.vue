@@ -161,7 +161,7 @@
 </template>
 <script setup lang="ts">
 import { IUser } from '~/types/auth-types';
-import { ITweetFormData } from '~/types/tweet-client-types';
+import { IPostFormData } from '~/types/tweet-client-types';
 import AppButton from '~/components/ui/AppButton.vue';
 
 defineProps<{
@@ -170,7 +170,7 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  onSubmit: [ITweetFormData];
+  onSubmit: [IPostFormData];
 }>();
 
 const imageInput = ref();

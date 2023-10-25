@@ -15,13 +15,13 @@
 
 <script setup lang="ts">
 import ListFeed from '~/components/tweet/ListFeed.vue';
-import useTweets from '~/compasables/useTweets';
-import { ITweet } from '~/types/tweet-client-types';
+import useTweets from '~/compasables/usePosts';
+import { IPost } from '~/types/tweet-client-types';
 
 const { getTweets } = useTweets();
 const loading = ref(false);
 
-const searchTweets = ref<ITweet[]>([]);
+const searchTweets = ref<IPost[]>([]);
 
 const getSearchTweets = async () => {
   const route = useRoute();

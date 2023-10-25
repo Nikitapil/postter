@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
     const filesFromDb = await Promise.all(filePromises);
 
     return {
-      tweet: { ...tweetTransformer(tweet), mediaFiles: filesFromDb }
+      post: { ...tweetTransformer(tweet), mediaFiles: filesFromDb }
     };
   } catch (e) {
     //TODO handle this error

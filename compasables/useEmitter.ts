@@ -1,8 +1,8 @@
 import mitt from 'mitt';
-import { ITweet } from '~/types/tweet-client-types';
+import { IPost } from '~/types/tweet-client-types';
 
 const emitter = mitt<{
-  replyTweet: ITweet;
+  replyTweet: IPost;
 }>();
 
 export default () => {

@@ -34,13 +34,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ITweet } from '~/types/tweet-client-types';
+import { IPost } from '~/types/tweet-client-types';
 import TweetActions from '~/components/tweet/TweetActions/TweetActions.vue';
 import useEmitter from '~/compasables/useEmitter';
 
 const props = withDefaults(
   defineProps<{
-    tweet: ITweet;
+    tweet: IPost;
     compact?: boolean;
   }>(),
   {

@@ -22,10 +22,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ITweet } from '~/types/tweet-client-types.js';
+import { IPost } from '~/types/tweet-client-types.js';
 
 defineProps<{
-  tweets: ITweet[];
+  tweets: IPost[];
 }>();
 
 const redirectToTweet = (id: string) => {

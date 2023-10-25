@@ -57,7 +57,7 @@ import AuthPage from '~/components/Auth/AuthPage.vue';
 import useAuth from '~/compasables/useAuth';
 import Modal from '~/components/ui/Modal.vue';
 import useEmitter from '~/compasables/useEmitter';
-import { ITweet } from '~/types/tweet-client-types';
+import { IPost } from '~/types/tweet-client-types';
 import useTheme from '~/compasables/useTheme';
 
 const { isDarkMode } = useTheme();
@@ -67,7 +67,7 @@ const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth();
 const user = useAuthUser();
 const isAuthLoading = useAuthLoading();
 const emitter = useEmitter();
-const replyToTweet = ref<ITweet | null>(null);
+const replyToTweet = ref<IPost | null>(null);
 
 emitter.$on('replyTweet', (tweet) => {
   replyToTweet.value = tweet;

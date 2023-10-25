@@ -10,11 +10,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ITweet } from '~/types/tweet-client-types';
+import { IPost } from '~/types/tweet-client-types';
 import { IUser } from '~/types/auth-types';
 
 defineProps<{
-  tweet: ITweet;
+  tweet: IPost;
   user: IUser;
 }>();
 </script>

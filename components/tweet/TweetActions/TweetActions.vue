@@ -50,10 +50,10 @@ import {
   HeartIcon,
   ArrowUpTrayIcon
 } from '@heroicons/vue/24/outline';
-import { ITweet } from '~/types/tweet-client-types';
+import { IPost } from '~/types/tweet-client-types';
 
 defineProps<{
-  tweet: ITweet;
+  tweet: IPost;
 }>();
 
 defineEmits<{

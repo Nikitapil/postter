@@ -26,15 +26,15 @@
 <script setup lang="ts">
 import useAuth from '~/compasables/useAuth';
 import ListFeed from '~/components/tweet/ListFeed.vue';
-import useTweets from '~/compasables/useTweets';
-import { ITweet } from '~/types/tweet-client-types';
+import useTweets from '~/compasables/usePosts';
+import { IPost } from '~/types/tweet-client-types';
 
 const { useAuthUser } = useAuth();
 const { getTweets } = useTweets();
 const user = useAuthUser();
 const loading = ref(false);
 
-const homeTweets = ref<ITweet[]>([]);
+const homeTweets = ref<IPost[]>([]);
 // TODO get limited tweets and load by scroll(implement infinite scroll)
 onBeforeMount(async () => {
   loading.value = true;

@@ -1,7 +1,7 @@
 import { IUser } from '~/types/auth-types';
 import { IMediaFile } from '~/types/media-files';
 
-export interface ITweetFormData {
+export interface IPostFormData {
   text: string;
   mediaFiles: File[];
   replyToId?: string;
@@ -11,7 +11,7 @@ export interface IGetTweetsParams {
   query?: string;
 }
 
-export interface ITweet {
+export interface IPost {
   id: string;
   text: string;
   createdAt: Date;
@@ -21,15 +21,15 @@ export interface ITweet {
   author: IUser;
   mediaFiles?: IMediaFile[];
   postedAt: string;
-  replyTo?: ITweet | null;
+  replyTo?: IPost | null;
   repliesCount?: number;
-  replies: ITweet[];
+  replies: IPost[];
 }
 
 export interface ITweetResponse {
-  tweets: ITweet[];
+  tweets: IPost[];
 }
 
-export interface ISingleTweetResponse {
-  tweet: ITweet;
+export interface ISinglePostResponse {
+  post: IPost;
 }
