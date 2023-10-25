@@ -12,10 +12,11 @@
       <li class="inline-block mx-2">
         <!--    TODO add link to About page-->
         <a
-          href="#"
+          href="https://github.com/Nikitapil/nuxt-twi-clone"
           class="hover:underline"
+          target="_blank"
         >
-          About
+          Github
         </a>
       </li>
     </ul>
