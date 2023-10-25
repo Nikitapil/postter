@@ -5,7 +5,6 @@ export default <T>(url: string, options: IMap = {}): Promise<T> => {
   const { useAuthToken } = useAuth();
 
   const token = useAuthToken();
-// TODO update token if expired
   const headersFromRequest = options.headers || {};
   return $fetch(url, {
     ...options,

@@ -6,7 +6,7 @@
           class="hover:underline"
           @click.prevent="toggleTheme"
         >
-          Dark mode
+          {{ themeText }}
         </button>
       </li>
       <li class="inline-block mx-2">
@@ -25,5 +25,9 @@
 <script setup lang="ts">
 import useTheme from '~/compasables/useTheme';
 
-const { toggleTheme } = useTheme();
+const { toggleTheme, isDarkMode } = useTheme();
+
+const themeText = computed(() =>
+  isDarkMode.value ? 'Light mode' : 'Dark mode'
+);
 </script>
