@@ -18,7 +18,7 @@ import ListFeed from '~/components/tweet/ListFeed.vue';
 import useTweets from '~/compasables/usePosts';
 import { IPost } from '~/types/tweet-client-types';
 
-const { getTweets } = useTweets();
+const { getPosts } = useTweets();
 const loading = ref(false);
 
 const searchTweets = ref<IPost[]>([]);
@@ -27,7 +27,7 @@ const getSearchTweets = async () => {
   const route = useRoute();
   const searchQuery = route.query.q;
   loading.value = true;
-  searchTweets.value = await getTweets({
+  searchTweets.value = await getPosts({
     query: searchQuery as string
   });
   loading.value = false;

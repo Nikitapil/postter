@@ -1,9 +1,9 @@
 import {
-  IGetTweetsParams,
+  IGetPostsParams,
   ISinglePostResponse,
   IPost,
   IPostFormData,
-  ITweetResponse
+  IPostsResponse
 } from '~/types/tweet-client-types';
 import useFetchApi from '~/compasables/useFetchApi';
 
@@ -38,36 +38,37 @@ export default () => {
     }
   };
 
-  const getTweets = async ({ query = '' }: IGetTweetsParams = {}): Promise<
+  const getPosts = async ({ query = '' }: IGetPostsParams = {}): Promise<
     IPost[]
   > => {
     try {
-      const { tweets } = await useFetchApi<ITweetResponse>('/api/user/tweets', {
+      const { posts } = await useFetchApi<IPostsResponse>('/api/user/tweets', {
         method: 'GET',
         params: {
           query
         }
       });
-      return tweets;
-    } catch (e) {
-      // TODO handle this error
-      throw e;
+      return posts;
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Error while getting posts');
+      return [];
     }
   };
 
-  const getTweetById = async (tweetId: string): Promise<IPost | null> => {
+  const getPostById = async (postId: string): Promise<IPost | null> => {
     try {
-      const { tweet } = await useFetchApi<ISinglePostResponse>(
-        `/api/user/tweets/${tweetId}`,
+      const { post } = await useFetchApi<ISinglePostResponse>(
+        `/api/user/tweets/${postId}`,
         {
           method: 'GET'
         }
       );
-      return tweet;
+      return post;
     } catch (e) {
       return null;
     }
   };
 
-  return { createPost, getTweets, getTweetById };
+  return { createPost, getPosts, getPostById };
 };

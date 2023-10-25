@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     // TODO get replies count and count of replies for replies from db, and handle this in service
-    tweet: tweet
+    post: tweet
       ? {
           ...tweet,
           repliesCount: tweet.replies.length,

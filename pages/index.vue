@@ -30,7 +30,7 @@ import useTweets from '~/compasables/usePosts';
 import { IPost } from '~/types/tweet-client-types';
 
 const { useAuthUser } = useAuth();
-const { getTweets } = useTweets();
+const { getPosts } = useTweets();
 const user = useAuthUser();
 const loading = ref(false);
 
@@ -38,7 +38,7 @@ const homeTweets = ref<IPost[]>([]);
 // TODO get limited tweets and load by scroll(implement infinite scroll)
 onBeforeMount(async () => {
   loading.value = true;
-  homeTweets.value = await getTweets();
+  homeTweets.value = await getPosts();
   loading.value = false;
 });
 </script>

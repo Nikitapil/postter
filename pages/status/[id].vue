@@ -21,7 +21,7 @@ import useTweets from '~/compasables/usePosts';
 import { IPost } from '~/types/tweet-client-types';
 import useAuth from '~/compasables/useAuth';
 
-const { getTweetById } = useTweets();
+const { getPostById } = useTweets();
 const { useAuthUser } = useAuth();
 
 const user = useAuthUser();
@@ -32,7 +32,7 @@ const tweet = ref<IPost | null>(null);
 const getTweet = async () => {
   loading.value = true;
   const route = useRoute();
-  tweet.value = await getTweetById(route.params.id as string);
+  tweet.value = await getPostById(route.params.id as string);
   loading.value = false;
 };
 

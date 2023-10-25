@@ -7,7 +7,7 @@ export interface IPostFormData {
   replyToId?: string;
 }
 
-export interface IGetTweetsParams {
+export interface IGetPostsParams {
   query?: string;
 }
 
@@ -26,8 +26,8 @@ export interface IPost {
   replies: IPost[];
 }
 
-export interface ITweetResponse {
-  tweets: IPost[];
+export interface IPostsResponse {
+  posts: IPost[];
 }
 
 export interface ISinglePostResponse {
