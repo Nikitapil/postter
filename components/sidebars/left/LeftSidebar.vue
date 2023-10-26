@@ -1,92 +1,71 @@
 <template>
   <div class="h-screen flex flex-col p-2">
     <div
-      class="my-2 px-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/10 default-transition"
+      class="my-2 px-2 py-2 rounded-full hover:bg-blue-50 w-min dark:hover:bg-white/10 default-transition"
     >
       <NuxtLink
         class="max-w-fit block"
         to="/"
       >
-        <div class="w-8 h-8">
-          <TwitterLogo />
+        <div class="h-9 flex gap-0.5 w-full items-center">
+          <div class="w-9">
+            <PostterLogo />
+          </div>
+          <span class="hidden xl:block text-xl font-semibold dark:text-white">
+            ostter
+          </span>
         </div>
       </NuxtLink>
     </div>
     <div class="mt-2 space-y-3">
-      <Tab active>
+      <Tab to="/">
         <template #icon>
           <HomeIcon />
         </template>
         <template #name> Home </template>
       </Tab>
 
-      <Tab>
+      <Tab to="/search">
         <template #icon>
-          <HashtagIcon />
+          <MagnifyingGlassIcon />
         </template>
-        <template #name> Explore </template>
+        <template #name> Search </template>
       </Tab>
 
-      <Tab>
+      <Tab to="/trends">
         <template #icon>
-          <BellIcon />
+          <ArrowTrendingUpIcon />
         </template>
-        <template #name> Notifications </template>
+        <template #name> Trends </template>
       </Tab>
 
-      <Tab>
+      <Tab to="/messages">
         <template #icon>
           <InboxIcon />
         </template>
         <template #name> Messages </template>
       </Tab>
 
-      <Tab>
+      <Tab to="/bookmarks">
         <template #icon>
           <BookmarkIcon />
         </template>
         <template #name> Bookmarks </template>
       </Tab>
 
-      <Tab>
-        <template #icon>
-          <DocumentTextIcon />
-        </template>
-        <template #name> Lists </template>
-      </Tab>
-
-      <Tab>
+      <Tab to="/profile">
         <template #icon>
           <UserIcon />
         </template>
         <template #name> Profile </template>
       </Tab>
 
-      <Tab>
-        <template #icon>
-          <CircleStackIcon />
-        </template>
-        <template #name> More </template>
-      </Tab>
-
-      <div class="hidden xl:block">
-        <AppButton
-          size="lg"
-          @click="$emit('openTweetModal')"
-        >
-          <span class="font-bold">Tweet</span>
-        </AppButton>
+      <div class="block xl:hidden mx-2">
+        <AppFooter appearance="icons" />
       </div>
 
-      <div class="block xl:hidden">
-        <AppButton
-          size="sm"
-          @click="$emit('openTweetModal')"
-        >
-          <div class="w-6 h-6">
-            <PencilIcon />
-          </div>
-        </AppButton>
+      <div class="hidden xl:block">
+        <AppFooter appearance="full" />
       </div>
     </div>
 
@@ -118,21 +97,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import TwitterLogo from '~/components/PostterLogo/PostterLogo.vue';
+import PostterLogo from '~/components/PostterLogo/PostterLogo.vue';
 import {
   HomeIcon,
-  HashtagIcon,
-  BellIcon,
+  MagnifyingGlassIcon,
+  ArrowTrendingUpIcon,
   InboxIcon,
   BookmarkIcon,
-  DocumentTextIcon,
   UserIcon,
-  CircleStackIcon,
-  PencilIcon,
   ChevronDownIcon
 } from '@heroicons/vue/24/solid';
 import Tab from '~/components/sidebars/left/Tab.vue';
-import AppButton from '~/components/ui/AppButton.vue';
 import { IUser } from '~/types/auth-types';
 
 defineProps<{

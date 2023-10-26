@@ -12,7 +12,6 @@
             <div class="sticky top-0">
               <LeftSidebar
                 :user="user"
-                @open-tweet-modal="openTweetModal"
                 @logout="handleUserLogout"
               />
             </div>
