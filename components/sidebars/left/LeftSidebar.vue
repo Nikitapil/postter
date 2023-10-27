@@ -74,14 +74,9 @@
       @click="$emit('logout')"
     >
       <div class="flex">
-        <!--        TODO create component for user avatar-->
-        <img
-          class="w-10 h-10 rounded-full"
-          :src="user.profileImage"
-          alt="user avatar"
-        />
+        <UserAvatar :link="user.profileImage" />
         <div class="hidden flex-col ml-2 xl:flex">
-          <h1 class="text-sm font-bold text-gray-800 :dar">
+          <h1 class="text-sm font-bold text-gray-800 dark:text-white">
             {{ user.name }}
           </h1>
           <p class="text-sm text-gray-400">@{{ user.username }}</p>
@@ -109,6 +104,7 @@ import {
 } from '@heroicons/vue/24/solid';
 import Tab from '~/components/sidebars/left/Tab.vue';
 import { IUser } from '~/types/auth-types';
+import UserAvatar from '~/components/ui/UserAvatar.vue';
 
 defineProps<{
   user: IUser;

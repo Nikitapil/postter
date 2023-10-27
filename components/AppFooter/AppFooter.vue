@@ -12,6 +12,7 @@
           {{ themeText }}
         </button>
       </li>
+      <!--      TODO change gh link when rename repo-->
       <li class="inline-block mx-2">
         <a
           href="https://github.com/Nikitapil/nuxt-twi-clone"
