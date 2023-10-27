@@ -84,7 +84,7 @@
       </div>
 
       <div class="hidden ml-auto xl:block">
-        <div class="h-6 w-6">
+        <div class="h-6 w-6 dark:text-white">
           <ChevronRightIcon />
         </div>
       </div>

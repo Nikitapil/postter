@@ -13,17 +13,7 @@
   </NuxtLink>
 </template>
 <script setup lang="ts">
-const props = withDefaults(
-  defineProps<{
-    active?: boolean;
-    to: string;
-  }>(),
-  {
-    active: false
-  }
-);
-
-const textClasses = computed(() =>
-  props.active ? 'font-semibold' : 'font-normal'
-);
+defineProps<{
+  to: string;
+}>();
 </script>

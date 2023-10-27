@@ -12,7 +12,7 @@
             <div class="sticky top-0">
               <LeftSidebar
                 :user="user"
-                @logout="handleUserLogout"
+                @logout="openLogoutModal"
               />
             </div>
           </section>
@@ -23,7 +23,7 @@
 
           <section class="hidden md:block min-w-[350px]">
             <div class="sticky top-0">
-              <RightSidebar @toggle-theme="toggleTheme" />
+              <RightSidebar />
             </div>
           </section>
         </div>
@@ -45,6 +45,12 @@
           @on-success="handleTweetSuccess"
         />
       </Modal>
+      <ConfirmModal
+        title="Confirm logout?"
+        :is-open="isLogoutModalOpened"
+        @close-modal="closeLogoutModal"
+        @confirm="handleUserLogout"
+      />
     </div>
   </div>
 </template>
@@ -58,6 +64,7 @@ import Modal from '~/components/ui/Modal.vue';
 import useEmitter from '~/compasables/useEmitter';
 import { IPost } from '~/types/tweet-client-types';
 import useTheme from '~/compasables/useTheme';
+import ConfirmModal from '~/components/ui/ConfirmModal.vue';
 
 const { isDarkMode } = useTheme();
 
@@ -74,9 +81,13 @@ emitter.$on('replyTweet', (tweet) => {
 });
 
 const isTweetModalOpen = ref(false);
+const isLogoutModalOpened = ref(false);
 
 const openTweetModal = () => (isTweetModalOpen.value = true);
 const closeTweetModal = () => (isTweetModalOpen.value = false);
+
+const openLogoutModal = () => (isLogoutModalOpened.value = true);
+const closeLogoutModal = () => (isLogoutModalOpened.value = false);
 
 const handleTweetSuccess = (tweetId: string) => {
   closeTweetModal();
@@ -88,10 +99,9 @@ const handleTweetSuccess = (tweetId: string) => {
   navigateTo(`/status/${tweetId}`);
 };
 
-const toggleTheme = () => (darkMode.value = !darkMode.value);
-
 const handleUserLogout = () => {
   logout();
+  closeLogoutModal();
 };
 
 onBeforeMount(async () => {
