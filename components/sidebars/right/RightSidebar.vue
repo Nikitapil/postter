@@ -1,22 +1,11 @@
 <template>
   <div class="flex flex-col">
-    <div class="relative m-2">
-      <div
-        class="absolute flex items-center h-full pl-4 text-gray-600 cursor-pointer"
-      >
-        <div class="w-6 h-6">
-          <MagnifyingGlassIcon @click="handleSearch" />
-        </div>
-      </div>
-      <input
-        v-model="search"
-        class="flex items-center w-full pl-12 text-sm font-normal text-gray-800 dark:text-gray-100 bg-gray-200 border border-gray-200 rounded-full shadow dark:bg-dim-400 dark:border-dim-400 focus:bg-gray-100 dark:focus:bg-dim-100 h-9"
-        type="text"
-        placeholder="Search tweets"
-      />
-    </div>
+    <SearchForm @search="handleSearch" />
 
-    <PreviewCard title="What's happening">
+    <PreviewCard
+      title="What's happening"
+      show-more-link="/trends"
+    >
       <PreviewCardItem
         v-for="item in whatsHappeningItems"
         :key="item.id"
@@ -30,24 +19,23 @@
       </PreviewCardItem>
     </PreviewCard>
 
-    <PreviewCard title="Who to follow">
+    <PreviewCard
+      title="Who to follow"
+      show-more-link="/trends"
+    >
       <PreviewCardItem
         v-for="item in whoToFollowItems"
         :key="item.id"
       >
         <div class="flex flex-row justify-between items-center p-2">
           <div class="flex flex-row">
-            <img
-              class="w-10 h-10 rounded-full"
-              :src="item.image"
-              :alt="item.name"
-            />
+            <UserAvatar :link="item.profileImage" />
 
             <div class="flex flex-col ml-2">
               <h2 class="font-bold text-gray-800 text-md dark:text-white">
                 {{ item.name }}
               </h2>
-              <p class="text-xs text-gray-400">{{ item.handle }}</p>
+              <p class="text-xs text-gray-400">@{{ item.username }}</p>
             </div>
           </div>
 
@@ -67,14 +55,11 @@
 <script setup lang="ts">
 import PreviewCard from '~/components/sidebars/right/PreviewCard/PreviewCard.vue';
 import PreviewCardItem from '~/components/sidebars/right/PreviewCard/PreviewCardItem.vue';
-import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
+import SearchForm from '~/components/ui/SearchForm.vue';
+import UserAvatar from '~/components/ui/UserAvatar.vue';
+import { IUser } from '~/types/auth-types';
 
-defineEmits<{
-  toggleTheme: [];
-}>();
-
-const search = ref('');
-
+// TODO get real data
 const whatsHappeningItems = ref([
   {
     id: 1,
@@ -93,27 +78,30 @@ const whatsHappeningItems = ref([
   }
 ]);
 
-const whoToFollowItems = ref([
+// TODO get real data
+const whoToFollowItems = ref<IUser[]>([
   {
-    id: 1,
+    id: '1234',
     name: 'Joe',
-    handle: '@Joe',
-    image: 'https://loremflickr.com/200/200'
+    email: 'Joe@Joe.Joe',
+    profileImage: 'https://loremflickr.com/200/200',
+    username: 'Joe'
   },
   {
-    id: 2,
+    id: '2345',
     name: 'Joe',
-    handle: '@Joe',
-    image: 'https://loremflickr.com/200/200'
+    email: 'Joe@Joe.Joe',
+    profileImage: 'https://loremflickr.com/200/200',
+    username: 'Joe'
   }
 ]);
 
-const handleSearch = () => {
+const handleSearch = (search: string) => {
   const router = useRouter();
   router.push({
     path: '/search',
     query: {
-      q: search.value
+      q: search
     }
   });
 };
