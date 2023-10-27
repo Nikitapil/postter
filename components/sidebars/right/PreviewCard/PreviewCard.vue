@@ -10,15 +10,17 @@
 
     <slot />
 
-    <div
-      class="text-sm text-blue-400 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-dim-300 default-transition"
+    <NuxtLink
+      class="text-sm text-blue-400 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-dim-300 default-transition block"
+      :to="showMoreLink"
     >
       Show more
-    </div>
+    </NuxtLink>
   </div>
 </template>
 <script lang="ts" setup>
 defineProps<{
   title: string;
+  showMoreLink: string;
 }>();
 </script>

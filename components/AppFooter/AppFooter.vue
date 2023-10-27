@@ -25,7 +25,10 @@
     </ul>
     <ul v-else>
       <li class="block my-2">
-        <button @click.prevent="toggleTheme">
+        <button
+          class="hover:bg-gray-200 p-2 rounded-full default-transition dark:hover:bg-dim-200"
+          @click.prevent="toggleTheme"
+        >
           <ThemeIconComponent class="w-8 h-8 dark:text-white" />
         </button>
       </li>

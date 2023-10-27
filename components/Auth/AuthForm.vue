@@ -68,7 +68,7 @@
           </button>
           <label
             for="profile-image"
-            class="hover:underline w-fit cursor-pointer text-gray-100 dark:text-gray-700 block ml-auto bg-dim-800 dark:bg-white px-4 py-2 rounded-full"
+            class="hover:underline w-fit cursor-pointer text-gray-100 dark:text-gray-700 block ml-auto bg-dim-800 dark:bg-white px-4 py-2 rounded-full disabled:cursor-not-allowed"
           >
             Upload profile image
           </label>

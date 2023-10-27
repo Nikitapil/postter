@@ -60,7 +60,7 @@
         <template #name> Profile </template>
       </Tab>
 
-      <div class="block xl:hidden mx-2">
+      <div class="block xl:hidden">
         <AppFooter appearance="icons" />
       </div>
 
