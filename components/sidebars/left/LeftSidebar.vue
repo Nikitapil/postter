@@ -85,7 +85,7 @@
 
       <div class="hidden ml-auto xl:block">
         <div class="h-6 w-6">
-          <ChevronDownIcon />
+          <ChevronRightIcon />
         </div>
       </div>
     </div>
@@ -100,7 +100,7 @@ import {
   InboxIcon,
   BookmarkIcon,
   UserIcon,
-  ChevronDownIcon
+  ChevronRightIcon
 } from '@heroicons/vue/24/solid';
 import Tab from '~/components/sidebars/left/Tab.vue';
 import { IUser } from '~/types/auth-types';
@@ -111,7 +111,6 @@ defineProps<{
 }>();
 
 defineEmits<{
-  openTweetModal: [];
   logout: [];
 }>();
 </script>
