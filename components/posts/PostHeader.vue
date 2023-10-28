@@ -27,7 +27,7 @@
         <span class="text-gray-500">Replying to</span>
         <NuxtLink
           class="text-blue-400"
-          :to="replyToTweetUrl"
+          :to="replyToUrl"
         >
           @{{ post.replyTo.author.username }}
         </NuxtLink>
@@ -43,5 +43,5 @@ import UserAvatar from '~/components/ui/UserAvatar.vue';
 const props = defineProps<{
   post: IPost;
 }>();
-const replyToTweetUrl = computed(() => `/status/${props.post.replyTo?.id}`);
+const replyToUrl = computed(() => `/status/${props.post.replyTo?.id}`);
 </script>

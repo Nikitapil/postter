@@ -8,10 +8,11 @@
         <Title>Tweet / Twitter</Title>
       </Head>
 
-      <TweetDetails
+      <PostDetails
         v-if="tweet && user"
-        :tweet="tweet"
+        :post="tweet"
         :user="user"
+        @on-reply="updatePostReplies"
       />
     </MainSection>
   </div>
@@ -20,7 +21,7 @@
 import useTweets from '~/compasables/usePosts';
 import { IPost } from '~/types/tweet-client-types';
 import useAuth from '~/compasables/useAuth';
-import TweetDetails from '~/components/posts/TweetDetails.vue';
+import PostDetails from '~/components/posts/PostDetails.vue';
 
 const { getPostById } = useTweets();
 const { useAuthUser } = useAuth();
@@ -35,6 +36,10 @@ const getTweet = async () => {
   const route = useRoute();
   tweet.value = await getPostById(route.params.id as string);
   loading.value = false;
+};
+
+const updatePostReplies = () => {
+  // TODO update post replies here
 };
 
 onMounted(() => {

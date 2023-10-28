@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Post :post="tweet" />
+    <Post :post="post" />
     <PostForm
-      placeholder="Tweet your reply"
       :user="user"
-      :reply-to-id="tweet.id"
+      :reply-to-id="post.id"
+      @on-success="$emit('onReply')"
     />
-    <ListFeed :posts="tweet.replies" />
+    <ListFeed :posts="post.replies" />
   </div>
 </template>
 <script setup lang="ts">
@@ -17,7 +17,11 @@ import Post from '~/components/posts/Post.vue';
 import ListFeed from '~/components/posts/ListFeed.vue';
 
 defineProps<{
-  tweet: IPost;
+  post: IPost;
   user: IUser;
+}>();
+
+defineEmits<{
+  onReply: [];
 }>();
 </script>
