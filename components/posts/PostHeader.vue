@@ -3,14 +3,14 @@
     <div>
       <img
         class="w-10 h-10 rounded-full"
-        :src="tweet.author.profileImage"
+        :src="post.author.profileImage"
         alt="Tweet author avatar"
       />
     </div>
 
     <div class="ml-3 w-full">
       <span class="font-medium text-gray-800 dark:text-white">{{
-        tweet.author.name
+        post.author.name
       }}</span>
 
       <span class="text-sm font-medium text-gray-400 ml-3 w-full">
@@ -19,13 +19,13 @@
           class="mr-5"
           to="#"
         >
-          @{{ tweet.author.username }}
+          @{{ post.author.username }}
         </NuxtLink>
-        <span>{{ tweet.postedAt }}</span>
+        <span>{{ post.postedAt }}</span>
       </span>
 
       <div
-        v-if="tweet.replyTo"
+        v-if="post.replyTo"
         class="text-sm"
       >
         <span class="text-gray-500">Replying to</span>
@@ -33,7 +33,7 @@
           class="text-blue-400"
           :to="replyToTweetUrl"
         >
-          @{{ tweet.replyTo.author.username }}
+          @{{ post.replyTo.author.username }}
         </NuxtLink>
       </div>
     </div>
@@ -44,7 +44,7 @@
 import { IPost } from '~/types/tweet-client-types';
 
 const props = defineProps<{
-  tweet: IPost;
+  post: IPost;
 }>();
-const replyToTweetUrl = computed(() => `/status/${props.tweet.replyTo?.id}`);
+const replyToTweetUrl = computed(() => `/status/${props.post.replyTo?.id}`);
 </script>

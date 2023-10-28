@@ -33,18 +33,6 @@
 
       <AuthPage v-else />
 
-      <Modal
-        v-if="user && replyToTweet"
-        :is-open="isTweetModalOpen"
-        @close-modal="closeTweetModal"
-      >
-        <!--        TODO go to posts-->
-        <PostForm
-          :user="user"
-          :reply-to-id="replyToTweet.id"
-          @on-success="handleTweetSuccess"
-        />
-      </Modal>
       <ConfirmModal
         title="Confirm logout?"
         :is-open="isLogoutModalOpened"
@@ -60,12 +48,8 @@ import LeftSidebar from '~/components/sidebars/left/LeftSidebar.vue';
 import RightSidebar from '~/components/sidebars/right/RightSidebar.vue';
 import AuthPage from '~/components/Auth/AuthPage.vue';
 import useAuth from '~/compasables/useAuth';
-import Modal from '~/components/ui/Modal.vue';
-import useEmitter from '~/compasables/useEmitter';
-import { IPost } from '~/types/tweet-client-types';
 import useTheme from '~/compasables/useTheme';
 import ConfirmModal from '~/components/ui/ConfirmModal.vue';
-import PostForm from '~/components/posts/form/PostForm.vue';
 
 const { isDarkMode } = useTheme();
 
@@ -73,32 +57,11 @@ const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth();
 
 const user = useAuthUser();
 const isAuthLoading = useAuthLoading();
-const emitter = useEmitter();
-const replyToTweet = ref<IPost | null>(null);
 
-emitter.$on('replyTweet', (tweet) => {
-  replyToTweet.value = tweet;
-  openTweetModal();
-});
-
-const isTweetModalOpen = ref(false);
 const isLogoutModalOpened = ref(false);
-
-const openTweetModal = () => (isTweetModalOpen.value = true);
-const closeTweetModal = () => (isTweetModalOpen.value = false);
 
 const openLogoutModal = () => (isLogoutModalOpened.value = true);
 const closeLogoutModal = () => (isLogoutModalOpened.value = false);
-
-const handleTweetSuccess = (tweetId: string) => {
-  closeTweetModal();
-  if (replyToTweet.value) {
-    navigateTo(`/status/${replyToTweet.value.id}`);
-    replyToTweet.value = null;
-    return;
-  }
-  navigateTo(`/status/${tweetId}`);
-};
 
 const handleUserLogout = () => {
   logout();
