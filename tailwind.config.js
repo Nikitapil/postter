@@ -8,7 +8,16 @@ export default {
     './app.vue'
   ],
   darkMode: 'class',
-
+  safelist: [
+    {
+      pattern: /bg-(red|green|blue)-(100)/,
+      variants: ['group-hover']
+    },
+    {
+      pattern: /text-(red|green|blue)-(400)/,
+      variants: ['group-hover']
+    }
+  ],
   theme: {
     screens: {
       xs: '614px',

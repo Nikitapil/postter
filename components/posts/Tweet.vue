@@ -26,8 +26,8 @@
       </div>
 
       <div class="mt-2">
-        <TweetActions
-          :tweet="tweet"
+        <PostActions
+          :post="tweet"
           @comment-click="handleCommentClick"
         />
       </div>
@@ -36,9 +36,9 @@
 </template>
 <script setup lang="ts">
 import { IPost } from '~/types/tweet-client-types';
-import TweetActions from '~/components/posts/TweetActions/TweetActions.vue';
 import useEmitter from '~/compasables/useEmitter';
 import TweetHeader from '~/components/posts/TweetHeader.vue';
+import PostActions from '~/components/posts/PostActions/PostActions.vue';
 
 const props = withDefaults(
   defineProps<{

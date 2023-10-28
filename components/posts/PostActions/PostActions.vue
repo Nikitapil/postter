@@ -1,16 +1,16 @@
 <template>
   <div class="flex items-center justify-around w-full">
-    <TweetActionsIcon @click="$emit('commentClick')">
+    <PostActionsIcon @click="$emit('commentClick')">
       <template #icon="{ classes }">
         <ChatBubbleBottomCenterTextIcon :class="classes" />
       </template>
 
       <template #default>
-        {{ tweet.repliesCount }}
+        {{ post.repliesCount }}
       </template>
-    </TweetActionsIcon>
+    </PostActionsIcon>
 
-    <TweetActionsIcon>
+    <PostActionsIcon appearance="green">
       <template #icon="{ classes }">
         <ArrowPathIcon :class="classes" />
       </template>
@@ -18,9 +18,9 @@
       <template #default>
         {{ getRandomNumber() }}
       </template>
-    </TweetActionsIcon>
+    </PostActionsIcon>
 
-    <TweetActionsIcon>
+    <PostActionsIcon appearance="red">
       <template #icon="{ classes }">
         <HeartIcon :class="classes" />
       </template>
@@ -28,32 +28,21 @@
       <template #default>
         {{ getRandomNumber() }}
       </template>
-    </TweetActionsIcon>
-
-    <TweetActionsIcon>
-      <template #icon="{ classes }">
-        <ArrowUpTrayIcon :class="classes" />
-      </template>
-
-      <template #default>
-        {{ getRandomNumber() }}
-      </template>
-    </TweetActionsIcon>
+    </PostActionsIcon>
   </div>
 </template>
 
 <script setup lang="ts">
-import TweetActionsIcon from '~/components/posts/TweetActions/TweetActionsIcon.vue';
 import {
   ChatBubbleBottomCenterTextIcon,
   ArrowPathIcon,
-  HeartIcon,
-  ArrowUpTrayIcon
+  HeartIcon
 } from '@heroicons/vue/24/outline';
 import { IPost } from '~/types/tweet-client-types';
+import PostActionsIcon from '~/components/posts/PostActions/PostActionsIcon.vue';
 
 defineProps<{
-  tweet: IPost;
+  post: IPost;
 }>();
 
 defineEmits<{
