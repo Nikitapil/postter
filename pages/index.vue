@@ -12,7 +12,7 @@
         v-if="user"
         class="border-b"
       >
-        <TweetForm
+        <PostForm
           :user="user"
           placeholder="What's happening?"
         />
@@ -25,9 +25,10 @@
 
 <script setup lang="ts">
 import useAuth from '~/compasables/useAuth';
-import ListFeed from '~/components/tweet/ListFeed.vue';
+import ListFeed from '~/components/posts/ListFeed.vue';
 import useTweets from '~/compasables/usePosts';
 import { IPost } from '~/types/tweet-client-types';
+import PostForm from '~/components/posts/form/PostForm.vue';
 
 const { useAuthUser } = useAuth();
 const { getPosts } = useTweets();

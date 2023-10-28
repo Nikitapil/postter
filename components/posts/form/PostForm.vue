@@ -7,7 +7,7 @@
       <UiSpinner />
     </div>
     <div v-else>
-      <TweetFormInput
+      <PostFormInput
         :user="user"
         :placeholder="placeholder"
         @on-submit="handleFormSubmit"
@@ -17,16 +17,17 @@
 </template>
 <script setup lang="ts">
 import { IUser } from '~/types/auth-types';
-import { IPost, IPostFormData } from '~/types/tweet-client-types';
-import useTweets from '~/compasables/usePosts';
+import { IPostFormData } from '~/types/tweet-client-types';
+import usePosts from '~/compasables/usePosts';
+import PostFormInput from '~/components/posts/form/PostFormInput.vue';
 
 const props = withDefaults(
   defineProps<{
     user: IUser;
-    replyTo?: IPost | null;
+    replyToId?: string | null;
   }>(),
   {
-    replyTo: null
+    replyToId: null
   }
 );
 
@@ -34,29 +35,22 @@ const emit = defineEmits<{
   onSuccess: [id: string];
 }>();
 
-const { createPost } = useTweets();
+const { createPost } = usePosts();
 
 const loading = ref(false);
 
 const placeholder = computed(() =>
-  props.replyTo ? 'Tweet your reply' : "What's happening?"
+  props.replyToId ? 'Post your reply' : "What's happening?"
 );
 
 const handleFormSubmit = async (data: IPostFormData) => {
-  try {
-    loading.value = true;
-    if (props.replyTo) {
-      data.replyToId = props.replyTo.id;
-    }
-    const tweet = await createPost(data);
-    if (tweet) {
-      emit('onSuccess', tweet?.id);
-    }
-  } catch (e) {
-    //TODO handle this error
-    console.log(e);
-  } finally {
-    loading.value = false;
+  loading.value = true;
+  if (props.replyToId) {
+    data.replyToId = props.replyToId;
+  }
+  const post = await createPost(data);
+  if (post) {
+    emit('onSuccess', post.id);
   }
 };
 </script>

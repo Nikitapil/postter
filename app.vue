@@ -34,14 +34,14 @@
       <AuthPage v-else />
 
       <Modal
-        v-if="user"
+        v-if="user && replyToTweet"
         :is-open="isTweetModalOpen"
         @close-modal="closeTweetModal"
       >
-        <!--        TODO go to tweet-->
-        <TweetForm
+        <!--        TODO go to posts-->
+        <PostForm
           :user="user"
-          :reply-to="replyToTweet"
+          :reply-to-id="replyToTweet.id"
           @on-success="handleTweetSuccess"
         />
       </Modal>
@@ -65,6 +65,7 @@ import useEmitter from '~/compasables/useEmitter';
 import { IPost } from '~/types/tweet-client-types';
 import useTheme from '~/compasables/useTheme';
 import ConfirmModal from '~/components/ui/ConfirmModal.vue';
+import PostForm from '~/components/posts/form/PostForm.vue';
 
 const { isDarkMode } = useTheme();
 

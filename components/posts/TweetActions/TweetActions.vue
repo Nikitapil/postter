@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import TweetActionsIcon from '~/components/tweet/TweetActions/TweetActionsIcon.vue';
+import TweetActionsIcon from '~/components/posts/TweetActions/TweetActionsIcon.vue';
 import {
   ChatBubbleBottomCenterTextIcon,
   ArrowPathIcon,

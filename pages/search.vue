@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import ListFeed from '~/components/tweet/ListFeed.vue';
+import ListFeed from '~/components/posts/ListFeed.vue';
 import useTweets from '~/compasables/usePosts';
 import { IPost } from '~/types/tweet-client-types';
 

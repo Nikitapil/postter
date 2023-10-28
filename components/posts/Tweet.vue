@@ -20,6 +20,7 @@
           <img
             class="rounded-2xl object-cover"
             :src="image.url"
+            alt="post image"
           />
         </div>
       </div>
@@ -35,8 +36,9 @@
 </template>
 <script setup lang="ts">
 import { IPost } from '~/types/tweet-client-types';
-import TweetActions from '~/components/tweet/TweetActions/TweetActions.vue';
+import TweetActions from '~/components/posts/TweetActions/TweetActions.vue';
 import useEmitter from '~/compasables/useEmitter';
+import TweetHeader from '~/components/posts/TweetHeader.vue';
 
 const props = withDefaults(
   defineProps<{

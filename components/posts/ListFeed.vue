@@ -23,6 +23,7 @@
 </template>
 <script setup lang="ts">
 import { IPost } from '~/types/tweet-client-types.js';
+import Tweet from '~/components/posts/Tweet.vue';
 
 defineProps<{
   tweets: IPost[];
