@@ -1,20 +1,20 @@
 <template>
   <div>
-    <Tweet :tweet="tweet" />
+    <Post :post="tweet" />
     <PostForm
       placeholder="Tweet your reply"
       :user="user"
       :reply-to-id="tweet.id"
     />
-    <ListFeed :tweets="tweet.replies" />
+    <ListFeed :posts="tweet.replies" />
   </div>
 </template>
 <script setup lang="ts">
 import { IPost } from '~/types/tweet-client-types';
 import { IUser } from '~/types/auth-types';
 import PostForm from '~/components/posts/form/PostForm.vue';
-import Tweet from "~/components/posts/Tweet.vue";
-import ListFeed from "~/components/posts/ListFeed.vue";
+import Post from '~/components/posts/Post.vue';
+import ListFeed from '~/components/posts/ListFeed.vue';
 
 defineProps<{
   tweet: IPost;

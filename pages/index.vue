@@ -18,7 +18,7 @@
         />
       </div>
 
-      <ListFeed :tweets="homeTweets" />
+      <ListFeed :posts="homeTweets" />
     </MainSection>
   </div>
 </template>

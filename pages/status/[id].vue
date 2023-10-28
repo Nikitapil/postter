@@ -20,7 +20,7 @@
 import useTweets from '~/compasables/usePosts';
 import { IPost } from '~/types/tweet-client-types';
 import useAuth from '~/compasables/useAuth';
-import TweetDetails from "~/components/posts/TweetDetails.vue";
+import TweetDetails from '~/components/posts/TweetDetails.vue';
 
 const { getPostById } = useTweets();
 const { useAuthUser } = useAuth();

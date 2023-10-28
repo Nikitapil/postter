@@ -3,17 +3,17 @@
     class="pb-4 border-b hover:bg-gray-100 dark:hover:bg-dim-300 default-transition cursor-pointer"
   >
     <TweetHeader
-      :tweet="tweet"
+      :tweet="post"
       @click.stop
     />
 
     <div :class="tweetBodyWrapper">
       <p class="flex-shrink font-medium text-gray-800 w-auto dark:text-white">
-        {{ tweet.text }}
+        {{ post.text }}
       </p>
-      <div v-if="tweet.mediaFiles">
+      <div v-if="post.mediaFiles">
         <div
-          v-for="image in tweet.mediaFiles"
+          v-for="image in post.mediaFiles"
           :key="image.id"
           class="flex my-3 mr-2 border-2 rounded-2xl max-h-72 justify-center bg-gray-400"
         >
@@ -27,7 +27,7 @@
 
       <div class="mt-2">
         <PostActions
-          :post="tweet"
+          :post="post"
           @comment-click="handleCommentClick"
         />
       </div>
@@ -42,7 +42,7 @@ import PostActions from '~/components/posts/PostActions/PostActions.vue';
 
 const props = withDefaults(
   defineProps<{
-    tweet: IPost;
+    post: IPost;
     compact?: boolean;
   }>(),
   {
@@ -57,6 +57,6 @@ const tweetBodyWrapper = computed(() =>
 );
 
 const handleCommentClick = () => {
-  emitter.$emit('replyTweet', props.tweet);
+  emitter.$emit('replyTweet', props.post);
 };
 </script>

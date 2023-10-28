@@ -8,7 +8,7 @@
         <Title>Search / Twitter</Title>
       </Head>
 
-      <ListFeed :tweets="searchTweets" />
+      <ListFeed :posts="searchTweets" />
     </MainSection>
   </div>
 </template>

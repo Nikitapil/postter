@@ -1,20 +1,20 @@
 <template>
   <div>
     <div
-      v-if="!tweets.length"
+      v-if="!posts.length"
       class="p-4"
     >
-      <p class="text-center text-gray-500">No tweets</p>
+      <p class="text-center text-gray-500">No posts</p>
     </div>
 
     <ul v-else>
       <li
-        v-for="tweet in tweets"
-        :key="tweet.id"
-        @click="redirectToTweet(tweet.id)"
+        v-for="post in posts"
+        :key="post.id"
+        @click="redirectToPost(post.id)"
       >
-        <Tweet
-          :tweet="tweet"
+        <Post
+          :post="post"
           compact
         />
       </li>
@@ -23,13 +23,13 @@
 </template>
 <script setup lang="ts">
 import { IPost } from '~/types/tweet-client-types.js';
-import Tweet from '~/components/posts/Tweet.vue';
+import Post from '~/components/posts/Post.vue';
 
 defineProps<{
-  tweets: IPost[];
+  posts: IPost[];
 }>();
 
-const redirectToTweet = (id: string) => {
+const redirectToPost = (id: string) => {
   navigateTo(`/status/${id}`);
 };
 </script>
