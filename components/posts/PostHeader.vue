@@ -1,22 +1,18 @@
 <template>
   <div class="flex p-4 pb-2">
     <div>
-      <img
-        class="w-10 h-10 rounded-full"
-        :src="post.author.profileImage"
-        alt="Tweet author avatar"
-      />
+      <UserAvatar :link="post.author.profileImage" />
     </div>
 
     <div class="ml-3 w-full">
-      <span class="font-medium text-gray-800 dark:text-white">{{
-        post.author.name
-      }}</span>
+      <span class="font-medium text-gray-800 dark:text-white">
+        {{ post.author.name }}
+      </span>
 
       <span class="text-sm font-medium text-gray-400 ml-3 w-full">
         <!--        TODO add link to user feed-->
         <NuxtLink
-          class="mr-5"
+          class="mr-5 hover:text-gray-500 default-transition"
           to="#"
         >
           @{{ post.author.username }}
@@ -42,6 +38,7 @@
 
 <script lang="ts" setup>
 import { IPost } from '~/types/tweet-client-types';
+import UserAvatar from '~/components/ui/UserAvatar.vue';
 
 const props = defineProps<{
   post: IPost;
