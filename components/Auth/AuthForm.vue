@@ -114,7 +114,6 @@ const userData = ref<IRegisterData>({
 
 const loading = ref(false);
 const registeredMode = ref(false);
-const profileImageUrl = ref<string | null>('');
 
 const handleSubmit = async () => {
   loading.value = true;
@@ -125,6 +124,12 @@ const handleSubmit = async () => {
   }
   loading.value = false;
 };
+
+const profileImageUrl = computed(() =>
+  userData.value.profileImage
+    ? URL.createObjectURL(userData.value.profileImage)
+    : null
+);
 
 const isSubmitDisable = computed(() => {
   if (registeredMode.value) {
@@ -159,18 +164,10 @@ const handleProfileImageChange = (event: InputEvent) => {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
     userData.value.profileImage = file;
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      profileImageUrl.value = (event.target?.result as string) || null;
-    };
-
-    reader.readAsDataURL(file);
   }
 };
 
 const onDeleteProfileImage = () => {
   userData.value.profileImage = null;
-  profileImageUrl.value = '';
 };
 </script>
