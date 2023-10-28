@@ -18,7 +18,7 @@
         <div
           v-for="image in post.mediaFiles"
           :key="image.id"
-          class="flex flex-1 flex-wrap my-3 mr-2 border-2 rounded-2xl max-h-72 justify-center bg-gray-400"
+          class="flex flex-1 my-3 mr-2 border-2 rounded-2xl max-h-72 justify-center bg-gray-400"
           @click.stop="openImageModal(image.url)"
         >
           <img
@@ -53,10 +53,12 @@
     :is-open="!!imageForModal"
     @close-modal="closeImageModal"
   >
-    <img
-      :src="imageForModal"
-      alt="post image"
-    />
+    <div class="flex justify-center items-center w-full">
+      <img
+        :src="imageForModal"
+        alt="post image"
+      />
+    </div>
   </Modal>
 </template>
 <script setup lang="ts">
