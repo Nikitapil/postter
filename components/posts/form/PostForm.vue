@@ -52,5 +52,7 @@ const handleFormSubmit = async (data: IPostFormData) => {
   if (post) {
     emit('onSuccess', post.id);
   }
+
+  loading.value = false;
 };
 </script>
