@@ -7,7 +7,7 @@
   />
   <div
     v-else
-    class="h-10 w-10 dark:text-white"
+    class="h-10 w-10 p-1 rounded-full border text-gray-700 dark:text-dim-100"
   >
     <UserIcon />
   </div>
