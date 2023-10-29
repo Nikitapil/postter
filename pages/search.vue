@@ -5,9 +5,14 @@
       :loading="loading"
     >
       <Head>
-        <Title>Search / Twitter</Title>
+        <Title>Search / Postter</Title>
       </Head>
-
+      <div class="md:hidden">
+        <SearchForm
+          :initial-value="$route.query.q"
+          @search="onSearch"
+        />
+      </div>
       <ListFeed :posts="searchTweets" />
     </MainSection>
   </div>
@@ -15,17 +20,18 @@
 
 <script setup lang="ts">
 import ListFeed from '~/components/posts/ListFeed.vue';
-import useTweets from '~/compasables/usePosts';
 import { IPost } from '~/types/tweet-client-types';
+import SearchForm from '~/components/ui/SearchForm.vue';
+import usePosts from '~/compasables/usePosts';
 
-const { getPosts } = useTweets();
+const { getPosts } = usePosts();
 const loading = ref(false);
 
 const searchTweets = ref<IPost[]>([]);
 
 const getSearchTweets = async () => {
   const route = useRoute();
-  const searchQuery = route.query.q;
+  const searchQuery = route.query.q || '';
   loading.value = true;
   searchTweets.value = await getPosts({
     query: searchQuery as string
@@ -33,8 +39,15 @@ const getSearchTweets = async () => {
   loading.value = false;
 };
 
+const onSearch = (query: string) => {
+  const router = useRouter();
+  router.push({
+    path: '/search',
+    query: { q: query }
+  });
+};
+
 // TODO get limited tweets and load by scroll(implement infinite scroll)
-// TODO update tweets on search update
 onBeforeMount(async () => {
   await getSearchTweets();
 });
