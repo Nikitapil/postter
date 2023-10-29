@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pb-4 border-b hover:bg-gray-100 dark:hover:bg-dim-300 default-transition cursor-pointer"
+    class="pb-4 border-b hover:bg-gray-100 dark:border-b-dim-200 dark:hover:bg-dim-300 default-transition cursor-pointer"
   >
     <PostHeader
       :post="post"
