@@ -92,7 +92,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import PostterLogo from '~/components/PostterLogo/PostterLogo.vue';
+import PostterLogo from '~/components/icons/PostterLogo.vue';
 import {
   HomeIcon,
   MagnifyingGlassIcon,

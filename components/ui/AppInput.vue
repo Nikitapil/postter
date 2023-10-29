@@ -3,12 +3,13 @@
     <label
       v-if="label"
       class="block pl-3 ml-px text-sm font-medium text-gray-700 dark:text-white"
-      for=""
+      :for="id"
     >
       {{ label }}
     </label>
     <div class="mt-1">
       <input
+        :id="id"
         class="block px-4 w-full border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-bue-500 sm:text-sm disabled:bg-gray-100"
         :type="type"
         :value="modelValue"
@@ -28,6 +29,7 @@ withDefaults(
     label?: string;
     type?: 'text' | 'password';
     disabled: boolean;
+    id: string;
   }>(),
   {
     placeholder: '',

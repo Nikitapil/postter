@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import TwitterLogo from '~/components/PostterLogo/PostterLogo.vue';
+import TwitterLogo from '~/components/icons/PostterLogo.vue';
 
 export default defineComponent({
   components: { TwitterLogo }

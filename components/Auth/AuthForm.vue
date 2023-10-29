@@ -10,12 +10,14 @@
       @submit.prevent
     >
       <AppInput
+        id="username"
         v-model="userData.username"
         label="Username"
         placeholder="@username"
         :disabled="loading"
       />
       <AppInput
+        id="password"
         v-model="userData.password"
         label="Password"
         placeholder="password"
@@ -25,6 +27,7 @@
 
       <template v-if="registeredMode">
         <AppInput
+          id="repeatPassword"
           v-model="userData.repeatPassword"
           label="Repeat password"
           placeholder="password"
@@ -32,12 +35,14 @@
           :disabled="loading"
         />
         <AppInput
+          id="email"
           v-model="userData.email"
           label="Email"
           placeholder="your email"
           :disabled="loading"
         />
         <AppInput
+          id="name"
           v-model="userData.name"
           label="Name"
           placeholder="your name"
@@ -97,7 +102,7 @@
 import AppInput from '~/components/ui/AppInput.vue';
 import useAuth from '~/compasables/useAuth';
 import AppButton from '~/components/ui/AppButton.vue';
-import PostterLogo from '~/components/PostterLogo/PostterLogo.vue';
+import PostterLogo from '~/components/icons/PostterLogo.vue';
 import { IRegisterData } from '~/types/auth-types';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 
