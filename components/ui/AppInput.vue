@@ -15,7 +15,7 @@
         :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
-        @input="(event) => $emit('update:modelValue', event.target.value)"
+        @input="$emit('update:modelValue', $event.target.value)"
       />
     </div>
   </div>

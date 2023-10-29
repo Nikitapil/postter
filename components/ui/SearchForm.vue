@@ -1,9 +1,14 @@
 <template>
-  <form @submit.prevent="handleSearch" class="relative m-2">
+  <form
+    class="relative m-2"
+    @submit.prevent="handleSearch"
+  >
     <div
       class="absolute flex items-center h-full pl-4 text-gray-600 cursor-pointer"
     >
-      <button class="w-6 h-6 block">
+      <button
+        class="w-6 h-6 block hover:text-gray-800 dark:hover:text-gray-400"
+      >
         <MagnifyingGlassIcon />
       </button>
     </div>
