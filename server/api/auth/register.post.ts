@@ -34,7 +34,6 @@ export default defineEventHandler(async (event) => {
 
     return { accessToken, user };
   } catch (e) {
-    console.log(e);
     return handleError(event, e);
   }
 });

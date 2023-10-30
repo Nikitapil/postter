@@ -25,3 +25,8 @@ export interface IUserDataFiltered {
   username: string;
   profileImage: string | null;
 }
+
+export interface ILoginApiData {
+  username: string;
+  password: string;
+}

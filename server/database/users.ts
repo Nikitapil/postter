@@ -1,6 +1,10 @@
 import { prisma } from '~/server/database/index';
 import bcrypt from 'bcrypt';
-import { ICreateUserData, IUserDataFiltered } from '~/server/types/users-types';
+import {
+  ICreateUserData,
+  ILoginApiData,
+  IUserDataFiltered
+} from '~/server/types/users-types';
 import { z } from 'zod';
 import { ApiError } from '~/server/utils/ApiError';
 import { generateTokens } from '~/server/utils/jwt';
@@ -13,6 +17,11 @@ const createUserSchema = z.object({
   repeatPassword: z.string(),
   name: z.string(),
   profileImage: z.string()
+});
+
+const loginSchema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1)
 });
 
 //TODO wrap this into class
@@ -51,6 +60,30 @@ export const createUser = async (userData: ICreateUserData) => {
   });
 
   return createUserDataWithTokens(userFromDb);
+};
+
+export const login = async (loginData: ILoginApiData) => {
+  const { username, password } = loginSchema.parse(loginData);
+  const user = await getUserByUsername(username);
+  if (!user) {
+    throw ApiError.BadRequest('Username or password are invalid');
+  }
+
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordMatch) {
+    throw ApiError.BadRequest('Username or password are invalid');
+  }
+
+  const userData = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    username: user.username,
+    profileImage: user.profileImage
+  };
+
+  return createUserDataWithTokens(userData);
 };
 
 export const getUserByUsername = (username: string) => {
