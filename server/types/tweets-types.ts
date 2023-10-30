@@ -1,4 +1,4 @@
-export interface ITweetDto {
+export interface IPostDto {
   authorId: string;
   text: string;
   replyToId?: string;

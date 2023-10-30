@@ -1,4 +1,4 @@
-import { getTweetById } from '~/server/database/tweets';
+import { getTweetById } from '~/server/database/posts';
 import human from 'human-time';
 
 export default defineEventHandler(async (event) => {

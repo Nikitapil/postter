@@ -1,8 +1,8 @@
 import formidable from 'formidable';
-import { createTweet } from '~/server/database/tweets';
+import { createTweet } from '~/server/database/posts';
 import { tweetTransformer } from '~/server/transformers/tweet';
 import { createMediaFile } from '~/server/database/mediaFiles';
-import { ITweetDto } from '~/server/types/tweets-types';
+import { IPostDto } from '~/server/types/tweets-types';
 
 export default defineEventHandler(async (event) => {
   const form = formidable({});
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
     const userId = event.context?.auth?.user?.id as string;
 
-    const tweetData: ITweetDto = {
+    const tweetData: IPostDto = {
       authorId: userId,
       text: fields.text?.toString() || ''
     };
@@ -29,9 +29,8 @@ export default defineEventHandler(async (event) => {
       return createMediaFile({
         // TODO handle all the files from an array
         url: files[key]?.[0]?.filepath || '',
-        providerPublicId: 'random_id',
         userId: userId,
-        tweetId: tweet.id
+        postId: tweet.id
       });
     });
 

@@ -22,7 +22,7 @@ model User {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   RefreshToken RefreshToken[]
-  tweets       Tweet[]
+  posts        Post[]
   mediaFiles   MediaFile[]
 }
 
@@ -37,7 +37,7 @@ model RefreshToken {
   updatedAt DateTime @updatedAt
 }
 
-model Tweet {
+model Post {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   text String
 
@@ -48,16 +48,15 @@ model Tweet {
   authorId String @db.ObjectId
 
   replyToId String? @db.ObjectId
-  replyTo   Tweet?  @relation("replies", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  replies   Tweet[] @relation("replies")
+  replyTo   Post?   @relation("replies", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies   Post[]  @relation("replies")
 
   mediaFiles MediaFile[]
 }
 
 model MediaFile {
-  id               String @id @default(auto()) @map("_id") @db.ObjectId
-  url              String
-  providerPublicId String
+  id  String @id @default(auto()) @map("_id") @db.ObjectId
+  url String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -65,6 +64,6 @@ model MediaFile {
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])
 
-  tweet   Tweet?  @relation(fields: [tweetId], references: [id])
-  tweetId String? @db.ObjectId
+  post   Post?   @relation(fields: [postId], references: [id])
+  postId String? @db.ObjectId
 }

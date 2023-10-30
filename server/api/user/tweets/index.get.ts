@@ -1,4 +1,4 @@
-import { getTweets } from '~/server/database/tweets';
+import { getTweets } from '~/server/database/posts';
 import human from 'human-time';
 import { getQuery } from 'h3';
 export default defineEventHandler(async (event) => {
