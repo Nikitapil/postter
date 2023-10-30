@@ -7,13 +7,15 @@
       <Head>
         <Title>Search / Postter</Title>
       </Head>
+
       <div class="md:hidden">
         <SearchForm
           :initial-value="$route.query.q"
           @search="onSearch"
         />
       </div>
-      <ListFeed :posts="searchTweets" />
+
+      <ListFeed :posts="searchPosts" />
     </MainSection>
   </div>
 </template>
@@ -27,13 +29,13 @@ import usePosts from '~/compasables/usePosts';
 const { getPosts } = usePosts();
 const loading = ref(false);
 
-const searchTweets = ref<IPost[]>([]);
+const searchPosts = ref<IPost[]>([]);
 
-const getSearchTweets = async () => {
+const getSearchPosts = async () => {
   const route = useRoute();
   const searchQuery = route.query.q || '';
   loading.value = true;
-  searchTweets.value = await getPosts({
+  searchPosts.value = await getPosts({
     query: searchQuery as string
   });
   loading.value = false;
@@ -49,11 +51,11 @@ const onSearch = (query: string) => {
 
 // TODO get limited tweets and load by scroll(implement infinite scroll)
 onBeforeMount(async () => {
-  await getSearchTweets();
+  await getSearchPosts();
 });
 
 watch(
   () => useRoute().fullPath,
-  () => getSearchTweets()
+  () => getSearchPosts()
 );
 </script>
