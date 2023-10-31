@@ -1,5 +1,6 @@
 import { getCookie } from 'h3';
 import { removeRefreshToken } from '~/server/database/refresh-tokens';
+import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -9,7 +10,6 @@ export default defineEventHandler(async (event) => {
 
     return { message: 'Success' };
   } catch (e) {
-    //TODO handle this error
-    throw e;
+    return handleError(event, e);
   }
 });
