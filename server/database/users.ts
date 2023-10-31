@@ -7,8 +7,12 @@ import {
 } from '~/server/types/users-types';
 import { z } from 'zod';
 import { ApiError } from '~/server/utils/ApiError';
-import { generateTokens } from '~/server/utils/jwt';
-import { updateRefreshToken } from '~/server/database/refresh-tokens';
+import { decodeRefreshToken, generateTokens } from '~/server/utils/jwt';
+import {
+  getRefreshTokenbyToken,
+  updateRefreshToken
+} from '~/server/database/refresh-tokens';
+import { safeUserSelect } from '~/server/database/db-query-helpers';
 
 const createUserSchema = z.object({
   username: z.string().min(1),
@@ -50,13 +54,7 @@ export const createUser = async (userData: ICreateUserData) => {
 
   const userFromDb = await prisma.user.create({
     data: finalUserData,
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      username: true,
-      profileImage: true
-    }
+    select: safeUserSelect
   });
 
   return createUserDataWithTokens(userFromDb);
@@ -107,4 +105,28 @@ export const createUserDataWithTokens = async (user: IUserDataFiltered) => {
     refreshToken,
     user
   };
+};
+
+export const refreshAuth = async (refreshToken?: string) => {
+  if (!refreshToken) {
+    throw ApiError.UnauthorizedError();
+  }
+  const refreshTokenDataFromDb = await getRefreshTokenbyToken(refreshToken);
+  if (!refreshTokenDataFromDb) {
+    throw ApiError.UnauthorizedError();
+  }
+  const decodedToken = decodeRefreshToken(refreshTokenDataFromDb.token);
+  if (!decodedToken) {
+    throw ApiError.UnauthorizedError();
+  }
+  const user = await prisma.user.findUnique({
+    where: { id: decodedToken.userId },
+    select: safeUserSelect
+  });
+
+  if (!user) {
+    throw ApiError.UnauthorizedError();
+  }
+
+  return createUserDataWithTokens(user);
 };
