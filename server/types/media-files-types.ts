@@ -3,3 +3,8 @@ export interface IMediaFileDto {
   userId: string;
   postId: string;
 }
+
+export interface IMediaFileFromDb {
+  id: string;
+  url: string;
+}

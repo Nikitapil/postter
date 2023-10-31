@@ -1,6 +1,6 @@
 import formidable from 'formidable';
 import { createTweet } from '~/server/database/posts';
-import { tweetTransformer } from '~/server/transformers/tweet';
+import { tweetTransformer } from '~/server/transformers/posts';
 import { createMediaFile } from '~/server/database/mediaFiles';
 import { IPostDto } from '~/server/types/tweets-types';
 
@@ -23,6 +23,7 @@ export default defineEventHandler(async (event) => {
       tweetData.replyToId = replyToId;
     }
 
+    console.log(userId);
     const tweet = await createTweet(tweetData);
 
     const filePromises = Object.keys(files).map(async (key) => {

@@ -22,13 +22,10 @@ export default () => {
         form.append('replyToId', data.replyToId);
       }
 
-      const { post } = await useFetchApi<ISinglePostResponse>(
-        '/api/user/tweets',
-        {
-          method: 'POST',
-          body: form
-        }
-      );
+      const { post } = await useFetchApi<ISinglePostResponse>('/api/posts', {
+        method: 'POST',
+        body: form
+      });
 
       return post;
     } catch (e: any) {
@@ -42,7 +39,7 @@ export default () => {
     IPost[]
   > => {
     try {
-      const { posts } = await useFetchApi<IPostsResponse>('/api/user/tweets', {
+      const { posts } = await useFetchApi<IPostsResponse>('/api/posts', {
         method: 'GET',
         params: {
           query
@@ -59,7 +56,7 @@ export default () => {
   const getPostById = async (postId: string): Promise<IPost | null> => {
     try {
       const { post } = await useFetchApi<ISinglePostResponse>(
-        `/api/user/tweets/${postId}`,
+        `/api/posts/${postId}`,
         {
           method: 'GET'
         }

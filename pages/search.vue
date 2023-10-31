@@ -49,7 +49,7 @@ const onSearch = (query: string) => {
   });
 };
 
-// TODO get limited tweets and load by scroll(implement infinite scroll)
+// TODO get limited posts and load by scroll(implement infinite scroll)
 onBeforeMount(async () => {
   await getSearchPosts();
 });

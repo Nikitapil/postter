@@ -7,3 +7,27 @@ export const safeUserSelect: Prisma.UserSelect = {
   username: true,
   profileImage: true
 };
+
+export const postInclude: Prisma.PostInclude = {
+  author: {
+    select: safeUserSelect
+  },
+  mediaFiles: {
+    select: {
+      id: true,
+      url: true
+    }
+  },
+  _count: {
+    select: {
+      replies: true
+    }
+  },
+  replyTo: {
+    include: {
+      author: {
+        select: safeUserSelect
+      }
+    }
+  }
+};

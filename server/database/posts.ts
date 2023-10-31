@@ -1,5 +1,8 @@
 import { IPostDto } from '~/server/types/tweets-types';
 import { prisma } from '~/server/database/index';
+import { postInclude } from '~/server/database/db-query-helpers';
+import { ApiError } from '~/server/utils/ApiError';
+import { postTransformer } from '~/server/transformers/posts';
 
 export const createTweet = (postData: IPostDto) => {
   return prisma.post.create({
@@ -67,71 +70,18 @@ export const getTweets = (search: string) => {
   });
 };
 
-export const getTweetById = (id: string) => {
-  return prisma.post.findUnique({
-    // TODO refactor this params
+export const getPostById = async (id: string) => {
+  const post = await prisma.post.findUnique({
     where: { id },
     include: {
-      author: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          username: true,
-          profileImage: true
-        }
-      },
-      mediaFiles: {
-        select: {
-          id: true,
-          url: true
-        }
-      },
+      ...postInclude,
       replies: {
-        include: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              username: true,
-              profileImage: true
-            }
-          },
-          mediaFiles: {
-            select: {
-              id: true,
-              url: true
-            }
-          },
-          replyTo: {
-            include: {
-              author: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  profileImage: true
-                }
-              }
-            }
-          }
-        }
-      },
-      replyTo: {
-        include: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              username: true,
-              profileImage: true
-            }
-          }
-        }
+        include: { ...postInclude }
       }
     }
   });
+  if (!post) {
+    throw ApiError.NotFoundError('Post not found');
+  }
+  return postTransformer(post);
 };
