@@ -10,67 +10,27 @@ export const createTweet = (postData: IPostDto) => {
   });
 };
 
-export const getTweets = (search: string) => {
-  // TODO refactor this, if for replies need only count than get only count of them
-  return prisma.post.findMany({
+export const getPosts = async (search: string) => {
+  // TODO pagination and feed filter(or create separated methods)
+  const posts = await prisma.post.findMany({
     where: {
       text: {
         contains: search,
         mode: 'insensitive'
       }
     },
-    include: {
-      author: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          username: true,
-          profileImage: true
-        }
-      },
-      mediaFiles: {
-        select: {
-          id: true,
-          url: true
-        }
-      },
-      replies: {
-        include: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              username: true,
-              profileImage: true
-            }
-          }
-        }
-      },
-      replyTo: {
-        include: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              username: true,
-              profileImage: true
-            }
-          }
-        }
-      }
-    },
+    include: postInclude,
     orderBy: [
       {
         createdAt: 'desc'
       }
     ]
   });
+  return posts.map((post) => postTransformer(post));
 };
 
 export const getPostById = async (id: string) => {
+  // TODO pagination for replies
   const post = await prisma.post.findUnique({
     where: { id },
     include: {

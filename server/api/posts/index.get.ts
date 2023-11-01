@@ -1,22 +1,12 @@
-import { getTweets } from '~/server/database/posts';
-import human from 'human-time';
+import { getPosts } from '~/server/database/posts';
 import { getQuery } from 'h3';
+
 export default defineEventHandler(async (event) => {
   const { query = '' } = getQuery(event);
 
-  const tweets = await getTweets(query as string);
+  const posts = await getPosts(query as string);
 
   return {
-    // Todo get repliesCount from DB and transfer this to service method or mapper
-    // TODO convert postedAt at service method
-    posts: tweets.map((tweet) => ({
-      ...tweet,
-      repliesCount: tweet.replies.length,
-      postedAt: human(tweet.createdAt),
-      replies: tweet.replies.map((reply) => ({
-        ...reply,
-        postedAt: human(reply.createdAt)
-      }))
-    }))
+    posts
   };
 });
