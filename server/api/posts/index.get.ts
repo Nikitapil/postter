@@ -4,7 +4,7 @@ import { getQuery } from 'h3';
 export default defineEventHandler(async (event) => {
   const { query = '' } = getQuery(event);
 
-  const posts = await getPosts(query as string);
+  const posts = await getPosts({ search: query as string });
 
   return {
     posts

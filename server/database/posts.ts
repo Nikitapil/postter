@@ -1,6 +1,6 @@
-import { IPostDto } from '~/server/types/tweets-types';
+import { IGetPostsRequest, IPostDto } from '~/server/types/post-types';
 import { prisma } from '~/server/database/index';
-import { postInclude } from '~/server/database/db-query-helpers';
+import { postInclude } from '~/server/utils/db-query-helpers';
 import { ApiError } from '~/server/utils/ApiError';
 import { postTransformer } from '~/server/transformers/posts';
 import { z } from 'zod';
@@ -11,6 +11,12 @@ const createPostSchema = z.object({
   text: z.string().min(1),
   replyToId: z.string().optional(),
   mediaFilesUrls: z.array(z.string().min(1))
+});
+
+const getPostsSchema = z.object({
+  search: z.string(),
+  page: z.number().optional(),
+  limit: z.number().optional()
 });
 
 export const createPost = async (postData: IPostDto) => {
@@ -33,8 +39,9 @@ export const createPost = async (postData: IPostDto) => {
   return { ...postTransformer(post), mediaFiles: files };
 };
 
-export const getPosts = async (search: string) => {
+export const getPosts = async (params: IGetPostsRequest) => {
   // TODO pagination and feed filter(or create separated methods)
+  const { search } = getPostsSchema.parse(params);
   const posts = await prisma.post.findMany({
     where: {
       text: {

@@ -8,6 +8,12 @@ export interface IPostDto {
   mediaFilesUrls?: string[];
 }
 
+export interface IGetPostsRequest {
+  search: string;
+  page?: number;
+  limit?: number;
+}
+
 export interface ITweetFromDb {
   id: string;
   text: string;

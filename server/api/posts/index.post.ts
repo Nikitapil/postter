@@ -1,6 +1,6 @@
 import formidable from 'formidable';
 import { createPost } from '~/server/database/posts';
-import { IPostDto } from '~/server/types/tweets-types';
+import { IPostDto } from '~/server/types/post-types';
 import { firstValues } from 'formidable/src/helpers/firstValues.js';
 import { handleError } from '~/server/utils/ErrorHandler';
 

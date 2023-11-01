@@ -12,7 +12,7 @@ import {
   getRefreshTokenbyToken,
   updateRefreshToken
 } from '~/server/database/refresh-tokens';
-import { safeUserSelect } from '~/server/database/db-query-helpers';
+import { safeUserSelect } from '~/server/utils/db-query-helpers';
 
 const createUserSchema = z.object({
   username: z.string().min(1),

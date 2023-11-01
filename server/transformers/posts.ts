@@ -2,7 +2,7 @@ import {
   IPostFromDb,
   ITransformedPost,
   ITweetFromDb
-} from '~/server/types/tweets-types';
+} from '~/server/types/post-types';
 import human from 'human-time';
 
 export const tweetTransformer = (tweet: ITweetFromDb) => {
