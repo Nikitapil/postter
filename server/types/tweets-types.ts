@@ -5,6 +5,7 @@ export interface IPostDto {
   authorId: string;
   text: string;
   replyToId?: string;
+  mediaFilesUrls?: string[];
 }
 
 export interface ITweetFromDb {

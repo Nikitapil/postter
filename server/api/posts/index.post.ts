@@ -1,8 +1,8 @@
 import formidable from 'formidable';
-import { createTweet } from '~/server/database/posts';
-import { tweetTransformer } from '~/server/transformers/posts';
-import { createMediaFile } from '~/server/database/mediaFiles';
+import { createPost } from '~/server/database/posts';
 import { IPostDto } from '~/server/types/tweets-types';
+import { firstValues } from 'formidable/src/helpers/firstValues.js';
+import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {
   const form = formidable({});
@@ -12,36 +12,27 @@ export default defineEventHandler(async (event) => {
 
     const userId = event.context?.auth?.user?.id as string;
 
-    const tweetData: IPostDto = {
-      authorId: userId,
-      text: fields.text?.toString() || ''
-    };
+    const { text = '', replyToId = '' } = firstValues(form, fields);
+    const filesValues = firstValues(form, files);
 
-    const replyToId = fields.replyToId?.toString() || '';
+    const postData: IPostDto = {
+      authorId: userId,
+      text,
+      mediaFilesUrls: Object.keys(filesValues).map(
+        (key) => filesValues[key].filepath
+      )
+    };
 
     if (replyToId) {
-      tweetData.replyToId = replyToId;
+      postData.replyToId = replyToId;
     }
 
-    console.log(userId);
-    const tweet = await createTweet(tweetData);
-
-    const filePromises = Object.keys(files).map(async (key) => {
-      return createMediaFile({
-        // TODO handle all the files from an array
-        url: files[key]?.[0]?.filepath || '',
-        userId: userId,
-        postId: tweet.id
-      });
-    });
-
-    const filesFromDb = await Promise.all(filePromises);
+    const post = await createPost(postData);
 
     return {
-      post: { ...tweetTransformer(tweet), mediaFiles: filesFromDb }
+      post
     };
   } catch (e) {
-    //TODO handle this error
-    throw e;
+    return handleError(event, e);
   }
 });
