@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   try {
     const { id } = event.context.params as { id: string };
 
-    const post = await getPostById(id);
+    const post = await getPostById({ id });
 
     return { post };
   } catch (e) {

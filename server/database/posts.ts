@@ -1,6 +1,13 @@
-import { IGetPostsRequest, IPostDto } from '~/server/types/post-types';
+import {
+  IGetPostById,
+  IGetPostsRequest,
+  IPostDto
+} from '~/server/types/post-types';
 import { prisma } from '~/server/database/index';
-import { postInclude } from '~/server/utils/db-query-helpers';
+import {
+  getPaginationParams,
+  postInclude
+} from '~/server/utils/db-query-helpers';
 import { ApiError } from '~/server/utils/ApiError';
 import { postTransformer } from '~/server/transformers/posts';
 import { z } from 'zod';
@@ -17,6 +24,12 @@ const getPostsSchema = z.object({
   search: z.string(),
   page: z.number().optional(),
   limit: z.number().optional()
+});
+
+const getPostsByIdSchema = z.object({
+  id: z.string().min(1),
+  repliesPage: z.number().optional(),
+  repliesLimit: z.number().optional()
 });
 
 export const createPost = async (postData: IPostDto) => {
@@ -40,8 +53,9 @@ export const createPost = async (postData: IPostDto) => {
 };
 
 export const getPosts = async (params: IGetPostsRequest) => {
-  // TODO pagination and feed filter(or create separated methods)
-  const { search } = getPostsSchema.parse(params);
+  // TODO feed filter(or create separated methods)
+  const { search, page, limit } = getPostsSchema.parse(params);
+  const paginationParams = getPaginationParams(page, limit);
   const posts = await prisma.post.findMany({
     where: {
       text: {
@@ -54,19 +68,27 @@ export const getPosts = async (params: IGetPostsRequest) => {
       {
         createdAt: 'desc'
       }
-    ]
+    ],
+    ...paginationParams
   });
   return posts.map((post) => postTransformer(post));
 };
 
-export const getPostById = async (id: string) => {
-  // TODO pagination for replies
+export const getPostById = async (params: IGetPostById) => {
+  const { id, repliesPage, repliesLimit } = getPostsByIdSchema.parse(params);
+  const paginationParams = getPaginationParams(repliesPage, repliesLimit);
   const post = await prisma.post.findUnique({
     where: { id },
     include: {
       ...postInclude,
       replies: {
-        include: { ...postInclude }
+        include: { ...postInclude },
+        orderBy: [
+          {
+            createdAt: 'desc'
+          }
+        ],
+        ...paginationParams
       }
     }
   });

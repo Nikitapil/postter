@@ -45,3 +45,9 @@ export interface ITransformedPost extends IPostFromDb {
   postedAt: string;
   replies: ITransformedPost[];
 }
+
+export interface IGetPostById {
+  id: string;
+  repliesPage?: number;
+  repliesLimit?: number;
+}

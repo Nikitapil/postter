@@ -1,4 +1,5 @@
 import { Prisma } from '.prisma/client';
+import { IPaginationParams } from '~/server/types/db-types';
 
 export const safeUserSelect: Prisma.UserSelect = {
   id: true,
@@ -30,4 +31,14 @@ export const postInclude: Prisma.PostInclude = {
       }
     }
   }
+};
+
+export const getPaginationParams = (page?: number, limit?: number) => {
+  const paginationParams: IPaginationParams = {};
+  if (page && limit) {
+    const offset = page * limit - limit;
+    paginationParams.take = limit;
+    paginationParams.skip = offset;
+  }
+  return paginationParams;
 };
