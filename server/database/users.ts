@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { ApiError } from '~/server/utils/ApiError';
 import { decodeRefreshToken, generateTokens } from '~/server/utils/jwt';
 import {
-  getRefreshTokenbyToken,
+  getRefreshTokenByToken,
   updateRefreshToken
 } from '~/server/database/refresh-tokens';
 import { safeUserSelect } from '~/server/utils/db-query-helpers';
@@ -111,7 +111,7 @@ export const refreshAuth = async (refreshToken?: string) => {
   if (!refreshToken) {
     throw ApiError.UnauthorizedError();
   }
-  const refreshTokenDataFromDb = await getRefreshTokenbyToken(refreshToken);
+  const refreshTokenDataFromDb = await getRefreshTokenByToken(refreshToken);
   if (!refreshTokenDataFromDb) {
     throw ApiError.UnauthorizedError();
   }
