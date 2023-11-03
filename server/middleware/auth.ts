@@ -2,13 +2,12 @@ import UrlPattern from 'url-pattern';
 import { decodeAccessToken } from '~/server/utils/jwt';
 import { sendError } from 'h3';
 import { getUserById } from '~/server/services/users';
-import { userTransformer } from '~/server/transformers/user';
 
 export default defineEventHandler(async (event) => {
   const endpoints = ['/api/auth/user', '/api/posts', '/api/posts/:id'];
 
-  const isHandledByThisMiddleware = endpoints.some((endpoints) => {
-    const pattern = new UrlPattern(endpoints);
+  const isHandledByThisMiddleware = endpoints.some((endpoint) => {
+    const pattern = new UrlPattern(endpoint);
 
     return pattern.match(event.path);
   });
@@ -45,7 +44,7 @@ export default defineEventHandler(async (event) => {
       );
     }
 
-    event.context.auth = { user: userTransformer(user) };
+    event.context.auth = { user };
   } catch (e) {
     return sendError(
       event,
