@@ -1,16 +1,5 @@
-import {
-  IPostFromDb,
-  ITransformedPost,
-  ITweetFromDb
-} from '~/server/types/post-types';
+import { IPostFromDb, ITransformedPost } from '~/server/types/post-types';
 import human from 'human-time';
-
-export const tweetTransformer = (tweet: ITweetFromDb) => {
-  return {
-    id: tweet.id,
-    text: tweet.text
-  };
-};
 
 export const postTransformer = (post: IPostFromDb): ITransformedPost => {
   return {

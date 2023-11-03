@@ -9,7 +9,7 @@ import {
   postInclude
 } from '~/server/utils/db-query-helpers';
 import { ApiError } from '~/server/utils/ApiError';
-import { postTransformer } from '~/server/transformers/posts';
+import { postTransformer } from '~/server/transformers/post-transformers';
 import { z } from 'zod';
 import { createMediaFile } from '~/server/services/mediaFiles';
 

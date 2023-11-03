@@ -6,6 +6,10 @@ export const createMediaFile = (mediaFile: IMediaFileDto) => {
   const url = imageToBase64(mediaFile.url);
 
   return prisma.mediaFile.create({
-    data: { ...mediaFile, url }
+    data: { ...mediaFile, url },
+    select: {
+      id: true,
+      url: true
+    }
   });
 };
