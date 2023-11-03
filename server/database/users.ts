@@ -19,7 +19,7 @@ const createUserSchema = z.object({
   email: z.string().email().min(1),
   password: z.string().min(8),
   repeatPassword: z.string(),
-  name: z.string(),
+  name: z.string().min(1),
   profileImage: z.string()
 });
 
@@ -27,8 +27,6 @@ const loginSchema = z.object({
   username: z.string().min(1),
   password: z.string().min(1)
 });
-
-//TODO wrap this into class
 
 export const createUser = async (userData: ICreateUserData) => {
   const { username, email, password, repeatPassword, name, profileImage } =
@@ -96,7 +94,6 @@ export const getUserById = (id: string) => {
   });
 };
 
-//TODO this method must be private
 export const createUserDataWithTokens = async (user: IUserDataFiltered) => {
   const { accessToken, refreshToken } = generateTokens(user);
   await updateRefreshToken({ token: refreshToken, userId: user.id });
