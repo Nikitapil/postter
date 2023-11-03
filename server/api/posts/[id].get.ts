@@ -1,4 +1,4 @@
-import { getPostById } from '~/server/database/posts';
+import { getPostById } from '~/server/services/posts';
 import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {

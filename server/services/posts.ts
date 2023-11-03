@@ -3,7 +3,7 @@ import {
   IGetPostsRequest,
   IPostDto
 } from '~/server/types/post-types';
-import { prisma } from '~/server/database/index';
+import { prisma } from '~/server/services/index';
 import {
   getPaginationParams,
   postInclude
@@ -11,7 +11,7 @@ import {
 import { ApiError } from '~/server/utils/ApiError';
 import { postTransformer } from '~/server/transformers/posts';
 import { z } from 'zod';
-import { createMediaFile } from '~/server/database/mediaFiles';
+import { createMediaFile } from '~/server/services/mediaFiles';
 
 const createPostSchema = z.object({
   authorId: z.string().min(1),

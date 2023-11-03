@@ -1,4 +1,4 @@
-import { createUser } from '~/server/database/users';
+import { createUser } from '~/server/services/users';
 import formidable from 'formidable';
 import { firstValues } from 'formidable/src/helpers/firstValues.js';
 import { imageToBase64 } from '~/server/utils/images';

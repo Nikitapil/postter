@@ -1,5 +1,5 @@
 import { getCookie } from 'h3';
-import { refreshAuth } from '~/server/database/users';
+import { refreshAuth } from '~/server/services/users';
 import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {

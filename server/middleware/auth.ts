@@ -1,7 +1,7 @@
 import UrlPattern from 'url-pattern';
 import { decodeAccessToken } from '~/server/utils/jwt';
 import { sendError } from 'h3';
-import { getUserById } from '~/server/database/users';
+import { getUserById } from '~/server/services/users';
 import { userTransformer } from '~/server/transformers/user';
 
 export default defineEventHandler(async (event) => {

@@ -1,4 +1,4 @@
-import { login } from '~/server/database/users';
+import { login } from '~/server/services/users';
 import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {

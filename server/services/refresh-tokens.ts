@@ -1,4 +1,4 @@
-import { prisma } from '~/server/database/index';
+import { prisma } from '~/server/services/index';
 import { ISaveRefreshTokenData } from '~/server/types/refresh-tokens-types';
 
 export const updateRefreshToken = ({

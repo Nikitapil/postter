@@ -1,5 +1,5 @@
 import { getCookie } from 'h3';
-import { removeRefreshToken } from '~/server/database/refresh-tokens';
+import { removeRefreshToken } from '~/server/services/refresh-tokens';
 import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {

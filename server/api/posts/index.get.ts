@@ -1,4 +1,4 @@
-import { getPosts } from '~/server/database/posts';
+import { getPosts } from '~/server/services/posts';
 import { getQuery } from 'h3';
 
 export default defineEventHandler(async (event) => {

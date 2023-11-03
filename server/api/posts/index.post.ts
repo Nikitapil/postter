@@ -1,5 +1,5 @@
 import formidable from 'formidable';
-import { createPost } from '~/server/database/posts';
+import { createPost } from '~/server/services/posts';
 import { IPostDto } from '~/server/types/post-types';
 import { firstValues } from 'formidable/src/helpers/firstValues.js';
 import { handleError } from '~/server/utils/ErrorHandler';

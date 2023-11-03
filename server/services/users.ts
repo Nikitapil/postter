@@ -1,4 +1,4 @@
-import { prisma } from '~/server/database/index';
+import { prisma } from '~/server/services/index';
 import bcrypt from 'bcrypt';
 import {
   ICreateUserData,
@@ -11,7 +11,7 @@ import { decodeRefreshToken, generateTokens } from '~/server/utils/jwt';
 import {
   getRefreshTokenByToken,
   updateRefreshToken
-} from '~/server/database/refresh-tokens';
+} from '~/server/services/refresh-tokens';
 import { safeUserSelect } from '~/server/utils/db-query-helpers';
 
 const createUserSchema = z.object({
