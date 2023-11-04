@@ -14,15 +14,6 @@ export interface IGetPostsRequest {
   limit?: number;
 }
 
-export interface ITweetFromDb {
-  id: string;
-  text: string;
-  createdAt: Date;
-  updatedAt: Date;
-  authorId: string;
-  replyToId: string | null;
-}
-
 export interface IPostFromDbBase {
   id: string;
   text: string;
