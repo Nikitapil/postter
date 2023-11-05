@@ -12,10 +12,9 @@
           {{ themeText }}
         </button>
       </li>
-      <!--      TODO change gh link when rename repo-->
       <li class="inline-block mx-2">
         <a
-          href="https://github.com/Nikitapil/nuxt-twi-clone"
+          href="https://github.com/Nikitapil/postter"
           class="hover:underline"
           target="_blank"
         >
@@ -33,6 +32,15 @@
         </button>
       </li>
       <!--      TODO add github icon with link here-->
+      <li class="my-2 flex justify-center">
+        <a
+          class="block hover:bg-gray-200 p-2 rounded-full default-transition dark:hover:bg-dim-200 mr-2"
+          href="https://github.com/Nikitapil/postter"
+          target="_blank"
+        >
+          <GithubIcon :is-dark-mode="isDarkMode" />
+        </a>
+      </li>
     </ul>
   </footer>
 </template>
@@ -41,6 +49,7 @@
 import useTheme from '~/compasables/useTheme';
 import { LightBulbIcon } from '@heroicons/vue/24/solid';
 import { LightBulbIcon as LightBulbIconLight } from '@heroicons/vue/24/outline';
+import GithubIcon from '~/components/icons/GithubIcon.vue';
 
 const { toggleTheme, isDarkMode } = useTheme();
 
