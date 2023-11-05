@@ -10,8 +10,8 @@ export interface IPostDto {
 
 export interface IGetPostsRequest {
   search: string;
-  page?: number;
-  limit?: number;
+  page?: number | null;
+  limit?: number | null;
 }
 
 export interface IPostFromDbBase {

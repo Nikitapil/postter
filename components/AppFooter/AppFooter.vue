@@ -31,7 +31,6 @@
           <ThemeIconComponent class="w-8 h-8 dark:text-white" />
         </button>
       </li>
-      <!--      TODO add github icon with link here-->
       <li class="my-2 flex justify-center">
         <a
           class="block hover:bg-gray-200 p-2 rounded-full default-transition dark:hover:bg-dim-200 mr-2"

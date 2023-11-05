@@ -15,30 +15,38 @@
         />
       </div>
 
-      <ListFeed :posts="searchPosts" />
+      <ListFeed
+        :posts="posts"
+        @feed-end="loadMorePosts"
+      />
     </MainSection>
   </div>
 </template>
 
 <script setup lang="ts">
 import ListFeed from '~/components/posts/ListFeed.vue';
-import { IPost } from '~/types/post-client-types';
 import SearchForm from '~/components/ui/SearchForm.vue';
-import usePosts from '~/compasables/usePosts';
+import usePostsFeed from '~/compasables/usePostsFeed';
 
-const { getPosts } = usePosts();
+const { posts, getPostsWithReset, getPosts } = usePostsFeed();
 const loading = ref(false);
-
-const searchPosts = ref<IPost[]>([]);
 
 const getSearchPosts = async () => {
   const route = useRoute();
   const searchQuery = route.query.q || '';
   loading.value = true;
-  searchPosts.value = await getPosts({
+  await getPostsWithReset({
     query: searchQuery as string
   });
   loading.value = false;
+};
+
+const loadMorePosts = async () => {
+  const route = useRoute();
+  const searchQuery = route.query.q || '';
+  await getPosts({
+    query: searchQuery as string
+  });
 };
 
 const onSearch = (query: string) => {

@@ -15,11 +15,14 @@
         <PostForm
           :user="user"
           placeholder="What's happening?"
-          @on-success="getPostsFeed"
+          @on-success="getPostsFeedInitial"
         />
       </div>
 
-      <ListFeed :posts="homePosts" />
+      <ListFeed
+        :posts="posts"
+        @feed-end="loadMorePosts"
+      />
     </MainSection>
   </div>
 </template>
@@ -27,24 +30,25 @@
 <script setup lang="ts">
 import useAuth from '~/compasables/useAuth';
 import ListFeed from '~/components/posts/ListFeed.vue';
-import { IPost } from '~/types/post-client-types';
 import PostForm from '~/components/posts/form/PostForm.vue';
-import usePosts from '~/compasables/usePosts';
+import usePostsFeed from '~/compasables/usePostsFeed';
 
 const { useAuthUser } = useAuth();
-const { getPosts } = usePosts();
+const { getPosts, posts, getPostsWithReset } = usePostsFeed();
 const user = useAuthUser();
 const loading = ref(false);
 
-const homePosts = ref<IPost[]>([]);
-
-const getPostsFeed = async () => {
+const getPostsFeedInitial = async () => {
   loading.value = true;
-  homePosts.value = await getPosts();
+  await getPostsWithReset();
   loading.value = false;
 };
 
+const loadMorePosts = async () => {
+  await getPosts();
+};
+
 onBeforeMount(() => {
-  getPostsFeed();
+  getPostsFeedInitial();
 });
 </script>

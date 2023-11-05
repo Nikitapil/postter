@@ -71,7 +71,15 @@ export const getPosts = async (params: IGetPostsRequest) => {
     ],
     ...paginationParams
   });
-  return posts.map((post) => postTransformer(post));
+  const totalCount = await prisma.post.count({
+    where: {
+      text: {
+        contains: search,
+        mode: 'insensitive'
+      }
+    }
+  });
+  return { posts: posts.map((post) => postTransformer(post)), totalCount };
 };
 
 export const getPostById = async (params: IGetPostById) => {

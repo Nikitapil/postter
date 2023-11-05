@@ -35,21 +35,28 @@ export default () => {
     }
   };
 
-  const getPosts = async ({ query = '' }: IGetPostsParams = {}): Promise<
-    IPost[]
-  > => {
+  const getPosts = async ({
+    query = '',
+    page,
+    limit
+  }: IGetPostsParams = {}): Promise<IPostsResponse> => {
     try {
-      const { posts } = await useFetchApi<IPostsResponse>('/api/posts', {
-        method: 'GET',
-        params: {
-          query
+      const { posts, totalCount } = await useFetchApi<IPostsResponse>(
+        '/api/posts',
+        {
+          method: 'GET',
+          params: {
+            query,
+            page,
+            limit
+          }
         }
-      });
-      return posts;
+      );
+      return { posts, totalCount };
     } catch (e: any) {
       const { $toast } = useNuxtApp();
       $toast.error(e?.statusMessage || 'Error while getting posts');
-      return [];
+      return { posts: [], totalCount: 0 };
     }
   };
 

@@ -18,15 +18,23 @@
           compact
         />
       </li>
+      <li>
+        <ScrollObserver @intersect="$emit('feedEnd')" />
+      </li>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
 import { IPost } from '~/types/post-client-types.js';
 import Post from '~/components/posts/Post.vue';
+import ScrollObserver from '~/components/ui/ScrollObserver.vue';
 
 defineProps<{
   posts: IPost[];
+}>();
+
+defineEmits<{
+  feedEnd: [];
 }>();
 
 const redirectToPost = (id: string) => {

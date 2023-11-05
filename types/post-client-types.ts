@@ -9,6 +9,8 @@ export interface IPostFormData {
 
 export interface IGetPostsParams {
   query?: string;
+  page?: number;
+  limit?: number;
 }
 
 export interface IPost {
@@ -28,6 +30,7 @@ export interface IPost {
 
 export interface IPostsResponse {
   posts: IPost[];
+  totalCount: number;
 }
 
 export interface ISinglePostResponse {
