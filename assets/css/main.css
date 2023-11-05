@@ -8,7 +8,4 @@
     .default-transition {
         @apply transition-all duration-300
     }
-    .twi-border-color {
-        @apply border-white dark:border-gray-700
-    }
 }

@@ -11,7 +11,7 @@ import useFetchApi from '~/compasables/useFetchApi';
 export default () => {
   const useAuthToken = () => useState<string | null>('auth_token');
   const useAuthUser = () => useState<IUser | null>('auth_user');
-  const useAuthLoading = () => useState('isLoading', () => true);
+  const useAuthLoading = () => useState('isAuthLoading', () => true);
 
   const setToken = (newToken: string | null) => {
     const authToken = useAuthToken();

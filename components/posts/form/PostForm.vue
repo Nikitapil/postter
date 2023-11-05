@@ -17,7 +17,7 @@
 </template>
 <script setup lang="ts">
 import { IUser } from '~/types/auth-types';
-import { IPostFormData } from '~/types/tweet-client-types';
+import { IPostFormData } from '~/types/post-client-types';
 import usePosts from '~/compasables/usePosts';
 import PostFormInput from '~/components/posts/form/PostFormInput.vue';
 

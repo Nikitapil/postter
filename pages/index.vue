@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import useAuth from '~/compasables/useAuth';
 import ListFeed from '~/components/posts/ListFeed.vue';
-import { IPost } from '~/types/tweet-client-types';
+import { IPost } from '~/types/post-client-types';
 import PostForm from '~/components/posts/form/PostForm.vue';
 import usePosts from '~/compasables/usePosts';
 

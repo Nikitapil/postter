@@ -62,7 +62,7 @@
   </Modal>
 </template>
 <script setup lang="ts">
-import { IPost } from '~/types/tweet-client-types';
+import { IPost } from '~/types/post-client-types';
 import PostActions from '~/components/posts/PostActions/PostActions.vue';
 import PostHeader from '~/components/posts/PostHeader.vue';
 import PostForm from '~/components/posts/form/PostForm.vue';

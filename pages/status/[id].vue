@@ -18,7 +18,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { IPost } from '~/types/tweet-client-types';
+import { IPost } from '~/types/post-client-types';
 import useAuth from '~/compasables/useAuth';
 import PostDetails from '~/components/posts/PostDetails.vue';
 import usePosts from '~/compasables/usePosts';

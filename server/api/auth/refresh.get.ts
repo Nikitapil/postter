@@ -4,12 +4,12 @@ import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {
   try {
-    const refreshTokenFromCookie = getCookie(event, 'twi-refresh-token');
+    const refreshTokenFromCookie = getCookie(event, 'postter-refresh-token');
     const { accessToken, refreshToken, user } = await refreshAuth(
       refreshTokenFromCookie
     );
 
-    setCookie(event, 'twi-refresh-token', refreshToken, {
+    setCookie(event, 'postter-refresh-token', refreshToken, {
       httpOnly: true,
       sameSite: true
     });

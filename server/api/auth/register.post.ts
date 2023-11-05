@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
 
     const { accessToken, refreshToken, user } = await createUser(userData);
 
-    setCookie(event, 'twi-refresh-token', refreshToken, {
+    setCookie(event, 'postter-refresh-token', refreshToken, {
       httpOnly: true,
       sameSite: true
     });

@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import ListFeed from '~/components/posts/ListFeed.vue';
-import { IPost } from '~/types/tweet-client-types';
+import { IPost } from '~/types/post-client-types';
 import SearchForm from '~/components/ui/SearchForm.vue';
 import usePosts from '~/compasables/usePosts';
 

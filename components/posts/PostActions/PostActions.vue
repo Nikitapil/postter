@@ -38,7 +38,7 @@ import {
   ArrowPathIcon,
   HeartIcon
 } from '@heroicons/vue/24/outline';
-import { IPost } from '~/types/tweet-client-types';
+import { IPost } from '~/types/post-client-types';
 import PostActionsIcon from '~/components/posts/PostActions/PostActionsIcon.vue';
 
 defineProps<{

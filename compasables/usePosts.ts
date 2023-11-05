@@ -4,7 +4,7 @@ import {
   IPost,
   IPostFormData,
   IPostsResponse
-} from '~/types/tweet-client-types';
+} from '~/types/post-client-types';
 import useFetchApi from '~/compasables/useFetchApi';
 
 export default () => {

@@ -4,9 +4,9 @@ import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {
   try {
-    const token = getCookie(event, 'twi-refresh-token');
+    const token = getCookie(event, 'postter-refresh-token');
     await removeRefreshToken(token as string);
-    deleteCookie(event, 'twi-refresh-token');
+    deleteCookie(event, 'postter-refresh-token');
 
     return { message: 'Success' };
   } catch (e) {

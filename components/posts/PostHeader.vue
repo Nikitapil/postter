@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IPost } from '~/types/tweet-client-types';
+import { IPost } from '~/types/post-client-types';
 import UserAvatar from '~/components/ui/UserAvatar.vue';
 
 const props = defineProps<{

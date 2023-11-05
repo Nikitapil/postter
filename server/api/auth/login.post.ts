@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
       password
     });
 
-    setCookie(event, 'twi-refresh-token', refreshToken, {
+    setCookie(event, 'postter-refresh-token', refreshToken, {
       httpOnly: true,
       sameSite: true
     });
