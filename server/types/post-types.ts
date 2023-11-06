@@ -42,3 +42,8 @@ export interface IGetPostById {
   repliesPage?: number;
   repliesLimit?: number;
 }
+
+export interface IToggleLike {
+  postId: string;
+  userId: string;
+}

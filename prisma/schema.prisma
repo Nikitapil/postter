@@ -24,6 +24,7 @@ model User {
   RefreshToken RefreshToken[]
   posts        Post[]
   mediaFiles   MediaFile[]
+  likes        Likes[]
 }
 
 model RefreshToken {
@@ -52,6 +53,7 @@ model Post {
   replies   Post[]  @relation("replies")
 
   mediaFiles MediaFile[]
+  likes      Likes[]
 }
 
 model MediaFile {
@@ -66,4 +68,16 @@ model MediaFile {
 
   post   Post?   @relation(fields: [postId], references: [id])
   postId String? @db.ObjectId
+}
+
+model Likes {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  postId String @db.ObjectId
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId], name: "uniq_id")
 }

@@ -1,7 +1,8 @@
 import {
   IGetPostById,
   IGetPostsRequest,
-  IPostDto
+  IPostDto,
+  IToggleLike
 } from '~/server/types/post-types';
 import { prisma } from '~/server/services/index';
 import {
@@ -30,6 +31,11 @@ const getPostsByIdSchema = z.object({
   id: z.string().min(1),
   repliesPage: z.number().optional(),
   repliesLimit: z.number().optional()
+});
+
+const toggleLikeSchema = z.object({
+  postId: z.string().min(1),
+  userId: z.string().min(1)
 });
 
 export const createPost = async (postData: IPostDto) => {
@@ -122,4 +128,39 @@ export const getReplies = async (params: IGetPostById) => {
     ...paginationParams
   });
   return replies.map((reply) => postTransformer(reply));
+};
+
+export const toggleLike = async (params: IToggleLike) => {
+  const { postId, userId } = toggleLikeSchema.parse(params);
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    include: {
+      likes: {
+        where: {
+          userId: userId
+        }
+      }
+    }
+  });
+
+  if (!post) {
+    throw ApiError.NotFoundError('Post not found');
+  }
+
+  if (!post.likes.length) {
+    prisma.likes.create({
+      data: { postId, userId }
+    });
+    return { isLiked: true };
+  }
+
+  prisma.likes.delete({
+    where: {
+      uniq_id: {
+        postId,
+        userId
+      }
+    }
+  });
+  return { isLiked: false };
 };
