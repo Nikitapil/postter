@@ -105,3 +105,21 @@ export const getPostById = async (params: IGetPostById) => {
   }
   return postTransformer(post);
 };
+
+export const getReplies = async (params: IGetPostById) => {
+  const { id, repliesPage, repliesLimit } = getPostsByIdSchema.parse(params);
+  const paginationParams = getPaginationParams(repliesPage, repliesLimit);
+  const replies = await prisma.post.findMany({
+    where: {
+      replyToId: id
+    },
+    include: postInclude,
+    orderBy: [
+      {
+        createdAt: 'desc'
+      }
+    ],
+    ...paginationParams
+  });
+  return replies.map((reply) => postTransformer(reply));
+};

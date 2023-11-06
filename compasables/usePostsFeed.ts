@@ -16,6 +16,7 @@ export default () => {
     if (posts.value.length >= totalCount.value) {
       return;
     }
+    console.log(currentPage.value)
     const loadedPosts = await getPostsInitial({
       query,
       page: currentPage.value + 1,

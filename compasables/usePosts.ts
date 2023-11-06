@@ -3,7 +3,9 @@ import {
   ISinglePostResponse,
   IPost,
   IPostFormData,
-  IPostsResponse
+  IPostsResponse,
+  IGetPostByIdParams,
+  IRepliesResponse
 } from '~/types/post-client-types';
 import useFetchApi from '~/compasables/useFetchApi';
 
@@ -60,12 +62,20 @@ export default () => {
     }
   };
 
-  const getPostById = async (postId: string): Promise<IPost | null> => {
+  const getPostById = async ({
+    id,
+    page,
+    limit
+  }: IGetPostByIdParams): Promise<IPost | null> => {
     try {
       const { post } = await useFetchApi<ISinglePostResponse>(
-        `/api/posts/${postId}`,
+        `/api/posts/${id}`,
         {
-          method: 'GET'
+          method: 'GET',
+          params: {
+            page,
+            limit
+          }
         }
       );
       return post;
@@ -74,5 +84,28 @@ export default () => {
     }
   };
 
-  return { createPost, getPosts, getPostById };
+  const getReplies = async ({
+    id,
+    page,
+    limit
+  }: IGetPostByIdParams): Promise<IPost[]> => {
+    try {
+      const { replies } = await useFetchApi<IRepliesResponse>(
+        `/api/posts/replies`,
+        {
+          method: 'GET',
+          params: {
+            id,
+            page,
+            limit
+          }
+        }
+      );
+      return replies;
+    } catch (e) {
+      return [];
+    }
+  };
+
+  return { createPost, getPosts, getPostById, getReplies };
 };

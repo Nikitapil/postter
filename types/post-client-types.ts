@@ -13,6 +13,12 @@ export interface IGetPostsParams {
   limit?: number;
 }
 
+export interface IGetPostByIdParams {
+  id: string;
+  page?: number;
+  limit?: number;
+}
+
 export interface IPost {
   id: string;
   text: string;
@@ -35,4 +41,8 @@ export interface IPostsResponse {
 
 export interface ISinglePostResponse {
   post: IPost;
+}
+
+export interface IRepliesResponse {
+  replies: IPost[];
 }

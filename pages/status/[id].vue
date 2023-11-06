@@ -12,33 +12,38 @@
         v-if="post && user"
         :post="post"
         :user="user"
-        @on-reply="getPost"
+        @on-reply="loadPost"
+        @replies-end="loadMoreReplies"
       />
+      <div
+        v-else
+        class="text-center text-2xl dark:text-white"
+      >
+        Post not found
+      </div>
     </MainSection>
   </div>
 </template>
 <script setup lang="ts">
-import { IPost } from '~/types/post-client-types';
 import useAuth from '~/compasables/useAuth';
 import PostDetails from '~/components/posts/PostDetails.vue';
-import usePosts from '~/compasables/usePosts';
+import useSinglePost from '~/compasables/useSinglePost';
 
-const { getPostById } = usePosts();
+const { post, getPost, loadMoreReplies } = useSinglePost();
 const { useAuthUser } = useAuth();
 
 const user = useAuthUser();
 
 const loading = ref(false);
-const post = ref<IPost | null>(null);
 
-const getPost = async () => {
+const loadPost = async () => {
   loading.value = true;
   const route = useRoute();
-  post.value = await getPostById(route.params.id as string);
+  await getPost(route.params.id as string);
   loading.value = false;
 };
 
 onMounted(() => {
-  getPost();
+  loadPost();
 });
 </script>

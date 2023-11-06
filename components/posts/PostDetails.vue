@@ -6,7 +6,10 @@
       :reply-to-id="post.id"
       @on-success="$emit('onReply')"
     />
-    <ListFeed :posts="post.replies" />
+    <ListFeed
+      :posts="post.replies"
+      @feed-end="$emit('repliesEnd')"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -23,5 +26,6 @@ defineProps<{
 
 defineEmits<{
   onReply: [];
+  repliesEnd: [];
 }>();
 </script>
