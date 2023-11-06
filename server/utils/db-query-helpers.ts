@@ -21,7 +21,8 @@ export const postInclude: Prisma.PostInclude = {
   },
   _count: {
     select: {
-      replies: true
+      replies: true,
+      likes: true
     }
   },
   replyTo: {
