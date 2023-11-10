@@ -34,6 +34,19 @@ export const postInclude: Prisma.PostInclude = {
   }
 };
 
+export const getPostIncludeWithUserLikes = (
+  userId: string
+): Prisma.PostInclude => {
+  return {
+    ...postInclude,
+    likes: {
+      where: {
+        userId
+      }
+    }
+  };
+};
+
 export const getPaginationParams = (page?: number, limit?: number) => {
   const paginationParams: IPaginationParams = {};
   if (page && limit) {

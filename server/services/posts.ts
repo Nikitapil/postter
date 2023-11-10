@@ -6,7 +6,7 @@ import {
 } from '~/server/types/post-types';
 import { prisma } from '~/server/services/index';
 import {
-  getPaginationParams,
+  getPaginationParams, getPostIncludeWithUserLikes,
   postInclude
 } from '~/server/utils/db-query-helpers';
 import { ApiError } from '~/server/utils/ApiError';
@@ -24,7 +24,8 @@ const createPostSchema = z.object({
 const getPostsSchema = z.object({
   search: z.string(),
   page: z.number().optional(),
-  limit: z.number().optional()
+  limit: z.number().optional(),
+  userId: z.string().min(1)
 });
 
 const getPostsByIdSchema = z.object({
@@ -60,7 +61,7 @@ export const createPost = async (postData: IPostDto) => {
 
 export const getPosts = async (params: IGetPostsRequest) => {
   // TODO feed filter(or create separated methods)
-  const { search, page, limit } = getPostsSchema.parse(params);
+  const { search, page, limit, userId } = getPostsSchema.parse(params);
   const paginationParams = getPaginationParams(page, limit);
   const posts = await prisma.post.findMany({
     where: {
@@ -69,7 +70,7 @@ export const getPosts = async (params: IGetPostsRequest) => {
         mode: 'insensitive'
       }
     },
-    include: postInclude,
+    include: getPostIncludeWithUserLikes(userId),
     orderBy: [
       {
         createdAt: 'desc'

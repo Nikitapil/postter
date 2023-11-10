@@ -7,13 +7,13 @@ export default defineEventHandler(async (event) => {
   const endpoints = [
     '/api/auth/user',
     '/api/posts',
+    '/api/posts?*',
     '/api/posts/:id',
     '/api/posts/likes'
   ];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {
     const pattern = new UrlPattern(endpoint);
-
     return pattern.match(event.path);
   });
 
