@@ -33,6 +33,7 @@
         <PostActions
           :post="post"
           @comment-click="openReplyModal"
+          @like-click="onLikeToggle"
         />
       </div>
     </div>
@@ -67,10 +68,12 @@ import PostActions from '~/components/posts/PostActions/PostActions.vue';
 import PostHeader from '~/components/posts/PostHeader.vue';
 import PostForm from '~/components/posts/form/PostForm.vue';
 import Modal from '~/components/ui/Modal.vue';
-import useAuth from '~/compasables/useAuth';
+import useAuth from '~/composables/useAuth';
 
 const { useAuthUser } = useAuth();
 const user = useAuthUser();
+
+const { toggleLike } = usePosts();
 
 const props = withDefaults(
   defineProps<{
@@ -92,6 +95,10 @@ const closeReplyModal = () => (isReplyModalOpen.value = false);
 
 const openImageModal = (image: string) => (imageForModal.value = image);
 const closeImageModal = () => (imageForModal.value = null);
+
+const onLikeToggle = () => {
+  toggleLike(props.post);
+};
 
 const onReply = (id: string) => {
   navigateTo(`/status/${id}`);

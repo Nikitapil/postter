@@ -20,13 +20,17 @@
       </template>
     </PostActionsIcon>
 
-    <PostActionsIcon appearance="red">
+    <PostActionsIcon
+      appearance="red"
+      :active="post.isLiked"
+      @click="$emit('likeClick')"
+    >
       <template #icon="{ classes }">
         <HeartIcon :class="classes" />
       </template>
 
       <template #default>
-        {{ getRandomNumber() }}
+        {{ post.likesCount }}
       </template>
     </PostActionsIcon>
   </div>
@@ -47,6 +51,7 @@ defineProps<{
 
 defineEmits<{
   commentClick: [];
+  likeClick: [];
 }>();
 
 // TODO delete this after implementing of retweets, likes and shares

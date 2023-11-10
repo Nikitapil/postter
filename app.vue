@@ -47,8 +47,8 @@
 import LeftSidebar from '~/components/sidebars/left/LeftSidebar.vue';
 import RightSidebar from '~/components/sidebars/right/RightSidebar.vue';
 import AuthPage from '~/components/Auth/AuthPage.vue';
-import useAuth from '~/compasables/useAuth';
-import useTheme from '~/compasables/useTheme';
+import useAuth from '~/composables/useAuth';
+import useTheme from '~/composables/useTheme';
 import ConfirmModal from '~/components/ui/ConfirmModal.vue';
 
 const { isDarkMode } = useTheme();

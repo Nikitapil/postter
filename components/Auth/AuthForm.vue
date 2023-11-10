@@ -100,7 +100,7 @@
 </template>
 <script setup lang="ts">
 import AppInput from '~/components/ui/AppInput.vue';
-import useAuth from '~/compasables/useAuth';
+import useAuth from '~/composables/useAuth';
 import AppButton from '~/components/ui/AppButton.vue';
 import PostterLogo from '~/components/icons/PostterLogo.vue';
 import { IRegisterData } from '~/types/auth-types';

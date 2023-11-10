@@ -28,10 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import useAuth from '~/compasables/useAuth';
+import useAuth from '~/composables/useAuth';
 import ListFeed from '~/components/posts/ListFeed.vue';
 import PostForm from '~/components/posts/form/PostForm.vue';
-import usePostsFeed from '~/compasables/usePostsFeed';
+import usePostsFeed from '~/composables/usePostsFeed';
 
 const { useAuthUser } = useAuth();
 const { getPosts, posts, getPostsWithReset } = usePostsFeed();

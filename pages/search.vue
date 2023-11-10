@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import ListFeed from '~/components/posts/ListFeed.vue';
 import SearchForm from '~/components/ui/SearchForm.vue';
-import usePostsFeed from '~/compasables/usePostsFeed';
+import usePostsFeed from '~/composables/usePostsFeed';
 
 const { posts, getPostsWithReset, getPosts } = usePostsFeed();
 const loading = ref(false);

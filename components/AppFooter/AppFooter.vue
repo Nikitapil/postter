@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import useTheme from '~/compasables/useTheme';
+import useTheme from '~/composables/useTheme';
 import { LightBulbIcon } from '@heroicons/vue/24/solid';
 import { LightBulbIcon as LightBulbIconLight } from '@heroicons/vue/24/outline';
 import GithubIcon from '~/components/icons/GithubIcon.vue';

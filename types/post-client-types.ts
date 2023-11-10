@@ -32,6 +32,8 @@ export interface IPost {
   replyTo?: IPost | null;
   repliesCount?: number;
   replies: IPost[];
+  likesCount: number;
+  isLiked: boolean;
 }
 
 export interface IPostsResponse {
@@ -45,4 +47,8 @@ export interface ISinglePostResponse {
 
 export interface IRepliesResponse {
   replies: IPost[];
+}
+
+export interface ILikesResponse {
+  isLiked: boolean;
 }

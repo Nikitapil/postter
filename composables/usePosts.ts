@@ -5,9 +5,10 @@ import {
   IPostFormData,
   IPostsResponse,
   IGetPostByIdParams,
-  IRepliesResponse
+  IRepliesResponse,
+  ILikesResponse
 } from '~/types/post-client-types';
-import useFetchApi from '~/compasables/useFetchApi';
+import useFetchApi from '~/composables/useFetchApi';
 
 export default () => {
   const createPost = async (data: IPostFormData): Promise<IPost | null> => {
@@ -107,5 +108,26 @@ export default () => {
     }
   };
 
-  return { createPost, getPosts, getPostById, getReplies };
+  const toggleLike = async (post: IPost) => {
+    try {
+      const { isLiked } = await useFetchApi<ILikesResponse>(
+        '/api/posts/likes',
+        {
+          method: 'PUT',
+          body: { postId: post.id }
+        }
+      );
+      post.isLiked = isLiked;
+      if (isLiked) {
+        post.likesCount++;
+      } else {
+        post.likesCount--;
+      }
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Error on like method');
+    }
+  };
+
+  return { createPost, getPosts, getPostById, getReplies, toggleLike };
 };

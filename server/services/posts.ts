@@ -152,13 +152,13 @@ export const toggleLike = async (params: IToggleLike) => {
   }
 
   if (!post.likes.length) {
-    prisma.likes.create({
+    await prisma.likes.create({
       data: { postId, userId }
     });
     return { isLiked: true };
   }
 
-  prisma.likes.delete({
+  await prisma.likes.delete({
     where: {
       uniq_id: {
         postId,

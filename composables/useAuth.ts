@@ -6,7 +6,7 @@ import {
   TRegisteredDataKey
 } from '~/types/auth-types';
 import jwtDecode from 'jwt-decode';
-import useFetchApi from '~/compasables/useFetchApi';
+import useFetchApi from '~/composables/useFetchApi';
 
 export default () => {
   const useAuthToken = () => useState<string | null>('auth_token');

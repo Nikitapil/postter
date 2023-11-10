@@ -25,9 +25,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import useAuth from '~/compasables/useAuth';
+import useAuth from '~/composables/useAuth';
 import PostDetails from '~/components/posts/PostDetails.vue';
-import useSinglePost from '~/compasables/useSinglePost';
+import useSinglePost from '~/composables/useSinglePost';
 
 const { post, getPost, loadMoreReplies } = useSinglePost();
 const { useAuthUser } = useAuth();

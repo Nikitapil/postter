@@ -1,5 +1,5 @@
 import { IPost } from '~/types/post-client-types';
-import usePosts from '~/compasables/usePosts';
+import usePosts from '~/composables/usePosts';
 
 const REPLIES_LIMIT = 50;
 export default () => {

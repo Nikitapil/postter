@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { IUser } from '~/types/auth-types';
 import { IPostFormData } from '~/types/post-client-types';
-import usePosts from '~/compasables/usePosts';
+import usePosts from '~/composables/usePosts';
 import PostFormInput from '~/components/posts/form/PostFormInput.vue';
 
 const props = withDefaults(
