@@ -33,6 +33,7 @@ export default defineEventHandler(async (event) => {
       post
     };
   } catch (e) {
+    console.log(e);
     return handleError(event, e);
   }
 });

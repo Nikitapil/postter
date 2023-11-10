@@ -6,8 +6,8 @@ import {
 } from '~/server/types/post-types';
 import { prisma } from '~/server/services/index';
 import {
-  getPaginationParams, getPostIncludeWithUserLikes,
-  postInclude
+  getPaginationParams,
+  getPostIncludeWithUserLikes
 } from '~/server/utils/db-query-helpers';
 import { ApiError } from '~/server/utils/ApiError';
 import { postTransformer } from '~/server/transformers/post-transformers';
@@ -30,6 +30,7 @@ const getPostsSchema = z.object({
 
 const getPostsByIdSchema = z.object({
   id: z.string().min(1),
+  userId: z.string().min(1),
   repliesPage: z.number().optional(),
   repliesLimit: z.number().optional()
 });
@@ -43,7 +44,7 @@ export const createPost = async (postData: IPostDto) => {
   const { mediaFilesUrls, ...newPostData } = createPostSchema.parse(postData);
   const post = await prisma.post.create({
     data: newPostData,
-    include: postInclude
+    include: getPostIncludeWithUserLikes(newPostData.authorId)
   });
 
   const filesPromises = mediaFilesUrls.map((url) =>
@@ -90,14 +91,15 @@ export const getPosts = async (params: IGetPostsRequest) => {
 };
 
 export const getPostById = async (params: IGetPostById) => {
-  const { id, repliesPage, repliesLimit } = getPostsByIdSchema.parse(params);
+  const { id, repliesPage, repliesLimit, userId } =
+    getPostsByIdSchema.parse(params);
   const paginationParams = getPaginationParams(repliesPage, repliesLimit);
   const post = await prisma.post.findUnique({
     where: { id },
     include: {
-      ...postInclude,
+      ...getPostIncludeWithUserLikes(userId),
       replies: {
-        include: { ...postInclude },
+        include: { ...getPostIncludeWithUserLikes(userId) },
         orderBy: [
           {
             createdAt: 'desc'
@@ -114,13 +116,14 @@ export const getPostById = async (params: IGetPostById) => {
 };
 
 export const getReplies = async (params: IGetPostById) => {
-  const { id, repliesPage, repliesLimit } = getPostsByIdSchema.parse(params);
+  const { id, repliesPage, repliesLimit, userId } =
+    getPostsByIdSchema.parse(params);
   const paginationParams = getPaginationParams(repliesPage, repliesLimit);
   const replies = await prisma.post.findMany({
     where: {
       replyToId: id
     },
-    include: postInclude,
+    include: getPostIncludeWithUserLikes(userId),
     orderBy: [
       {
         createdAt: 'desc'

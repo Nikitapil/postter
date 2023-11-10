@@ -1,6 +1,5 @@
 import { IUserDataFiltered } from '~/server/types/users-types';
 import { IMediaFileFromDb } from '~/server/types/media-files-types';
-import {b} from "vite-node/types-516036fa";
 
 export interface IPostDto {
   authorId: string;
@@ -50,6 +49,7 @@ export interface ITransformedPost extends IPostFromDb {
 
 export interface IGetPostById {
   id: string;
+  userId: string;
   repliesPage?: number;
   repliesLimit?: number;
 }
