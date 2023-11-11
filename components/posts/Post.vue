@@ -32,6 +32,7 @@
       <div class="mt-2">
         <PostActions
           :post="post"
+          :is-loading="isActionInProgress"
           @comment-click="openReplyModal"
           @like-click="onLikeToggle"
           @repost-click="onRepost"
@@ -89,6 +90,8 @@ const props = withDefaults(
 const isReplyModalOpen = ref(false);
 const imageForModal = ref<string | null>(null);
 
+const isActionInProgress = ref(false);
+
 const postBodyClasses = computed(() => (props.compact ? 'ml-16' : 'ml-2 mt-4'));
 
 const openReplyModal = () => (isReplyModalOpen.value = true);
@@ -97,8 +100,13 @@ const closeReplyModal = () => (isReplyModalOpen.value = false);
 const openImageModal = (image: string) => (imageForModal.value = image);
 const closeImageModal = () => (imageForModal.value = null);
 
-const onLikeToggle = () => {
-  toggleLike(props.post);
+const onLikeToggle = async () => {
+  if (isActionInProgress.value) {
+    return;
+  }
+  isActionInProgress.value = true;
+  await toggleLike(props.post);
+  isActionInProgress.value = false;
 };
 
 const onChangePost = (id: string) => {
@@ -106,9 +114,14 @@ const onChangePost = (id: string) => {
 };
 
 const onRepost = async () => {
+  if (isActionInProgress.value) {
+    return;
+  }
+  isActionInProgress.value = true;
   const postId = await repost(props.post.id);
   if (postId) {
     onChangePost(postId);
   }
+  isActionInProgress.value = false;
 };
 </script>
