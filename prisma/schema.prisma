@@ -52,6 +52,10 @@ model Post {
   replyTo   Post?   @relation("replies", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies   Post[]  @relation("replies")
 
+  repostFromId String? @db.ObjectId
+  repostFrom   Post?   @relation("reposts", fields: [repostFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reposts      Post[]  @relation("reposts")
+
   mediaFiles MediaFile[]
   likes      Likes[]
 }

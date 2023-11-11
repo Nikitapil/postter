@@ -37,6 +37,7 @@ export interface IPostFromDb extends IPostFromDbBase {
   author: IUserDataFiltered;
   replies?: IPostFromDbBase[];
   likes: ILikeFromDb[];
+  text: string;
 }
 
 export interface ITransformedPost extends IPostFromDb {
@@ -57,4 +58,9 @@ export interface IGetPostById {
 export interface IToggleLike {
   postId: string;
   userId: string;
+}
+
+export interface IRepostParams {
+  repostFromId: string;
+  authorId: string;
 }

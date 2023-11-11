@@ -2,6 +2,7 @@ import {
   IGetPostById,
   IGetPostsRequest,
   IPostDto,
+  IRepostParams,
   IToggleLike
 } from '~/server/types/post-types';
 import { prisma } from '~/server/services/index';
@@ -38,6 +39,11 @@ const getPostsByIdSchema = z.object({
 const toggleLikeSchema = z.object({
   postId: z.string().min(1),
   userId: z.string().min(1)
+});
+
+const repostSchema = z.object({
+  repostFromId: z.string().min(1),
+  authorId: z.string().min(1)
 });
 
 export const createPost = async (postData: IPostDto) => {
@@ -167,4 +173,31 @@ export const toggleLike = async (params: IToggleLike) => {
     }
   });
   return { isLiked: false };
+};
+
+export const repost = async (params: IRepostParams) => {
+  const { repostFromId, authorId } = repostSchema.parse(params);
+
+  const originalPost = await prisma.post.findUnique({
+    where: { id: repostFromId },
+    include: {
+      mediaFiles: {
+        select: {
+          url: true
+        }
+      }
+    }
+  });
+
+  if (!originalPost) {
+    throw ApiError.NotFoundError('Post not found');
+  }
+
+  const post = await createPost({
+    authorId,
+    text: originalPost.text,
+    mediaFilesUrls: originalPost.mediaFiles.map((file) => file.url)
+  });
+
+  return post;
 };
