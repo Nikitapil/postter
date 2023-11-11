@@ -20,18 +20,19 @@
         <span>{{ post.postedAt }}</span>
       </span>
 
-      <div
+      <PostHeaderAction
         v-if="post.replyTo"
-        class="text-sm"
-      >
-        <span class="text-gray-500">Replying to</span>
-        <NuxtLink
-          class="text-blue-400"
-          :to="replyToUrl"
-        >
-          @{{ post.replyTo.author.username }}
-        </NuxtLink>
-      </div>
+        title="Reply to"
+        :user-name="post.replyTo.author.username"
+        :action-link-id="post.replyTo.id"
+      />
+
+      <PostHeaderAction
+        v-else-if="post.repostFrom"
+        title="Repost from"
+        :user-name="post.repostFrom.author.username"
+        :action-link-id="post.repostFrom.id"
+      />
     </div>
   </div>
 </template>
@@ -39,9 +40,9 @@
 <script lang="ts" setup>
 import { IPost } from '~/types/post-client-types';
 import UserAvatar from '~/components/ui/UserAvatar.vue';
+import PostHeaderAction from '~/components/posts/PostHeader/PostHeaderAction.vue';
 
 const props = defineProps<{
   post: IPost;
 }>();
-const replyToUrl = computed(() => `/status/${props.post.replyTo?.id}`);
 </script>

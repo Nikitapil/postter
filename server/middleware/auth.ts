@@ -12,7 +12,8 @@ export default defineEventHandler(async (event) => {
     '/api/posts/:id?*',
     '/api/posts/likes',
     '/api/posts/replies',
-    '/api/posts/replies?*'
+    '/api/posts/replies?*',
+    '/apo/posts/repost'
   ];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {

@@ -129,5 +129,21 @@ export default () => {
     }
   };
 
-  return { createPost, getPosts, getPostById, getReplies, toggleLike };
+  const repost = async (repostFromId: string) => {
+    try {
+      const { post } = await useFetchApi<ISinglePostResponse>(
+        '/api/posts/repost',
+        {
+          method: 'POST',
+          body: { repostFromId }
+        }
+      );
+      return post.id;
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Error on like method');
+    }
+  };
+
+  return { createPost, getPosts, getPostById, getReplies, toggleLike, repost };
 };

@@ -6,6 +6,7 @@ export interface IPostDto {
   text: string;
   replyToId?: string;
   mediaFilesUrls?: string[];
+  repostFromId?: string;
 }
 
 export interface IGetPostsRequest {
@@ -31,7 +32,7 @@ export interface ILikeFromDb {
 }
 
 export interface IPostFromDb extends IPostFromDbBase {
-  _count: { replies: number; likes: number };
+  _count: { replies: number; likes: number; reposts: number };
   mediaFiles: IMediaFileFromDb[];
   replyTo: IPostFromDbBase | null;
   author: IUserDataFiltered;
@@ -43,6 +44,7 @@ export interface IPostFromDb extends IPostFromDbBase {
 export interface ITransformedPost extends IPostFromDb {
   repliesCount: number;
   likesCount: number;
+  repostsCount: number;
   postedAt: string;
   replies: ITransformedPost[];
   isLiked: boolean;

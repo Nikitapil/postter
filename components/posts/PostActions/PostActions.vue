@@ -10,13 +10,16 @@
       </template>
     </PostActionsIcon>
 
-    <PostActionsIcon appearance="green">
+    <PostActionsIcon
+      appearance="green"
+      @click="$emit('repostClick')"
+    >
       <template #icon="{ classes }">
         <ArrowPathIcon :class="classes" />
       </template>
 
       <template #default>
-        {{ getRandomNumber() }}
+        {{ post.repostsCount }}
       </template>
     </PostActionsIcon>
 
@@ -52,8 +55,6 @@ defineProps<{
 defineEmits<{
   commentClick: [];
   likeClick: [];
+  repostClick: [];
 }>();
-
-// TODO delete this after implementing of retweets, likes and shares
-const getRandomNumber = () => Math.floor(Math.random() * 101);
 </script>

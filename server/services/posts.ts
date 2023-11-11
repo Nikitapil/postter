@@ -19,6 +19,7 @@ const createPostSchema = z.object({
   authorId: z.string().min(1),
   text: z.string().min(1),
   replyToId: z.string().optional(),
+  repostFromId: z.string().optional(),
   mediaFilesUrls: z.array(z.string().min(1))
 });
 
@@ -196,7 +197,8 @@ export const repost = async (params: IRepostParams) => {
   const post = await createPost({
     authorId,
     text: originalPost.text,
-    mediaFilesUrls: originalPost.mediaFiles.map((file) => file.url)
+    mediaFilesUrls: originalPost.mediaFiles.map((file) => file.url),
+    repostFromId
   });
 
   return post;

@@ -22,10 +22,18 @@ export const postInclude: Prisma.PostInclude = {
   _count: {
     select: {
       replies: true,
-      likes: true
+      likes: true,
+      reposts: true
     }
   },
   replyTo: {
+    include: {
+      author: {
+        select: safeUserSelect
+      }
+    }
+  },
+  repostFrom: {
     include: {
       author: {
         select: safeUserSelect

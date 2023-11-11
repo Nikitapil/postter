@@ -34,6 +34,7 @@
           :post="post"
           @comment-click="openReplyModal"
           @like-click="onLikeToggle"
+          @repost-click="onRepost"
         />
       </div>
     </div>
@@ -46,7 +47,7 @@
     <PostForm
       :user="user"
       :reply-to-id="post.id"
-      @on-success="onReply"
+      @on-success="onChangePost"
     />
   </Modal>
   <Modal
@@ -65,7 +66,7 @@
 <script setup lang="ts">
 import { IPost } from '~/types/post-client-types';
 import PostActions from '~/components/posts/PostActions/PostActions.vue';
-import PostHeader from '~/components/posts/PostHeader.vue';
+import PostHeader from '~/components/posts/PostHeader/PostHeader.vue';
 import PostForm from '~/components/posts/form/PostForm.vue';
 import Modal from '~/components/ui/Modal.vue';
 import useAuth from '~/composables/useAuth';
@@ -73,7 +74,7 @@ import useAuth from '~/composables/useAuth';
 const { useAuthUser } = useAuth();
 const user = useAuthUser();
 
-const { toggleLike } = usePosts();
+const { toggleLike, repost } = usePosts();
 
 const props = withDefaults(
   defineProps<{
@@ -100,7 +101,14 @@ const onLikeToggle = () => {
   toggleLike(props.post);
 };
 
-const onReply = (id: string) => {
+const onChangePost = (id: string) => {
   navigateTo(`/status/${id}`);
+};
+
+const onRepost = async () => {
+  const postId = await repost(props.post.id);
+  if (postId) {
+    onChangePost(postId);
+  }
 };
 </script>

@@ -6,6 +6,7 @@ export const postTransformer = (post: IPostFromDb): ITransformedPost => {
     ...post,
     repliesCount: post._count.replies,
     likesCount: post._count.likes,
+    repostsCount: post._count.reposts,
     postedAt: human(post.createdAt),
     isLiked: !!post.likes.length,
     replies:

@@ -30,10 +30,12 @@ export interface IPost {
   mediaFiles?: IMediaFile[];
   postedAt: string;
   replyTo?: IPost | null;
+  repostFrom?: IPost | null;
   repliesCount?: number;
   replies: IPost[];
   likesCount: number;
   isLiked: boolean;
+  repostsCount: number;
 }
 
 export interface IPostsResponse {
