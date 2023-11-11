@@ -5,6 +5,7 @@ export interface ICreateUserData {
   password: string;
   repeatPassword: string;
   profileImage?: string;
+  about: string;
 }
 
 export interface IUserDataFiltered {
@@ -13,6 +14,7 @@ export interface IUserDataFiltered {
   name: string | null;
   username: string;
   profileImage: string | null;
+  about: string;
 }
 
 export interface ILoginApiData {

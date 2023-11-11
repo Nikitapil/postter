@@ -6,7 +6,8 @@ export const safeUserSelect: Prisma.UserSelect = {
   name: true,
   email: true,
   username: true,
-  profileImage: true
+  profileImage: true,
+  about: true
 };
 
 export const postInclude: Prisma.PostInclude = {

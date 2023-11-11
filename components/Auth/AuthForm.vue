@@ -6,7 +6,7 @@
       </div>
     </div>
     <form
-      class="pt-5 space-y-6"
+      class="pt-5 flex flex-col gap-4"
       @submit.prevent
     >
       <AppInput
@@ -47,6 +47,11 @@
           label="Name"
           placeholder="your name"
           :disabled="loading"
+        />
+        <AppTextArea
+          v-model="userData.about"
+          use-contrast-colors
+          placeholder="Information about you"
         />
         <input
           id="profile-image"
@@ -89,7 +94,7 @@
         {{ submitButtonText }}
       </AppButton>
       <button
-        class="hover:underline text-xs text-gray-500 dark:text-gray-300 block ml-auto disabled:cursor-not-allowed"
+        class="hover:underline text-xs text-gray-500 dark:text-gray-300 block ml-auto cursor-pointer disabled:cursor-not-allowed"
         :disabled="loading"
         @click="toggleForm"
       >
@@ -105,6 +110,7 @@ import AppButton from '~/components/ui/AppButton.vue';
 import PostterLogo from '~/components/icons/PostterLogo.vue';
 import { IRegisterData } from '~/types/auth-types';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
+import AppTextArea from '~/components/ui/AppTextArea.vue';
 
 const { login, register } = useAuth();
 
@@ -114,6 +120,7 @@ const userData = ref<IRegisterData>({
   repeatPassword: '',
   email: '',
   name: '',
+  about: '',
   profileImage: null
 });
 

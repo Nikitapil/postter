@@ -9,10 +9,14 @@ export default defineEventHandler(async (event) => {
   try {
     const [fields, files] = await form.parse(event.node.req);
 
-    const { username, email, password, repeatPassword, name } = firstValues(
-      form,
-      fields
-    );
+    const {
+      username,
+      email,
+      password,
+      repeatPassword,
+      name,
+      about = ''
+    } = firstValues(form, fields);
 
     const { profileImage } = firstValues(form, files);
 
@@ -22,6 +26,7 @@ export default defineEventHandler(async (event) => {
       password,
       name,
       repeatPassword,
+      about,
       profileImage: profileImage ? imageToBase64(profileImage.filepath) : ''
     };
 

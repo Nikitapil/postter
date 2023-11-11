@@ -4,6 +4,7 @@ export interface IRegisterData {
   repeatPassword: string;
   email: string;
   name: string;
+  about: string;
   profileImage?: File | null;
 }
 
@@ -20,6 +21,7 @@ export interface IUser {
   name: string | null;
   profileImage: string | null;
   username: string;
+  about: string;
 }
 
 export interface IJwtDecodedToken {

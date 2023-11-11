@@ -20,7 +20,8 @@ const createUserSchema = z.object({
   password: z.string().min(8),
   repeatPassword: z.string(),
   name: z.string().min(1),
-  profileImage: z.string()
+  profileImage: z.string(),
+  about: z.string()
 });
 
 const loginSchema = z.object({
@@ -29,8 +30,15 @@ const loginSchema = z.object({
 });
 
 export const createUser = async (userData: ICreateUserData) => {
-  const { username, email, password, repeatPassword, name, profileImage } =
-    createUserSchema.parse(userData);
+  const {
+    username,
+    email,
+    password,
+    repeatPassword,
+    name,
+    profileImage,
+    about
+  } = createUserSchema.parse(userData);
 
   if (password !== repeatPassword) {
     throw ApiError.BadRequest('Passwords are not equal');
@@ -47,6 +55,7 @@ export const createUser = async (userData: ICreateUserData) => {
     email,
     name,
     profileImage,
+    about,
     password: bcrypt.hashSync(userData.password, 10)
   };
 
@@ -76,7 +85,8 @@ export const login = async (loginData: ILoginApiData) => {
     name: user.name,
     email: user.email,
     username: user.username,
-    profileImage: user.profileImage
+    profileImage: user.profileImage,
+    about: user.about
   };
 
   return createUserDataWithTokens(userData);

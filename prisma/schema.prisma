@@ -18,6 +18,7 @@ model User {
   username     String  @unique
   password     String
   profileImage String?
+  about        String  @default("")
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
