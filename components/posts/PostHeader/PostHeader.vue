@@ -42,7 +42,7 @@ import { IPost } from '~/types/post-client-types';
 import UserAvatar from '~/components/ui/UserAvatar.vue';
 import PostHeaderAction from '~/components/posts/PostHeader/PostHeaderAction.vue';
 
-const props = defineProps<{
+defineProps<{
   post: IPost;
 }>();
 </script>

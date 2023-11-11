@@ -197,9 +197,25 @@ export const repost = async (params: IRepostParams) => {
   const post = await createPost({
     authorId,
     text: originalPost.text,
-    mediaFilesUrls: originalPost.mediaFiles.map((file) => file.url),
+    mediaFilesUrls: [],
     repostFromId
   });
 
-  return post;
+  const mediaFiles = await Promise.all(
+    originalPost.mediaFiles.map((file) =>
+      prisma.mediaFile.create({
+        data: {
+          userId: authorId,
+          postId: post.id,
+          url: file.url
+        },
+        select: {
+          id: true,
+          url: true
+        }
+      })
+    )
+  );
+
+  return { ...post, mediaFiles };
 };
