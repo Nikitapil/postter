@@ -7,6 +7,7 @@
 
       <div class="w-full">
         <AppTextArea
+          ref="textArea"
           v-model="text"
           :placeholder="placeholder"
         />
@@ -53,9 +54,27 @@
           <ImageUploadIcon />
         </button>
 
-        <button class="action-button">
-          <SmileIcon />
-        </button>
+        <div
+          ref="emojiPicker"
+          class="relative"
+          @click.stop="toggleEmojiPicker"
+        >
+          <button class="action-button">
+            <SmileIcon />
+          </button>
+          <div
+            v-if="isShowEmojiPicker"
+            class="absolute top-[100%]"
+          >
+            <EmojiPicker
+              native
+              hide-search
+              disable-skin-tones
+              @click.stop
+              @select="onSelectEmoji"
+            />
+          </div>
+        </div>
       </div>
 
       <div class="ml-auto">
@@ -79,6 +98,9 @@ import AppTextArea from '~/components/ui/AppTextArea.vue';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import ImageUploadIcon from '~/components/icons/ImageUploadIcon.vue';
 import SmileIcon from '~/components/icons/SmileIcon.vue';
+import EmojiPicker from 'vue3-emoji-picker';
+import { useClickOutside } from '~/composables/useClickOutside';
+import { insertIntoString } from '~/helpers/strings';
 
 defineProps<{
   user: IUser;
@@ -92,13 +114,21 @@ const emit = defineEmits<{
 const imageInput = ref();
 const text = ref('');
 const selectedFiles = ref<File[]>([]);
+const isShowEmojiPicker = ref(false);
+const emojiPicker = ref(null);
+const textArea = ref<typeof AppTextArea | null>(null);
 
 const isDisabled = computed(() => !text.value.trim());
+
 const inputImageUrls = computed(() =>
   selectedFiles.value.map((file) => URL.createObjectURL(file))
 );
 
 const isImageInputDisabled = computed(() => selectedFiles.value.length >= 4);
+
+useClickOutside(() => {
+  isShowEmojiPicker.value = false;
+}, emojiPicker);
 
 const handleFormSubmit = () => {
   emit('onSubmit', {
@@ -121,7 +151,17 @@ const handleImageChange = (event: InputEvent) => {
 const handleDeleteImage = (index: number) => {
   selectedFiles.value.splice(index, 1);
 };
+
+const toggleEmojiPicker = () =>
+  (isShowEmojiPicker.value = !isShowEmojiPicker.value);
+
+const onSelectEmoji = (emoji: { i: string }) => {
+  const cursorPosition =
+    textArea.value?.textAreaRef?.selectionStart || text.value.length;
+  text.value = insertIntoString(text.value, emoji.i, cursorPosition);
+};
 </script>
+
 <style scoped>
 .action-button {
   @apply p-2 text-blue-400 rounded-full hover:bg-blue-50 dark:hover:bg-dim-800 cursor-pointer;

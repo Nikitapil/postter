@@ -1,6 +1,7 @@
 <template>
   <div>
     <textarea
+      ref="textAreaRef"
       rows="3"
       class="w-full p-2 resize-none text-lg text-gray-900 placeholder:text-gray-400 bg-transparent border-gray-200 dark:border-dim-300 rounded-xl dark:text-white focus:ring-0"
       :value="modelValue"
@@ -12,6 +13,8 @@
 </template>
 
 <script setup lang="ts">
+const textAreaRef = ref(null);
+
 defineProps<{
   modelValue: string;
   placeholder: string;
@@ -20,4 +23,8 @@ defineProps<{
 defineEmits<{
   'update:modelValue': [string];
 }>();
+
+defineExpose({
+  textAreaRef
+});
 </script>
