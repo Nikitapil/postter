@@ -3,6 +3,9 @@
     title="Edit profile"
     :loading="pageLoading"
   >
+    <Head>
+      <Title>Edit profile / Postter</Title>
+    </Head>
     <form
       class="px-5 flex flex-col gap-5"
       @submit.prevent
@@ -58,11 +61,11 @@ import AppButton from '~/components/ui/AppButton.vue';
 import { createFileFromString } from '~/helpers/files';
 import { IEditUserData } from '~/types/auth-types';
 
-const { useAuthUser } = useAuth();
+const { useAuthUser, editUser } = useAuth();
 const user = useAuthUser();
 
 const formLoading = ref(false);
-const pageLoading = ref(false);
+const pageLoading = ref(true);
 
 const userData = ref<IEditUserData>({
   username: '',
@@ -81,7 +84,14 @@ const isSubmitDisable = computed(() => {
   );
 });
 
+const handleSubmit = async () => {
+  formLoading.value = true;
+  await editUser(userData.value);
+  formLoading.value = false;
+};
+
 onMounted(async () => {
+  pageLoading.value = true;
   if (user.value) {
     const { username, name, email, profileImage, about } = user.value;
     const profileImageFile = profileImage
@@ -95,7 +105,6 @@ onMounted(async () => {
       about
     };
   }
+  pageLoading.value = false;
 });
-
-const handleSubmit = () => {};
 </script>

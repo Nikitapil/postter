@@ -1,6 +1,9 @@
 <template>
-  <!--  TODO add loading flaf-->
+  <!--  TODO add loading flag-->
   <MainSection :loading="false">
+    <Head>
+      <Title>Profile / Postter</Title>
+    </Head>
     <template #title>
       <div class="flex items-center gap-2">
         <UserAvatar link="https://loremflickr.com/200/200" />

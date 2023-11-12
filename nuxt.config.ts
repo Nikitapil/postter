@@ -10,5 +10,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
     jwtRefreshSecret: process.env.JWT_REFRESH_STOKEN_SECRET
+  },
+  app: {
+    head: {
+      title: 'Postter'
+    }
   }
 });

@@ -1,12 +1,14 @@
 import {
+  IEditUserData,
+  IEditUserResponse,
   IJwtDecodedToken,
   ILoginData,
   IRegisterData,
-  IUser,
-  TRegisteredDataKey
+  IUser
 } from '~/types/auth-types';
 import jwtDecode from 'jwt-decode';
 import useFetchApi from '~/composables/useFetchApi';
+import { createFormDataFromObject } from '~/helpers/formData';
 
 export default () => {
   const useAuthToken = () => useState<string | null>('auth_token');
@@ -29,14 +31,7 @@ export default () => {
   };
 
   const register = async (data: IRegisterData) => {
-    const formData = new FormData();
-
-    Object.keys(data).forEach((key) => {
-      const dataItem = data[key as TRegisteredDataKey];
-      if (dataItem) {
-        formData.append(key, dataItem);
-      }
-    });
+    const formData = createFormDataFromObject(data);
 
     try {
       const data = await $fetch('/api/auth/register', {
@@ -122,6 +117,20 @@ export default () => {
     }
   };
 
+  const editUser = async (editData: IEditUserData) => {
+    try {
+      const formData = createFormDataFromObject(editData);
+      const { user } = await useFetchApi<IEditUserResponse>('/api/user/edit', {
+        method: 'PUT',
+        body: formData
+      });
+      setUser(user);
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Service Unavailable, try again later');
+    }
+  };
+
   return {
     login,
     useAuthUser,
@@ -129,6 +138,7 @@ export default () => {
     initAuth,
     useAuthLoading,
     logout,
-    register
+    register,
+    editUser
   };
 };

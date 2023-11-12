@@ -16,8 +16,6 @@ export interface IEditUserData {
   profileImage?: File | null;
 }
 
-export type TRegisteredDataKey = keyof IRegisterData;
-
 export interface ILoginData {
   username: string;
   password: string;
@@ -35,4 +33,8 @@ export interface IUser {
 export interface IJwtDecodedToken {
   exp: number;
   iat: number;
+}
+
+export interface IEditUserResponse {
+  user: IUser;
 }
