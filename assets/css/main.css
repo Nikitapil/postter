@@ -8,4 +8,7 @@
     .default-transition {
         @apply transition-all duration-300
     }
+    .link-gray {
+        @apply text-gray-400 hover:text-gray-500 default-transition
+    }
 }

@@ -12,7 +12,7 @@
       <span class="text-sm font-medium text-gray-400 ml-3 w-full">
         <!--        TODO add link to user feed-->
         <NuxtLink
-          class="mr-5 hover:text-gray-500 default-transition"
+          class="mr-5 link-gray"
           to="#"
         >
           @{{ post.author.username }}

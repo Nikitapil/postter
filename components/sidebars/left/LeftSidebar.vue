@@ -53,7 +53,7 @@
         <template #name> Bookmarks </template>
       </Tab>
 
-      <Tab to="/profile">
+      <Tab :to="profileLink">
         <template #icon>
           <UserIcon />
         </template>
@@ -106,11 +106,13 @@ import Tab from '~/components/sidebars/left/Tab.vue';
 import { IUser } from '~/types/auth-types';
 import UserAvatar from '~/components/ui/UserAvatar.vue';
 
-defineProps<{
+const props = defineProps<{
   user: IUser;
 }>();
 
 defineEmits<{
   logout: [];
 }>();
+
+const profileLink = computed(() => `/profile/${props.user.id}`);
 </script>

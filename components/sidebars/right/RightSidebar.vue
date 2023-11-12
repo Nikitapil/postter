@@ -85,14 +85,16 @@ const whoToFollowItems = ref<IUser[]>([
     name: 'Joe',
     email: 'Joe@Joe.Joe',
     profileImage: 'https://loremflickr.com/200/200',
-    username: 'Joe'
+    username: 'Joe',
+    about: ''
   },
   {
     id: '2345',
     name: 'Joe',
     email: 'Joe@Joe.Joe',
     profileImage: 'https://loremflickr.com/200/200',
-    username: 'Joe'
+    username: 'Joe',
+    about: ''
   }
 ]);
 
