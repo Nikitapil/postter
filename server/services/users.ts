@@ -2,6 +2,7 @@ import { prisma } from '~/server/services/index';
 import bcrypt from 'bcrypt';
 import {
   ICreateUserData,
+  IEditUserData,
   ILoginApiData,
   IUserDataFiltered
 } from '~/server/types/users-types';
@@ -19,6 +20,15 @@ const createUserSchema = z.object({
   email: z.string().email().min(1),
   password: z.string().min(8),
   repeatPassword: z.string(),
+  name: z.string().min(1),
+  profileImage: z.string(),
+  about: z.string()
+});
+
+const editUserSchema = z.object({
+  userId: z.string().min(1),
+  username: z.string().min(1),
+  email: z.string().email().min(1),
   name: z.string().min(1),
   profileImage: z.string(),
   about: z.string()
@@ -137,4 +147,36 @@ export const refreshAuth = async (refreshToken?: string) => {
   }
 
   return createUserDataWithTokens(user);
+};
+
+export const editUser = async (userData: IEditUserData) => {
+  const { userId, username, email, name, profileImage, about } =
+    editUserSchema.parse(userData);
+
+  const user = await getUserById(userId);
+
+  if (!user) {
+    throw ApiError.NotFoundError('User not found');
+  }
+
+  if (user.username !== username) {
+    const candidate = await getUserByUsername(username);
+    if (candidate) {
+      throw ApiError.BadRequest(`Username ${username} already exist`);
+    }
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      email,
+      username,
+      name,
+      profileImage,
+      about
+    },
+    select: safeUserSelect
+  });
+
+  return updatedUser;
 };

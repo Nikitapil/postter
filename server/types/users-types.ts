@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export interface ICreateUserData {
   email: string;
   name?: string;
@@ -5,6 +7,15 @@ export interface ICreateUserData {
   password: string;
   repeatPassword: string;
   profileImage?: string;
+  about: string;
+}
+
+export interface IEditUserData {
+  userId: string;
+  username: string;
+  email: string;
+  name: string;
+  profileImage: string;
   about: string;
 }
 
