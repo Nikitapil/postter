@@ -8,6 +8,14 @@ export interface IRegisterData {
   profileImage?: File | null;
 }
 
+export interface IEditUserData {
+  username: string;
+  email: string;
+  name: string;
+  about: string;
+  profileImage?: File | null;
+}
+
 export type TRegisteredDataKey = keyof IRegisterData;
 
 export interface ILoginData {
