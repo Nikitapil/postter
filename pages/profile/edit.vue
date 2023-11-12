@@ -1,6 +1,9 @@
 <template>
   <MainSection title="Edit profile">
-    <form @submit.prevent>
+    <form
+      class="px-5 flex flex-col gap-5"
+      @submit.prevent
+    >
       <AppInput
         id="username"
         v-model="userData.username"
@@ -23,8 +26,10 @@
         :disabled="false"
       />
       <AppTextArea
+        id="profile-info"
         v-model="userData.about"
         use-contrast-colors
+        label="Profile information"
         placeholder="Information about you"
       />
     </form>

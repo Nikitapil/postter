@@ -55,36 +55,10 @@
           label="Profile information"
           placeholder="Information about you"
         />
-        <input
-          id="profile-image"
-          type="file"
-          hidden
-          accept="image/png, image/gif, image/jpeg"
-          :disabled="loading"
-          @change="handleProfileImageChange"
+        <ProfileImageUploader
+          v-model="userData.profileImage"
+          :loading="loading"
         />
-        <div class="flex w-full justify-between items-center">
-          <img
-            v-if="profileImageUrl"
-            class="w-12 h-12 rounded-full"
-            :src="profileImageUrl"
-            alt="Your profile avatar"
-          />
-          <button
-            v-if="userData.profileImage"
-            class="hover:underline text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white block mr-auto ml-2 default-transition"
-            :disabled="loading"
-            @click="onDeleteProfileImage"
-          >
-            <XMarkIcon class="w-4 h-4" />
-          </button>
-          <label
-            for="profile-image"
-            class="hover:underline w-fit cursor-pointer text-gray-100 dark:text-gray-700 block ml-auto bg-dim-800 dark:bg-white px-4 py-2 rounded-full disabled:cursor-not-allowed"
-          >
-            Upload profile image
-          </label>
-        </div>
       </template>
 
       <AppButton
@@ -111,8 +85,8 @@ import useAuth from '~/composables/useAuth';
 import AppButton from '~/components/ui/AppButton.vue';
 import PostterLogo from '~/components/icons/PostterLogo.vue';
 import { IRegisterData } from '~/types/auth-types';
-import { XMarkIcon } from '@heroicons/vue/24/solid';
 import AppTextArea from '~/components/ui/AppTextArea.vue';
+import ProfileImageUploader from '~/components/Auth/ProfileImageUploader.vue';
 
 const { login, register } = useAuth();
 
@@ -138,12 +112,6 @@ const handleSubmit = async () => {
   }
   loading.value = false;
 };
-
-const profileImageUrl = computed(() =>
-  userData.value.profileImage
-    ? URL.createObjectURL(userData.value.profileImage)
-    : null
-);
 
 const isSubmitDisable = computed(() => {
   if (registeredMode.value) {
@@ -173,15 +141,4 @@ const submitButtonText = computed(() => {
 });
 
 const toggleForm = () => (registeredMode.value = !registeredMode.value);
-
-const handleProfileImageChange = (event: InputEvent) => {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) {
-    userData.value.profileImage = file;
-  }
-};
-
-const onDeleteProfileImage = () => {
-  userData.value.profileImage = null;
-};
 </script>
