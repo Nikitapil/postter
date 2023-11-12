@@ -29,7 +29,6 @@ export default () => {
     ) {
       return;
     }
-    console.log(currentRepliesPage.value);
     const replies = await getReplies({
       id: post.value.id,
       page: currentRepliesPage.value + 1,

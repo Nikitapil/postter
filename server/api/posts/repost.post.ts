@@ -8,7 +8,6 @@ export default defineEventHandler(async (event) => {
     const post = await repost({ authorId, repostFromId });
     return { post };
   } catch (e) {
-    console.log(e);
     return handleError(event, e);
   }
 });
