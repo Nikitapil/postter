@@ -111,7 +111,7 @@ export default () => {
 
   const logout = async () => {
     try {
-      await useFetchApi('api/auth/logout', {
+      await useFetchApi('/api/auth/logout', {
         method: 'POST'
       });
       setToken(null);

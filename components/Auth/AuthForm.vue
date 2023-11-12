@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full flex flex-col max-h-full overflow-auto">
     <div class="flex justify-center">
       <div class="w-16 h-16">
         <PostterLogo />
@@ -49,8 +49,10 @@
           :disabled="loading"
         />
         <AppTextArea
+          id="profile-info"
           v-model="userData.about"
           use-contrast-colors
+          label="Profile information"
           placeholder="Information about you"
         />
         <input
