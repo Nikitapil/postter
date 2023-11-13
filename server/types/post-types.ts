@@ -14,6 +14,7 @@ export interface IGetPostsRequest {
   userId: string;
   page?: number | null;
   limit?: number | null;
+  profileId?: string | null;
 }
 
 export interface IPostFromDbBase {

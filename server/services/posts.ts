@@ -14,6 +14,7 @@ import { ApiError } from '~/server/utils/ApiError';
 import { postTransformer } from '~/server/transformers/post-transformers';
 import { z } from 'zod';
 import { createMediaFile } from '~/server/services/mediaFiles';
+import { Prisma } from '.prisma/client';
 
 const createPostSchema = z.object({
   authorId: z.string().min(1),
@@ -27,7 +28,8 @@ const getPostsSchema = z.object({
   search: z.string(),
   page: z.number().optional(),
   limit: z.number().optional(),
-  userId: z.string().min(1)
+  userId: z.string().min(1),
+  profileId: z.string().optional()
 });
 
 const getPostsByIdSchema = z.object({
@@ -69,15 +71,21 @@ export const createPost = async (postData: IPostDto) => {
 
 export const getPosts = async (params: IGetPostsRequest) => {
   // TODO feed filter(or create separated methods)
-  const { search, page, limit, userId } = getPostsSchema.parse(params);
+  const { search, page, limit, userId, profileId } =
+    getPostsSchema.parse(params);
+
   const paginationParams = getPaginationParams(page, limit);
-  const posts = await prisma.post.findMany({
-    where: {
-      text: {
-        contains: search,
-        mode: 'insensitive'
-      }
+
+  const where: Prisma.PostWhereInput = {
+    text: {
+      contains: search,
+      mode: 'insensitive'
     },
+    ...(profileId ? { userId: profileId } : {})
+  };
+
+  const posts = await prisma.post.findMany({
+    where,
     include: getPostIncludeWithUserLikes(userId),
     orderBy: [
       {
@@ -87,12 +95,7 @@ export const getPosts = async (params: IGetPostsRequest) => {
     ...paginationParams
   });
   const totalCount = await prisma.post.count({
-    where: {
-      text: {
-        contains: search,
-        mode: 'insensitive'
-      }
-    }
+    where
   });
   return { posts: posts.map((post) => postTransformer(post)), totalCount };
 };
