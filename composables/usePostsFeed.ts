@@ -12,24 +12,29 @@ export default () => {
     Math.floor(posts.value.length / POSTS_LIMIT)
   );
 
-  const getPosts = async ({ query = '' }: IGetPostsParams = {}) => {
+  const getPosts = async ({ query = '', profileId }: IGetPostsParams = {}) => {
     if (posts.value.length >= totalCount.value) {
       return;
     }
     const loadedPosts = await getPostsInitial({
       query,
       page: currentPage.value + 1,
-      limit: POSTS_LIMIT
+      limit: POSTS_LIMIT,
+      profileId
     });
     posts.value.push(...loadedPosts.posts);
     totalCount.value = loadedPosts.totalCount;
   };
 
-  const getPostsWithReset = async ({ query = '' }: IGetPostsParams = {}) => {
+  const getPostsWithReset = async ({
+    query = '',
+    profileId
+  }: IGetPostsParams = {}) => {
     const loadedPosts = await getPostsInitial({
       query,
       page: 1,
-      limit: POSTS_LIMIT
+      limit: POSTS_LIMIT,
+      profileId
     });
     posts.value = loadedPosts.posts;
     totalCount.value = loadedPosts.totalCount;

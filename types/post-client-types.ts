@@ -11,6 +11,7 @@ export interface IGetPostsParams {
   query?: string;
   page?: number;
   limit?: number;
+  profileId?: string;
 }
 
 export interface IGetPostByIdParams {
