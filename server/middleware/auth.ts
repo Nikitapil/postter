@@ -14,7 +14,8 @@ export default defineEventHandler(async (event) => {
     '/api/posts/replies',
     '/api/posts/replies?*',
     '/api/posts/repost',
-    '/api/user/edit'
+    '/api/user/edit',
+    '/api/user/profile'
   ];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {

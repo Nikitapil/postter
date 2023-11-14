@@ -26,9 +26,14 @@ export interface IUserDataFiltered {
   username: string;
   profileImage: string | null;
   about: string;
+  createdAt: Date | string;
 }
 
 export interface ILoginApiData {
   username: string;
   password: string;
+}
+
+export interface IGetProfile {
+  profileId: string;
 }

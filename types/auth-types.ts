@@ -28,6 +28,7 @@ export interface IUser {
   profileImage: string | null;
   username: string;
   about: string;
+  createdAt: string;
 }
 
 export interface IJwtDecodedToken {

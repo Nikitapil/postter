@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import {
   ICreateUserData,
   IEditUserData,
+  IGetProfile,
   ILoginApiData,
   IUserDataFiltered
 } from '~/server/types/users-types';
@@ -37,6 +38,10 @@ const editUserSchema = z.object({
 const loginSchema = z.object({
   username: z.string().min(1),
   password: z.string().min(1)
+});
+
+const getProfileSchema = z.object({
+  profileId: z.string().min(1)
 });
 
 export const createUser = async (userData: ICreateUserData) => {
@@ -96,7 +101,8 @@ export const login = async (loginData: ILoginApiData) => {
     email: user.email,
     username: user.username,
     profileImage: user.profileImage,
-    about: user.about
+    about: user.about,
+    createdAt: user.createdAt
   };
 
   return createUserDataWithTokens(userData);
@@ -179,4 +185,15 @@ export const editUser = async (userData: IEditUserData) => {
   });
 
   return updatedUser;
+};
+
+export const getProfile = async (params: IGetProfile) => {
+  const { profileId } = getProfileSchema.parse(params);
+  const profile = await getUserById(profileId);
+
+  if (!profile) {
+    throw ApiError.NotFoundError('User not found');
+  }
+
+  return { profile };
 };

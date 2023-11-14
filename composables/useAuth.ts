@@ -118,6 +118,7 @@ export default () => {
   };
 
   const editUser = async (editData: IEditUserData) => {
+    const { $toast } = useNuxtApp();
     try {
       const formData = createFormDataFromObject(editData);
       const { user } = await useFetchApi<IEditUserResponse>('/api/user/edit', {
@@ -125,8 +126,8 @@ export default () => {
         body: formData
       });
       setUser(user);
+      $toast.success('Saved');
     } catch (e: any) {
-      const { $toast } = useNuxtApp();
       $toast.error(e?.statusMessage || 'Service Unavailable, try again later');
     }
   };
