@@ -13,7 +13,7 @@
         <!--        TODO add link to user feed-->
         <NuxtLink
           class="mr-5 link-gray"
-          to="#"
+          :to="`/profile/${post.authorId}`"
         >
           @{{ post.author.username }}
         </NuxtLink>
