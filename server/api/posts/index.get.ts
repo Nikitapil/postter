@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
       totalCount
     };
   } catch (e) {
+    console.log(e);
     return handleError(event, e);
   }
 });

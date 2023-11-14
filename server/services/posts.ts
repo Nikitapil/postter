@@ -81,7 +81,7 @@ export const getPosts = async (params: IGetPostsRequest) => {
       contains: search,
       mode: 'insensitive'
     },
-    ...(profileId ? { userId: profileId } : {})
+    ...(profileId ? { authorId: profileId } : {})
   };
 
   const posts = await prisma.post.findMany({
