@@ -29,7 +29,8 @@ const getPostsSchema = z.object({
   page: z.number().optional(),
   limit: z.number().optional(),
   userId: z.string().min(1),
-  profileId: z.string().optional()
+  profileId: z.string().optional(),
+  likedByUserId: z.string().optional()
 });
 
 const getPostsByIdSchema = z.object({
@@ -71,7 +72,7 @@ export const createPost = async (postData: IPostDto) => {
 
 export const getPosts = async (params: IGetPostsRequest) => {
   // TODO feed filter(or create separated methods)
-  const { search, page, limit, userId, profileId } =
+  const { search, page, limit, userId, profileId, likedByUserId } =
     getPostsSchema.parse(params);
 
   const paginationParams = getPaginationParams(page, limit);
@@ -83,6 +84,14 @@ export const getPosts = async (params: IGetPostsRequest) => {
     },
     ...(profileId ? { authorId: profileId } : {})
   };
+
+  if (likedByUserId) {
+    where.likes = {
+      some: {
+        userId: likedByUserId
+      }
+    };
+  }
 
   const posts = await prisma.post.findMany({
     where,

@@ -12,6 +12,7 @@ export interface IGetPostsParams {
   page?: number;
   limit?: number;
   profileId?: string;
+  likedByUserId?: string;
 }
 
 export interface IGetPostByIdParams {

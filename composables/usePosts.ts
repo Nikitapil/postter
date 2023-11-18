@@ -42,7 +42,8 @@ export default () => {
     query = '',
     page,
     limit,
-    profileId
+    profileId,
+    likedByUserId
   }: IGetPostsParams = {}): Promise<IPostsResponse> => {
     try {
       const { posts, totalCount } = await useFetchApi<IPostsResponse>(
@@ -53,7 +54,8 @@ export default () => {
             query,
             page,
             limit,
-            profileId
+            profileId,
+            likedByUserId
           }
         }
       );

@@ -12,7 +12,11 @@ export default () => {
     Math.floor(posts.value.length / POSTS_LIMIT)
   );
 
-  const getPosts = async ({ query = '', profileId }: IGetPostsParams = {}) => {
+  const getPosts = async ({
+    query = '',
+    profileId,
+    likedByUserId
+  }: IGetPostsParams = {}) => {
     if (posts.value.length >= totalCount.value) {
       return;
     }
@@ -20,7 +24,8 @@ export default () => {
       query,
       page: currentPage.value + 1,
       limit: POSTS_LIMIT,
-      profileId
+      profileId,
+      likedByUserId
     });
     posts.value.push(...loadedPosts.posts);
     totalCount.value = loadedPosts.totalCount;
@@ -28,13 +33,15 @@ export default () => {
 
   const getPostsWithReset = async ({
     query = '',
-    profileId
+    profileId,
+    likedByUserId
   }: IGetPostsParams = {}) => {
     const loadedPosts = await getPostsInitial({
       query,
       page: 1,
       limit: POSTS_LIMIT,
-      profileId
+      profileId,
+      likedByUserId
     });
     posts.value = loadedPosts.posts;
     totalCount.value = loadedPosts.totalCount;

@@ -15,6 +15,7 @@ export interface IGetPostsRequest {
   page?: number | null;
   limit?: number | null;
   profileId?: string | null;
+  likedByUserId?: string;
 }
 
 export interface IPostFromDbBase {

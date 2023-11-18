@@ -4,7 +4,13 @@ import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {
   try {
-    const { query = '', page = 0, limit = 0, profileId } = getQuery(event);
+    const {
+      query = '',
+      page = 0,
+      limit = 0,
+      profileId,
+      likedByUserId
+    } = getQuery(event);
 
     const userId = event.context?.auth?.user?.id as string;
 
@@ -13,7 +19,8 @@ export default defineEventHandler(async (event) => {
       search: query as string,
       page: +(page as number),
       limit: +(limit as number),
-      profileId: profileId as string | undefined
+      profileId: profileId as string | undefined,
+      likedByUserId: likedByUserId as string | undefined
     });
 
     return {
@@ -21,7 +28,6 @@ export default defineEventHandler(async (event) => {
       totalCount
     };
   } catch (e) {
-    console.log(e);
     return handleError(event, e);
   }
 });
