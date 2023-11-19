@@ -15,7 +15,9 @@ export default defineEventHandler(async (event) => {
     '/api/posts/replies?*',
     '/api/posts/repost',
     '/api/user/edit',
-    '/api/user/profile'
+    '/api/user/profile',
+    '/api/user/profile?*',
+    '/api/user/follow'
   ];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {
@@ -43,7 +45,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const userId = decoded.userId;
-    const user = await getUserById(userId);
+    const user = await getUserById(userId, userId);
 
     if (!user) {
       return sendError(

@@ -6,7 +6,12 @@ export default defineEventHandler(async (event) => {
   try {
     const { profileId } = getQuery(event);
 
-    const { profile } = await getProfile({ profileId: profileId as string });
+    const currentUserId = event.context?.auth?.user?.id as string;
+
+    const { profile } = await getProfile({
+      profileId: profileId as string,
+      currentUserId
+    });
 
     return { profile };
   } catch (e) {

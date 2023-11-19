@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 export interface ICreateUserData {
   email: string;
   name?: string;
@@ -27,6 +25,24 @@ export interface IUserDataFiltered {
   profileImage: string | null;
   about: string;
   createdAt: Date | string;
+  followedByCount?: number;
+  followingCount?: number;
+  isFollowedByCurrent?: boolean;
+}
+
+export interface ISafeUserFromDb {
+  id: string;
+  email: string;
+  name: string | null;
+  username: string;
+  profileImage: string | null;
+  about: string;
+  createdAt: Date | string;
+  _count?: {
+    followedBy: number;
+    following: number;
+  };
+  followedBy?: ISafeUserFromDb[];
 }
 
 export interface ILoginApiData {
@@ -36,4 +52,10 @@ export interface ILoginApiData {
 
 export interface IGetProfile {
   profileId: string;
+  currentUserId: string;
+}
+
+export interface IFollowUserParams {
+  followByUserId: string;
+  followToUserId: string;
 }

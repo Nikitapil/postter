@@ -3,9 +3,10 @@ import bcrypt from 'bcrypt';
 import {
   ICreateUserData,
   IEditUserData,
+  IFollowUserParams,
   IGetProfile,
   ILoginApiData,
-  IUserDataFiltered
+  ISafeUserFromDb
 } from '~/server/types/users-types';
 import { z } from 'zod';
 import { ApiError } from '~/server/utils/ApiError';
@@ -14,7 +15,11 @@ import {
   getRefreshTokenByToken,
   updateRefreshToken
 } from '~/server/services/refresh-tokens';
-import { safeUserSelect } from '~/server/utils/db-query-helpers';
+import {
+  getSafeUserSelectWithFollowedBy,
+  safeUserSelect
+} from '~/server/utils/db-query-helpers';
+import { userTransformer } from '~/server/transformers/user-transformers';
 
 const createUserSchema = z.object({
   username: z.string().min(1),
@@ -41,7 +46,13 @@ const loginSchema = z.object({
 });
 
 const getProfileSchema = z.object({
-  profileId: z.string().min(1)
+  profileId: z.string().min(1),
+  currentUserId: z.string().min(1)
+});
+
+const followUserSchema = z.object({
+  followByUserId: z.string().min(1),
+  followToUserId: z.string().min(1)
 });
 
 export const createUser = async (userData: ICreateUserData) => {
@@ -95,14 +106,15 @@ export const login = async (loginData: ILoginApiData) => {
     throw ApiError.BadRequest('Username or password are invalid');
   }
 
-  const userData = {
+  const userData: ISafeUserFromDb = {
     id: user.id,
     name: user.name,
     email: user.email,
     username: user.username,
     profileImage: user.profileImage,
     about: user.about,
-    createdAt: user.createdAt
+    createdAt: user.createdAt,
+    _count: user._count
   };
 
   return createUserDataWithTokens(userData);
@@ -110,24 +122,32 @@ export const login = async (loginData: ILoginApiData) => {
 
 export const getUserByUsername = (username: string) => {
   return prisma.user.findUnique({
-    where: { username }
+    where: { username },
+    include: {
+      _count: {
+        select: {
+          following: true,
+          followedBy: true
+        }
+      }
+    }
   });
 };
 
-export const getUserById = (id: string) => {
+export const getUserById = (id: string, currentUserId: string) => {
   return prisma.user.findUnique({
     where: { id },
-    select: safeUserSelect
+    select: getSafeUserSelectWithFollowedBy(currentUserId)
   });
 };
 
-export const createUserDataWithTokens = async (user: IUserDataFiltered) => {
+export const createUserDataWithTokens = async (user: ISafeUserFromDb) => {
   const { accessToken, refreshToken } = generateTokens(user);
   await updateRefreshToken({ token: refreshToken, userId: user.id });
   return {
     accessToken,
     refreshToken,
-    user
+    user: userTransformer(user)
   };
 };
 
@@ -159,7 +179,7 @@ export const editUser = async (userData: IEditUserData) => {
   const { userId, username, email, name, profileImage, about } =
     editUserSchema.parse(userData);
 
-  const user = await getUserById(userId);
+  const user = await getUserById(userId, userId);
 
   if (!user) {
     throw ApiError.NotFoundError('User not found');
@@ -188,12 +208,69 @@ export const editUser = async (userData: IEditUserData) => {
 };
 
 export const getProfile = async (params: IGetProfile) => {
-  const { profileId } = getProfileSchema.parse(params);
-  const profile = await getUserById(profileId);
+  const { profileId, currentUserId } = getProfileSchema.parse(params);
+  const profile = await getUserById(profileId, currentUserId);
 
   if (!profile) {
     throw ApiError.NotFoundError('User not found');
   }
 
-  return { profile };
+  return { profile: userTransformer(profile) };
+};
+
+export const followUser = async (params: IFollowUserParams) => {
+  const { followByUserId, followToUserId } = followUserSchema.parse(params);
+
+  await prisma.user.update({
+    where: {
+      id: followByUserId
+    },
+    data: {
+      following: {
+        connect: { id: followToUserId }
+      }
+    },
+    select: getSafeUserSelectWithFollowedBy(followByUserId)
+  });
+
+  return { isFollowedByCurrent: true };
+};
+
+export const unFollowUser = async (params: IFollowUserParams) => {
+  const { followByUserId, followToUserId } = followUserSchema.parse(params);
+
+  await prisma.user.update({
+    where: {
+      id: followByUserId
+    },
+    data: {
+      following: {
+        disconnect: { id: followToUserId }
+      }
+    },
+    select: getSafeUserSelectWithFollowedBy(followByUserId)
+  });
+
+  return { isFollowedByCurrent: false };
+};
+
+export const toggleFollowUser = async (params: IFollowUserParams) => {
+  const { followByUserId, followToUserId } = followUserSchema.parse(params);
+
+  const followToUser = await prisma.user.findUnique({
+    where: { id: followToUserId },
+    select: getSafeUserSelectWithFollowedBy(followByUserId)
+  });
+
+  if (!followToUser) {
+    throw ApiError.NotFoundError('User not found');
+  }
+
+  const isFollowedByCurrentUser = !!followToUser.followedBy.length;
+
+  if (isFollowedByCurrentUser) {
+    return unFollowUser(params);
+  }
+
+  return followUser(params);
 };

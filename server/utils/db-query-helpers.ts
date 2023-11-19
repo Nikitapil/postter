@@ -8,9 +8,26 @@ export const safeUserSelect: Prisma.UserSelect = {
   username: true,
   profileImage: true,
   about: true,
-  createdAt: true
+  createdAt: true,
+  _count: {
+    select: {
+      followedBy: true,
+      following: true
+    }
+  }
 };
 
+export const getSafeUserSelectWithFollowedBy = (
+  userId: string
+): Prisma.UserSelect => {
+  return {
+    ...safeUserSelect,
+    followedBy: {
+      where: { id: userId },
+      select: safeUserSelect
+    }
+  };
+};
 export const postInclude: Prisma.PostInclude = {
   author: {
     select: safeUserSelect

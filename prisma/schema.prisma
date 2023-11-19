@@ -26,6 +26,11 @@ model User {
   posts        Post[]
   mediaFiles   MediaFile[]
   likes        Likes[]
+
+  followedBy    User[]   @relation("UserFollows", fields: [followedByIDs], references: [id])
+  followedByIDs String[] @db.ObjectId
+  following     User[]   @relation("UserFollows", fields: [followingIDs], references: [id])
+  followingIDs  String[] @db.ObjectId
 }
 
 model RefreshToken {
