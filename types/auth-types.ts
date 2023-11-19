@@ -29,6 +29,9 @@ export interface IUser {
   username: string;
   about: string;
   createdAt: string;
+  followedByCount?: number;
+  followingCount?: number;
+  isFollowedByCurrent?: boolean;
 }
 
 export interface IJwtDecodedToken {
