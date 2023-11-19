@@ -4,6 +4,7 @@ import {
   ICreateUserData,
   IEditUserData,
   IFollowUserParams,
+  IGetFollowUsersList,
   IGetProfile,
   ILoginApiData,
   ISafeUserFromDb
@@ -16,11 +17,13 @@ import {
   updateRefreshToken
 } from '~/server/services/refresh-tokens';
 import {
+  getPaginationParams,
   getSafeUserSelectWithFollowedBy,
   safeUserSelect
 } from '~/server/utils/db-query-helpers';
 import { userTransformer } from '~/server/transformers/user-transformers';
-
+import { Prisma } from '.prisma/client';
+// TODO decompose this file
 const createUserSchema = z.object({
   username: z.string().min(1),
   email: z.string().email().min(1),
@@ -53,6 +56,14 @@ const getProfileSchema = z.object({
 const followUserSchema = z.object({
   followByUserId: z.string().min(1),
   followToUserId: z.string().min(1)
+});
+
+const getFollowUsersListSchema = z.object({
+  currentUserId: z.string().min(1),
+  profileId: z.string().min(1),
+  filter: z.union([z.literal('followers'), z.literal('following')]),
+  page: z.number().optional(),
+  limit: z.number().optional()
 });
 
 export const createUser = async (userData: ICreateUserData) => {
@@ -273,4 +284,39 @@ export const toggleFollowUser = async (params: IFollowUserParams) => {
   }
 
   return followUser(params);
+};
+
+export const getFollowUsersList = async (params: IGetFollowUsersList) => {
+  const { currentUserId, profileId, filter, page, limit } =
+    getFollowUsersListSchema.parse(params);
+
+  const paginationParams = getPaginationParams(page, limit);
+
+  const where: Prisma.UserWhereInput =
+    filter === 'followers'
+      ? {
+          followingIDs: {
+            has: profileId
+          }
+        }
+      : {
+          followedByIDs: {
+            has: profileId
+          }
+        };
+
+  const users = await prisma.user.findMany({
+    where: where,
+    select: getSafeUserSelectWithFollowedBy(currentUserId),
+    ...paginationParams
+  });
+
+  const totalCount = await prisma.user.count({
+    where
+  });
+
+  return {
+    users: users.map((user) => userTransformer(user)),
+    totalCount
+  };
 };

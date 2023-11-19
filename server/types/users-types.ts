@@ -59,3 +59,14 @@ export interface IFollowUserParams {
   followByUserId: string;
   followToUserId: string;
 }
+
+export interface IGetFollowUsersListQuery {
+  profileId: string;
+  filter: 'followers' | 'following';
+  page?: number;
+  limit?: number;
+}
+
+export interface IGetFollowUsersList extends IGetFollowUsersListQuery {
+  currentUserId: string;
+}
