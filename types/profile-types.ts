@@ -8,9 +8,14 @@ export interface IFollowResponse {
   isFollowedByCurrent: boolean;
 }
 
+export enum EUserFollowListFilter {
+  FOLLOWERS = 'followers',
+  FOLLOWING = 'following'
+}
+
 export interface IGetUserFollowListParams {
   profileId: string;
-  filter: 'followers' | 'following';
+  filter: EUserFollowListFilter;
   isInitial: boolean;
 }
 

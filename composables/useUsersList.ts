@@ -14,7 +14,7 @@ export const useUsersList = () => {
     Math.floor(usersList.value.length / USERS_LIMIT)
   );
 
-  const getUserFollowListInitial = async ({
+  const getUserFollowList = async ({
     profileId,
     filter,
     isInitial
@@ -44,5 +44,5 @@ export const useUsersList = () => {
     }
   };
 
-  return { usersList, getUserFollowListInitial };
+  return { usersList, getUserFollowList };
 };

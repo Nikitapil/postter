@@ -23,40 +23,19 @@
       title="Who to follow"
       show-more-link="/trends"
     >
-      <PreviewCardItem
+      <UserListItem
         v-for="item in whoToFollowItems"
         :key="item.id"
-      >
-        <div class="flex flex-row justify-between items-center p-2">
-          <div class="flex flex-row">
-            <UserAvatar :link="item.profileImage" />
-
-            <div class="flex flex-col ml-2">
-              <h2 class="font-bold text-gray-800 text-md dark:text-white">
-                {{ item.name }}
-              </h2>
-              <p class="text-xs text-gray-400">@{{ item.username }}</p>
-            </div>
-          </div>
-
-          <div class="flex h-full">
-            <button
-              class="px-4 py-2 font-bold text-xs text-white dark:text-black bg-black dark:bg-white rounded-full"
-            >
-              Follow
-            </button>
-          </div>
-        </div>
-      </PreviewCardItem>
+        :user="item"
+      />
     </PreviewCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import PreviewCard from '~/components/sidebars/right/PreviewCard/PreviewCard.vue';
-import PreviewCardItem from '~/components/sidebars/right/PreviewCard/PreviewCardItem.vue';
+import PreviewCard from '~/components/PreviewCard/PreviewCard.vue';
+import PreviewCardItem from '~/components/PreviewCard/PreviewCardItem.vue';
 import SearchForm from '~/components/ui/SearchForm.vue';
-import UserAvatar from '~/components/ui/UserAvatar.vue';
 import { IUser } from '~/types/auth-types';
 
 // TODO get real data
@@ -86,7 +65,8 @@ const whoToFollowItems = ref<IUser[]>([
     email: 'Joe@Joe.Joe',
     profileImage: 'https://loremflickr.com/200/200',
     username: 'Joe',
-    about: ''
+    about: '',
+    createdAt: ''
   },
   {
     id: '2345',
@@ -94,7 +74,8 @@ const whoToFollowItems = ref<IUser[]>([
     email: 'Joe@Joe.Joe',
     profileImage: 'https://loremflickr.com/200/200',
     username: 'Joe',
-    about: ''
+    about: '',
+    createdAt: ''
   }
 ]);
 
