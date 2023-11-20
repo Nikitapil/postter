@@ -2,7 +2,7 @@
   <div>
     <MainSection :loading="false">
       <template #title>
-        <div class="flex justify-around">
+        <div class="flex justify-around mb-5">
           <NuxtLink
             class="dark:text-white hover:opacity-70 default-transition"
             active-class="border-b"

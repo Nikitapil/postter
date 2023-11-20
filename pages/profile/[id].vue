@@ -47,13 +47,13 @@
         <div class="flex gap-3">
           <NuxtLink
             class="link-gray"
-            to="#"
+            :to="followersLink"
           >
             {{ profile.followedByCount }} followers
           </NuxtLink>
           <NuxtLink
             class="link-gray"
-            to="#"
+            :to="followingLink"
           >
             {{ profile.followingCount }} following
           </NuxtLink>
@@ -96,12 +96,22 @@ const route = useRoute();
 const isPageLoading = ref(true);
 const isFollowToggleInProgress = ref(false);
 
+const profileId = computed(() => route.params.id as string);
+
 const registeredDateText = computed(() =>
   profile.value ? new Date(profile.value.createdAt).toLocaleDateString() : ''
 );
-const isMyUser = computed(() => user.value?.id === route.params.id);
+const isMyUser = computed(() => user.value?.id === profileId.value);
+
 const profileHeaderButtonText = computed(() =>
   profile.value?.isFollowedByCurrent ? 'Unfollow' : 'Follow'
+);
+
+const followersLink = computed(
+  () => `/profile/follows-${profileId.value}/followers`
+);
+const followingLink = computed(
+  () => `/profile/follows-${profileId.value}/following`
 );
 
 const onClickFollow = () => {
@@ -114,13 +124,13 @@ const onClickFollow = () => {
 
 const loadMorePosts = async () => {
   await getPosts({
-    profileId: route.params.id as string
+    profileId: profileId.value
   });
 };
 
 const loadPostsInitial = async () => {
   await getPostsWithReset({
-    profileId: route.params.id as string
+    profileId: profileId.value
   });
 };
 
