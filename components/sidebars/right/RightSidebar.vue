@@ -3,19 +3,25 @@
     <SearchForm @search="handleSearch" />
 
     <PreviewCard
-      title="What's happening"
+      v-if="posts.length"
+      title="Top posts"
       show-more-link="/trends"
     >
       <PreviewCardItem
-        v-for="item in whatsHappeningItems"
-        :key="item.id"
+        v-for="post in posts"
+        :key="post.id"
       >
-        <div>
-          <h2 class="font-bold text-gray-800 text-md dark:text-white">
-            {{ item.title }}
+        <NuxtLink
+          :to="`/status/${post.id}`"
+          class="block"
+        >
+          <h2
+            class="font-bold text-gray-800 text-md dark:text-white max-w-xs text-ellipsis whitespace-nowrap overflow-hidden"
+          >
+            {{ post.text }}
           </h2>
-          <p class="text-xs text-gray-400">{{ item.count }}</p>
-        </div>
+          <p class="text-xs text-gray-400">{{ post.likesCount }} likes</p>
+        </NuxtLink>
       </PreviewCardItem>
     </PreviewCard>
 
@@ -38,24 +44,7 @@ import PreviewCardItem from '~/components/PreviewCard/PreviewCardItem.vue';
 import SearchForm from '~/components/ui/SearchForm.vue';
 import { IUser } from '~/types/auth-types';
 
-// TODO get real data
-const whatsHappeningItems = ref([
-  {
-    id: 1,
-    title: 'SpaceX',
-    count: '18.8k Tweets'
-  },
-  {
-    id: 2,
-    title: '#CodingIsFun',
-    count: '20k Tweets'
-  },
-  {
-    id: 3,
-    title: '#artforall',
-    count: '1.8k Tweets'
-  }
-]);
+const { posts, getTopPosts } = usePostsFeed();
 
 // TODO get real data
 const whoToFollowItems = ref<IUser[]>([
@@ -88,4 +77,11 @@ const handleSearch = (search: string) => {
     }
   });
 };
+
+onMounted(async () => {
+  await getTopPosts({
+    isInitial: true,
+    limit: 3
+  });
+});
 </script>

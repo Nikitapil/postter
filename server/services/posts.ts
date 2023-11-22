@@ -134,6 +134,9 @@ export const getTopPosts = async (params: IGetPostsBaseRequest) => {
         likes: {
           _count: 'desc'
         }
+      },
+      {
+        createdAt: 'desc'
       }
     ],
     ...paginationParams

@@ -1,10 +1,18 @@
-import { IGetPostsParamsExtended, IPost } from '~/types/post-client-types';
+import {
+  IGetPostsParams,
+  IGetPostsParamsExtended,
+  IPost
+} from '~/types/post-client-types';
 import usePosts from '~/composables/usePosts';
 
 const POSTS_LIMIT = 50;
 
 export default () => {
-  const { getPosts: getPostsInitial, getMyPosts } = usePosts();
+  const {
+    getPosts: getPostsInitial,
+    getMyPosts,
+    getTopPosts: getTopPostsInitial
+  } = usePosts();
 
   const posts = ref<IPost[]>([]);
   const totalCount = ref(0);
@@ -43,5 +51,22 @@ export default () => {
     }
   };
 
-  return { getPosts, posts };
+  const getTopPosts = async ({ isInitial, limit }: IGetPostsParamsExtended) => {
+    if (!isInitial && posts.value.length >= totalCount.value) {
+      return;
+    }
+    const loadedPosts = await getTopPostsInitial({
+      page: isInitial ? 1 : currentPage.value + 1,
+      limit: limit || POSTS_LIMIT
+    });
+
+    if (isInitial) {
+      posts.value = loadedPosts.posts;
+      totalCount.value = loadedPosts.totalCount;
+    } else {
+      posts.value.push(...loadedPosts.posts);
+    }
+  };
+
+  return { getPosts, getTopPosts, posts };
 };
