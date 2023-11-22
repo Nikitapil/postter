@@ -1,4 +1,8 @@
-import { IGetPostsParams, IPost } from '~/types/post-client-types';
+import {
+  IGetPostsParams,
+  IGetPostsParamsExtended,
+  IPost
+} from '~/types/post-client-types';
 import usePosts from '~/composables/usePosts';
 
 const POSTS_LIMIT = 50;
@@ -15,37 +19,28 @@ export default () => {
   const getPosts = async ({
     query = '',
     profileId,
-    likedByUserId
-  }: IGetPostsParams = {}) => {
-    if (posts.value.length >= totalCount.value) {
+    likedByUserId,
+    isInitial,
+    isMyPostFeed
+  }: IGetPostsParamsExtended = {}) => {
+    if (!isInitial && posts.value.length >= totalCount.value) {
       return;
     }
     const loadedPosts = await getPostsInitial({
       query,
-      page: currentPage.value + 1,
+      page: isInitial ? 1 : currentPage.value + 1,
       limit: POSTS_LIMIT,
       profileId,
       likedByUserId
     });
-    posts.value.push(...loadedPosts.posts);
-    totalCount.value = loadedPosts.totalCount;
+
+    if (isInitial) {
+      posts.value = loadedPosts.posts;
+      totalCount.value = loadedPosts.totalCount;
+    } else {
+      posts.value.push(...loadedPosts.posts);
+    }
   };
 
-  const getPostsWithReset = async ({
-    query = '',
-    profileId,
-    likedByUserId
-  }: IGetPostsParams = {}) => {
-    const loadedPosts = await getPostsInitial({
-      query,
-      page: 1,
-      limit: POSTS_LIMIT,
-      profileId,
-      likedByUserId
-    });
-    posts.value = loadedPosts.posts;
-    totalCount.value = loadedPosts.totalCount;
-  };
-
-  return { getPosts, getPostsWithReset, posts };
+  return { getPosts, posts };
 };

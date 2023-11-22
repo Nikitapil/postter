@@ -18,18 +18,20 @@ const loading = ref(false);
 const { useAuthUser } = useAuth();
 const user = useAuthUser();
 
-const { posts, getPostsWithReset, getPosts } = usePostsFeed();
+const { posts, getPosts } = usePostsFeed();
 
 const loadMorePosts = async () => {
   await getPosts({
-    likedByUserId: user.value?.id
+    likedByUserId: user.value?.id,
+    isInitial: false
   });
 };
 
 onMounted(async () => {
   loading.value = true;
-  await getPostsWithReset({
-    likedByUserId: user.value?.id
+  await getPosts({
+    likedByUserId: user.value?.id,
+    isInitial: true
   });
   loading.value = false;
 });

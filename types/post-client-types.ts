@@ -15,6 +15,11 @@ export interface IGetPostsParams {
   likedByUserId?: string;
 }
 
+export interface IGetPostsParamsExtended extends IGetPostsParams {
+  isMyPostFeed?: boolean;
+  isInitial?: boolean;
+}
+
 export interface IGetPostByIdParams {
   id: string;
   page?: number;

@@ -88,7 +88,7 @@ const { useAuthUser } = useAuth();
 const user = useAuthUser();
 
 const { getProfile, profile } = useProfile();
-const { getPosts, getPostsWithReset, posts } = usePostsFeed();
+const { getPosts, posts } = usePostsFeed();
 const { toggleFollow } = useFollows();
 
 const route = useRoute();
@@ -124,13 +124,15 @@ const onClickFollow = () => {
 
 const loadMorePosts = async () => {
   await getPosts({
-    profileId: profileId.value
+    profileId: profileId.value,
+    isInitial: false
   });
 };
 
 const loadPostsInitial = async () => {
-  await getPostsWithReset({
-    profileId: profileId.value
+  await getPosts({
+    profileId: profileId.value,
+    isInitial: true
   });
 };
 

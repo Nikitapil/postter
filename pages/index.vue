@@ -34,18 +34,22 @@ import PostForm from '~/components/posts/form/PostForm.vue';
 import usePostsFeed from '~/composables/usePostsFeed';
 
 const { useAuthUser } = useAuth();
-const { getPosts, posts, getPostsWithReset } = usePostsFeed();
+const { getPosts, posts } = usePostsFeed();
 const user = useAuthUser();
 const loading = ref(false);
 
 const getPostsFeedInitial = async () => {
   loading.value = true;
-  await getPostsWithReset();
+  await getPosts({
+    isInitial: true
+  });
   loading.value = false;
 };
 
 const loadMorePosts = async () => {
-  await getPosts();
+  await getPosts({
+    isInitial: false
+  });
 };
 
 onBeforeMount(() => {
