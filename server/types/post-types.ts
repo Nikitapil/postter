@@ -9,7 +9,13 @@ export interface IPostDto {
   repostFromId?: string;
 }
 
-export interface IGetPostsRequest {
+export interface IGetPostsBaseRequest {
+  page?: number | null;
+  limit?: number | null;
+  userId: string | null;
+}
+
+export interface IGetPostsRequest extends IGetPostsBaseRequest {
   search: string;
   userId: string;
   page?: number | null;
@@ -18,11 +24,8 @@ export interface IGetPostsRequest {
   likedByUserId?: string;
 }
 
-export interface IGetMyFeedParams {
-  page: number;
-  limit: number;
-  userId: string;
-}
+export interface IGetMyFeedParams extends IGetPostsBaseRequest {}
+
 export interface IPostFromDbBase {
   id: string;
   text: string;

@@ -1,6 +1,7 @@
 import {
   IGetMyFeedParams,
   IGetPostById,
+  IGetPostsBaseRequest,
   IGetPostsRequest,
   IPostDto,
   IRepostParams,
@@ -35,6 +36,12 @@ const getPostsSchema = z.object({
 });
 
 const getMyFeedSchema = z.object({
+  page: z.number().optional(),
+  limit: z.number().optional(),
+  userId: z.string().min(1)
+});
+
+const getTopPostsSchema = z.object({
   page: z.number().optional(),
   limit: z.number().optional(),
   userId: z.string().min(1)
@@ -112,6 +119,26 @@ export const getPosts = async (params: IGetPostsRequest) => {
   const totalCount = await prisma.post.count({
     where
   });
+  return { posts: posts.map((post) => postTransformer(post)), totalCount };
+};
+
+export const getTopPosts = async (params: IGetPostsBaseRequest) => {
+  const { page, limit, userId } = getTopPostsSchema.parse(params);
+
+  const paginationParams = getPaginationParams(page, limit);
+
+  const posts = await prisma.post.findMany({
+    include: getPostIncludeWithUserLikes(userId),
+    orderBy: [
+      {
+        likes: {
+          _count: 'desc'
+        }
+      }
+    ],
+    ...paginationParams
+  });
+  const totalCount = await prisma.post.count();
   return { posts: posts.map((post) => postTransformer(post)), totalCount };
 };
 
