@@ -16,11 +16,7 @@
       v-for="user in users"
       :key="user.id"
     >
-      <UserListItem
-        v-for="user in users"
-        :key="user.id"
-        :user="user"
-      />
+      <UserListItem :user="user" />
     </li>
     <li>
       <ScrollObserver @intersect="$emit('feedEnd')" />
