@@ -19,7 +19,9 @@ export default defineEventHandler(async (event) => {
     '/api/user/profile?*',
     '/api/user/follow',
     '/api/user/follow-user-list',
-    '/api/user/follow-user-list?*'
+    '/api/user/follow-user-list?*',
+    '/api/posts/my-feed',
+    '/api/posts/my-feed?*'
   ];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {

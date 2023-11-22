@@ -18,6 +18,11 @@ export interface IGetPostsRequest {
   likedByUserId?: string;
 }
 
+export interface IGetMyFeedParams {
+  page: number;
+  limit: number;
+  userId: string;
+}
 export interface IPostFromDbBase {
   id: string;
   text: string;

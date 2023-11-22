@@ -2,6 +2,7 @@
   <UserList
     :loading="isUsersLoading"
     :users="usersList"
+    @feed-end="onLoadMorePosts"
   />
 </template>
 

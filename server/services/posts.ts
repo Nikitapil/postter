@@ -1,4 +1,5 @@
 import {
+  IGetMyFeedParams,
   IGetPostById,
   IGetPostsRequest,
   IPostDto,
@@ -31,6 +32,12 @@ const getPostsSchema = z.object({
   userId: z.string().min(1),
   profileId: z.string().optional(),
   likedByUserId: z.string().optional()
+});
+
+const getMyFeedSchema = z.object({
+  page: z.number().optional(),
+  limit: z.number().optional(),
+  userId: z.string().min(1)
 });
 
 const getPostsByIdSchema = z.object({
@@ -71,7 +78,6 @@ export const createPost = async (postData: IPostDto) => {
 };
 
 export const getPosts = async (params: IGetPostsRequest) => {
-  // TODO feed filter(or create separated methods)
   const { search, page, limit, userId, profileId, likedByUserId } =
     getPostsSchema.parse(params);
 
@@ -92,6 +98,35 @@ export const getPosts = async (params: IGetPostsRequest) => {
       }
     };
   }
+
+  const posts = await prisma.post.findMany({
+    where,
+    include: getPostIncludeWithUserLikes(userId),
+    orderBy: [
+      {
+        createdAt: 'desc'
+      }
+    ],
+    ...paginationParams
+  });
+  const totalCount = await prisma.post.count({
+    where
+  });
+  return { posts: posts.map((post) => postTransformer(post)), totalCount };
+};
+
+export const getMyFeed = async (params: IGetMyFeedParams) => {
+  const { page, limit, userId } = getMyFeedSchema.parse(params);
+
+  const where: Prisma.PostWhereInput = {
+    author: {
+      followedByIDs: {
+        has: userId
+      }
+    }
+  };
+
+  const paginationParams = getPaginationParams(page, limit);
 
   const posts = await prisma.post.findMany({
     where,
