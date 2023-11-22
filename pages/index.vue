@@ -41,14 +41,16 @@ const loading = ref(false);
 const getPostsFeedInitial = async () => {
   loading.value = true;
   await getPosts({
-    isInitial: true
+    isInitial: true,
+    isMyPostFeed: true
   });
   loading.value = false;
 };
 
 const loadMorePosts = async () => {
   await getPosts({
-    isInitial: false
+    isInitial: false,
+    isMyPostFeed: true
   });
 };
 

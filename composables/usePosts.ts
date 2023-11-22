@@ -67,6 +67,29 @@ export default () => {
     }
   };
 
+  const getMyPosts = async ({
+    page,
+    limit
+  }: IGetPostsParams = {}): Promise<IPostsResponse> => {
+    try {
+      const { posts, totalCount } = await useFetchApi<IPostsResponse>(
+        '/api/posts/my-feed',
+        {
+          method: 'GET',
+          params: {
+            page,
+            limit
+          }
+        }
+      );
+      return { posts, totalCount };
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Error while getting posts');
+      return { posts: [], totalCount: 0 };
+    }
+  };
+
   const getPostById = async ({
     id,
     page,
@@ -149,5 +172,5 @@ export default () => {
     }
   };
 
-  return { createPost, getPosts, getPostById, getReplies, toggleLike, repost };
+  return { createPost, getPosts, getPostById, getReplies, toggleLike, repost, getMyPosts };
 };
