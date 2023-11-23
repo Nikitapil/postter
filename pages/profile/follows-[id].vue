@@ -2,21 +2,7 @@
   <div>
     <MainSection :loading="false">
       <template #title>
-        <div class="flex justify-around mb-5">
-          <NuxtLink
-            class="dark:text-white hover:opacity-70 default-transition"
-            active-class="border-b"
-            :to="followersLink"
-            >Followers
-          </NuxtLink>
-          <NuxtLink
-            class="dark:text-white hover:opacity-70 default-transition"
-            active-class="border-b"
-            :to="followingLink"
-          >
-            Following
-          </NuxtLink>
-        </div>
+        <PageSubNav :links="navlinks" />
       </template>
 
       <NuxtPage />
@@ -25,6 +11,9 @@
 </template>
 
 <script setup lang="ts">
+import { INavLink } from '~/types/components';
+import PageSubNav from '~/components/PageSubNav.vue';
+
 const route = useRoute();
 
 const profileId = computed(() => route.params.id);
@@ -35,4 +24,17 @@ const followersLink = computed(
 const followingLink = computed(
   () => `/profile/follows-${profileId.value}/following`
 );
+
+const navlinks = computed<INavLink[]>(() => {
+  return [
+    {
+      to: followersLink.value,
+      text: 'Followers'
+    },
+    {
+      to: followingLink.value,
+      text: 'Following'
+    }
+  ];
+});
 </script>
