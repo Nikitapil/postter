@@ -1,3 +1,5 @@
+import { IPaginationQueryParams } from '~/server/types/common';
+
 export interface ICreateUserData {
   email: string;
   name?: string;
@@ -68,5 +70,9 @@ export interface IGetFollowUsersListQuery {
 }
 
 export interface IGetFollowUsersList extends IGetFollowUsersListQuery {
+  currentUserId: string;
+}
+
+export interface IGetTopUsersParams extends IPaginationQueryParams {
   currentUserId: string;
 }

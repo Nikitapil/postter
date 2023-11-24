@@ -6,6 +6,7 @@ import {
   IFollowUserParams,
   IGetFollowUsersList,
   IGetProfile,
+  IGetTopUsersParams,
   ILoginApiData,
   ISafeUserFromDb
 } from '~/server/types/users-types';
@@ -62,6 +63,13 @@ const getFollowUsersListSchema = z.object({
   currentUserId: z.string().min(1),
   profileId: z.string().min(1),
   filter: z.union([z.literal('followers'), z.literal('following')]),
+  page: z.number().optional(),
+  limit: z.number().optional()
+});
+
+const getTopUsersListSchema = z.object({
+  currentUserId: z.string().min(1),
+  profileId: z.string().min(1),
   page: z.number().optional(),
   limit: z.number().optional()
 });
@@ -314,6 +322,33 @@ export const getFollowUsersList = async (params: IGetFollowUsersList) => {
   const totalCount = await prisma.user.count({
     where
   });
+
+  return {
+    users: users.map((user) => userTransformer(user)),
+    totalCount
+  };
+};
+
+export const getTopUsers = async (params: IGetTopUsersParams) => {
+  const { currentUserId, page, limit } = getTopUsersListSchema.parse(params);
+
+  const paginationParams = getPaginationParams(page, limit);
+  const users = await prisma.user.findMany({
+    select: getSafeUserSelectWithFollowedBy(currentUserId),
+    ...paginationParams,
+    orderBy: [
+      {
+        followedBy: {
+          _count: 'desc'
+        },
+        posts: {
+          _count: 'desc'
+        }
+      }
+    ]
+  });
+
+  const totalCount = await prisma.user.count({});
 
   return {
     users: users.map((user) => userTransformer(user)),
