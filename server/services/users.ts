@@ -69,7 +69,6 @@ const getFollowUsersListSchema = z.object({
 
 const getTopUsersListSchema = z.object({
   currentUserId: z.string().min(1),
-  profileId: z.string().min(1),
   page: z.number().optional(),
   limit: z.number().optional()
 });
@@ -339,9 +338,6 @@ export const getTopUsers = async (params: IGetTopUsersParams) => {
     orderBy: [
       {
         followedBy: {
-          _count: 'desc'
-        },
-        posts: {
           _count: 'desc'
         }
       }

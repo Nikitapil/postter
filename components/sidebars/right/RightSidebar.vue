@@ -26,13 +26,14 @@
     </PreviewCard>
 
     <PreviewCard
+      v-if="usersList.length"
       title="Who to follow"
       show-more-link="/trends/users"
     >
       <UserListItem
-        v-for="item in whoToFollowItems"
-        :key="item.id"
-        :user="item"
+        v-for="user in usersList"
+        :key="user.id"
+        :user="user"
       />
     </PreviewCard>
   </div>
@@ -42,31 +43,9 @@
 import PreviewCard from '~/components/PreviewCard/PreviewCard.vue';
 import PreviewCardItem from '~/components/PreviewCard/PreviewCardItem.vue';
 import SearchForm from '~/components/ui/SearchForm.vue';
-import { IUser } from '~/types/auth-types';
 
 const { posts, getTopPosts } = usePostsFeed();
-
-// TODO get real data
-const whoToFollowItems = ref<IUser[]>([
-  {
-    id: '1234',
-    name: 'Joe',
-    email: 'Joe@Joe.Joe',
-    profileImage: 'https://loremflickr.com/200/200',
-    username: 'Joe',
-    about: '',
-    createdAt: ''
-  },
-  {
-    id: '2345',
-    name: 'Joe',
-    email: 'Joe@Joe.Joe',
-    profileImage: 'https://loremflickr.com/200/200',
-    username: 'Joe',
-    about: '',
-    createdAt: ''
-  }
-]);
+const { usersList, getTopUserList } = useUsersList();
 
 const handleSearch = (search: string) => {
   const router = useRouter();
@@ -79,9 +58,12 @@ const handleSearch = (search: string) => {
 };
 
 onMounted(async () => {
-  await getTopPosts({
+  const request = {
     isInitial: true,
     limit: 3
-  });
+  };
+
+  await getTopPosts(request);
+  await getTopUserList(request);
 });
 </script>

@@ -20,6 +20,11 @@ export interface IGetUserFollowListParams {
   limit?: number;
 }
 
+export interface IGetTopUsersParams {
+  isInitial: boolean;
+  limit?: number;
+}
+
 export interface IGetUserFollowListResponse {
   users: IUser[];
   totalCount: number;
