@@ -32,7 +32,7 @@
         <template #name> Search </template>
       </Tab>
 
-      <Tab to="/trends">
+      <Tab to="/trends/posts">
         <template #icon>
           <ArrowTrendingUpIcon />
         </template>

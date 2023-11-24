@@ -1,8 +1,4 @@
-import {
-  IGetPostsParams,
-  IGetPostsParamsExtended,
-  IPost
-} from '~/types/post-client-types';
+import { IGetPostsParamsExtended, IPost } from '~/types/post-client-types';
 import usePosts from '~/composables/usePosts';
 
 const POSTS_LIMIT = 50;

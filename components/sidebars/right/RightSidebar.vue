@@ -5,7 +5,7 @@
     <PreviewCard
       v-if="posts.length"
       title="Top posts"
-      show-more-link="/trends"
+      show-more-link="/trends/posts"
     >
       <PreviewCardItem
         v-for="post in posts"
@@ -27,7 +27,7 @@
 
     <PreviewCard
       title="Who to follow"
-      show-more-link="/trends"
+      show-more-link="/trends/users"
     >
       <UserListItem
         v-for="item in whoToFollowItems"
