@@ -17,6 +17,7 @@ export interface IGetUserFollowListParams {
   profileId: string;
   filter: EUserFollowListFilter;
   isInitial: boolean;
+  limit?: number;
 }
 
 export interface IGetUserFollowListResponse {

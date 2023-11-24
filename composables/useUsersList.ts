@@ -44,5 +44,32 @@ export const useUsersList = () => {
     }
   };
 
-  return { usersList, getUserFollowList };
+  const getTopUserList = async ({
+    limit,
+    isInitial
+  }: IGetUserFollowListParams) => {
+    if (!isInitial && usersList.value.length >= totalCountUsers.value) {
+      return;
+    }
+
+    const { users, totalCount } = await useFetchApi<IGetUserFollowListResponse>(
+      '/api/user/top',
+      {
+        method: 'GET',
+        params: {
+          page: isInitial ? 1 : currentPage.value + 1,
+          limit: limit || USERS_LIMIT
+        }
+      }
+    );
+
+    if (isInitial) {
+      usersList.value = users;
+      totalCountUsers.value = totalCount;
+    } else {
+      usersList.value.push(...users);
+    }
+  };
+
+  return { usersList, getUserFollowList, getTopUserList };
 };

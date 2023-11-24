@@ -23,7 +23,9 @@ export default defineEventHandler(async (event) => {
     '/api/posts/my-feed',
     '/api/posts/my-feed?*',
     '/api/posts/top',
-    '/api/posts/top?*'
+    '/api/posts/top?*',
+    '/api/user/top?*',
+    '/api/user/top?*'
   ];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {
