@@ -31,6 +31,11 @@ model User {
   followedByIDs String[] @db.ObjectId
   following     User[]   @relation("UserFollows", fields: [followingIDs], references: [id])
   followingIDs  String[] @db.ObjectId
+
+  chats    Chat[]   @relation(fields: [chatsIds], references: [id])
+  chatsIds String[] @db.ObjectId
+
+  messages Message[]
 }
 
 model RefreshToken {
@@ -90,4 +95,22 @@ model Likes {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([postId, userId], name: "uniq_id")
+}
+
+model Chat {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  usersIds String[] @db.ObjectId
+  users    User[]   @relation(fields: [usersIds], references: [id])
+
+  messages Message[]
+}
+
+model Message {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @db.ObjectId
+
+  chat   Chat   @relation(fields: [chatId], references: [id])
+  chatId String @db.ObjectId
 }
