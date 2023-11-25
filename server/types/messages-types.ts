@@ -7,3 +7,8 @@ export interface ICreateMessageParams {
   userToId: string;
   text: string;
 }
+
+export interface IGetChatParams {
+  userId: string;
+  chatId: string;
+}
