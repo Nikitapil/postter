@@ -26,7 +26,8 @@ export default defineEventHandler(async (event) => {
     '/api/posts/top?*',
     '/api/user/top?*',
     '/api/messages/message',
-    '/api/messages/chat/:chatId'
+    '/api/messages/chat/:chatId',
+    '/api/messages/chat/all'
   ];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {

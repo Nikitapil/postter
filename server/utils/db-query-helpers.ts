@@ -83,3 +83,25 @@ export const getPaginationParams = (page?: number, limit?: number) => {
   }
   return paginationParams;
 };
+
+export const getChatInclude = (
+  userId: string,
+  messagesCount?: number
+): Prisma.ChatInclude => {
+  return {
+    users: {
+      select: getSafeUserSelectWithFollowedBy(userId)
+    },
+    messages: {
+      include: {
+        author: {
+          select: getSafeUserSelectWithFollowedBy(userId)
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: messagesCount
+    }
+  };
+};
