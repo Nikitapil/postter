@@ -23,6 +23,7 @@ export interface IChat {
   users: IUser[];
   companionUser: IUser;
   messages: IChatMessage[];
+  unreadMessageCount: number;
   id: string;
   usersIds: string[];
   createdAt: string;

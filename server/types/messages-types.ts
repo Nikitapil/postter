@@ -37,4 +37,7 @@ export interface IChatFromDb {
   updatedAt: string | Date;
   users: ISafeUserFromDb[];
   messages: IMessageFromDb[];
+  _count: {
+    messages: number;
+  };
 }

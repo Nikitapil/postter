@@ -102,6 +102,18 @@ export const getChatInclude = (
         createdAt: 'desc'
       },
       take: messagesCount
+    },
+    _count: {
+      select: {
+        messages: {
+          where: {
+            authorId: {
+              not: userId
+            },
+            isOpened: false
+          }
+        }
+      }
     }
   };
 };

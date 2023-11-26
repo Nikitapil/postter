@@ -7,6 +7,7 @@ export const chatTransformer = (chat: IChatFromDb, currentUserId: string) => {
     ...chat,
     users: chat.users.map((user) => userTransformer(user)),
     companionUser,
+    unreadMessageCount: chat._count.messages,
     messages: chat.messages.map((message) => {
       return {
         ...message,
