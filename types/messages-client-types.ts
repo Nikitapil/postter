@@ -31,7 +31,7 @@ export interface IChat {
 }
 
 export interface ICreateMessageResponse {
-  message: IBaseMessage;
+  message: IChatMessage;
 }
 
 export interface IGetUsersChatsResponse {

@@ -23,6 +23,9 @@ const props = defineProps<{
 }>();
 
 const dateText = computed(() =>
-  new Date(props.message.createdAt).toLocaleDateString()
+  new Date(props.message.createdAt).toLocaleDateString('ru-RU', {
+    hour: '2-digit',
+    minute: '2-digit'
+  })
 );
 </script>

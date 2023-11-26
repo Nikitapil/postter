@@ -5,6 +5,8 @@ import {
 } from '~/types/messages-client-types';
 
 export default () => {
+  const { createMessage: createMessageInitial } = useMessages();
+
   const chat = ref<IChat | null>(null);
 
   const getChat = async ({ chatId }: IGetSingleChatParams) => {
@@ -19,5 +21,20 @@ export default () => {
     }
   };
 
-  return { getChat, chat };
+  const createMessage = async (text: string) => {
+    if (!chat.value) {
+      return;
+    }
+
+    const messageResponse = await createMessageInitial({
+      userToId: chat.value.companionUser.id,
+      text
+    });
+
+    if (messageResponse?.message) {
+      chat.value.messages.push(messageResponse.message);
+    }
+  };
+
+  return { getChat, createMessage, chat };
 };

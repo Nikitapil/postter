@@ -7,7 +7,7 @@ import {
 import { z } from 'zod';
 import { prisma } from '~/server/services/index';
 import { ApiError } from '~/server/utils/ApiError';
-import { getChatInclude } from '~/server/utils/db-query-helpers';
+import {getChatInclude, getSafeUserSelectWithFollowedBy} from '~/server/utils/db-query-helpers';
 import { chatTransformer } from '~/server/transformers/messages-transformers';
 
 const createChatParamsSchema = z.object({
@@ -65,6 +65,11 @@ export const createMessage = async (params: ICreateMessageParams) => {
       authorId,
       text,
       chatId: chat.id
+    },
+    include: {
+      author: {
+        select: getSafeUserSelectWithFollowedBy(authorId)
+      }
     }
   });
 

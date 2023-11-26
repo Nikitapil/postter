@@ -9,19 +9,25 @@
       :messages="chat.messages"
       :user-id="user.id"
     />
+    <MessageForm
+      :is-loading="isCreateMessageInProgress"
+      @create-message="onCreateMessage"
+    />
   </MainSection>
 </template>
 
 <script setup lang="ts">
 import MessagesList from '~/components/Chat/MessagesList/MessagesList.vue';
+import MessageForm from '~/components/Chat/MessageForm.vue';
 
 const route = useRoute();
 
-const { chat, getChat } = useSingleChat();
+const { chat, getChat, createMessage } = useSingleChat();
 const { useAuthUser } = useAuth();
 const user = useAuthUser();
 
 const isLoading = ref(false);
+const isCreateMessageInProgress = ref(false);
 
 const chatId = computed(() => route.params.id as string);
 
@@ -36,6 +42,12 @@ const title = computed(() => {
     chat.value?.companionUser.username || ''
   }`;
 });
+
+const onCreateMessage = async (text: string) => {
+  isCreateMessageInProgress.value = true;
+  await createMessage(text);
+  isCreateMessageInProgress.value = false;
+};
 
 onMounted(async () => {
   isLoading.value = true;
