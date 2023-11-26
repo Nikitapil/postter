@@ -21,6 +21,7 @@ export interface IChatMessage extends IBaseMessage{
 
 export interface IChat {
   users: IUser[];
+  companionUser: IUser;
   messages: IChatMessage[];
   id: string;
   usersIds: string[];

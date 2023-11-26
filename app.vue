@@ -17,7 +17,7 @@
             </div>
           </section>
 
-          <main class="">
+          <main>
             <NuxtPage />
           </main>
 
