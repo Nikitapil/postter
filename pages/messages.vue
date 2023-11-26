@@ -1,6 +1,9 @@
 <template>
   <div>
-    <MainSection title="Messages">
+    <MainSection
+      title="Messages"
+      :loading="isLoading"
+    >
       <ChatList :chat-list="chats" />
     </MainSection>
   </div>

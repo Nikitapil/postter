@@ -16,7 +16,8 @@ export default {
     {
       pattern: /text-(red|green|blue)-(400)/,
       variants: ['group-hover']
-    }
+    },
+    'bg-blue-400'
   ],
   theme: {
     screens: {
@@ -45,5 +46,5 @@ export default {
     }
   },
   // eslint-disable-next-line no-undef
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/line-clamp')]
+  plugins: [require('@tailwindcss/forms')]
 };

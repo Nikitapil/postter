@@ -99,7 +99,7 @@ export const getChatInclude = (
         }
       },
       orderBy: {
-        createdAt: 'desc'
+        createdAt: 'asc'
       },
       take: messagesCount
     },
