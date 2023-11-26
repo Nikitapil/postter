@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import ChatList from '~/components/ChatList/ChatList.vue';
+import ChatList from '~/components/Chat/ChatList/ChatList.vue';
 import useUsersChats from '~/composables/useUsersChats';
 
 const { getUsersChats, chats } = useUsersChats();

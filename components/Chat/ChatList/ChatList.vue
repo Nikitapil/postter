@@ -1,5 +1,9 @@
 <template>
-  <ul class="py-2">
+  <div v-if="!chatList.length" class="text-center text-white font-bold text-lg">No chats yet</div>
+  <ul
+    v-else
+    class="py-2"
+  >
     <li
       v-for="chat in chatList"
       :key="chat.id"
@@ -11,7 +15,7 @@
 
 <script setup lang="ts">
 import { IChat } from '~/types/messages-client-types';
-import ChatListItem from '~/components/ChatList/ChatListItem.vue';
+import ChatListItem from '~/components/Chat/ChatList/ChatListItem.vue';
 
 defineProps<{
   chatList: IChat[];

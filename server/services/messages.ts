@@ -83,18 +83,23 @@ export const getChat = async (params: IGetChatParams) => {
     throw ApiError.NotFoundError('Chat not found');
   }
 
-  return { chat: chatTransformer(chat) };
+  return { chat: chatTransformer(chat, userId) };
 };
 
 export const getAllUserChats = async (params: IGetAllUserChatsParams) => {
   const { userId } = getAllUserChatsSchema.parse(params);
 
   const chats = await prisma.chat.findMany({
+    where: {
+      usersIds: {
+        has: userId
+      }
+    },
     include: getChatInclude(userId, 1),
     orderBy: {
       updatedAt: 'desc'
     }
   });
 
-  return { chats: chats.map((chat) => chatTransformer(chat)) };
+  return { chats: chats.map((chat) => chatTransformer(chat, userId)) };
 };
