@@ -2,12 +2,16 @@ import {
   ICreateChatParams,
   ICreateMessageParams,
   IGetAllUserChatsParams,
-  IGetChatParams
+  IGetChatParams,
+  IOpenMessagesParams
 } from '~/server/types/messages-types';
 import { z } from 'zod';
 import { prisma } from '~/server/services/index';
 import { ApiError } from '~/server/utils/ApiError';
-import {getChatInclude, getSafeUserSelectWithFollowedBy} from '~/server/utils/db-query-helpers';
+import {
+  getChatInclude,
+  getSafeUserSelectWithFollowedBy
+} from '~/server/utils/db-query-helpers';
 import { chatTransformer } from '~/server/transformers/messages-transformers';
 
 const createChatParamsSchema = z.object({
@@ -27,6 +31,11 @@ const getChatSchema = z.object({
 
 const getAllUserChatsSchema = z.object({
   userId: z.string().min(1)
+});
+
+const openMessagesSchema = z.object({
+  userId: z.string().min(1),
+  chatId: z.string().min(1)
 });
 
 export const createChat = async (params: ICreateChatParams) => {
@@ -107,4 +116,22 @@ export const getAllUserChats = async (params: IGetAllUserChatsParams) => {
   });
 
   return { chats: chats.map((chat) => chatTransformer(chat, userId)) };
+};
+
+export const openMessages = async (params: IOpenMessagesParams) => {
+  const { chatId, userId } = openMessagesSchema.parse(params);
+
+  await prisma.message.updateMany({
+    where: {
+      chatId: chatId,
+      authorId: {
+        not: userId
+      }
+    },
+    data: {
+      isOpened: true
+    }
+  });
+
+  return { message: 'Success' };
 };

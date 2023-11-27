@@ -41,3 +41,8 @@ export interface IChatFromDb {
     messages: number;
   };
 }
+
+export interface IOpenMessagesParams {
+  userId: string;
+  chatId: string;
+}
