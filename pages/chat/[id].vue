@@ -25,7 +25,7 @@ import { IChatMessage } from '~/types/messages-client-types';
 const route = useRoute();
 
 const { chat, getChat, createMessage, addMessage } = useSingleChat();
-const { connect, joinRoom, subscribe, disconnect } = useSocket();
+const { connect, joinRoom, subscribe } = useSocket();
 const { useAuthUser } = useAuth();
 const user = useAuthUser();
 
@@ -63,9 +63,5 @@ onMounted(async () => {
     });
   }
   isLoading.value = false;
-});
-
-onUnmounted(async () => {
-  disconnect();
 });
 </script>

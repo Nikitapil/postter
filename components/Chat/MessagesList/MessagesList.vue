@@ -16,6 +16,7 @@
         :is-my-message="userId === message.authorId"
       />
     </li>
+    <li ref="lastItem" />
   </ul>
 </template>
 <script setup lang="ts">
@@ -26,4 +27,10 @@ defineProps<{
   messages: IChatMessage[];
   userId: string;
 }>();
+
+const lastItem = ref<HTMLLIElement | null>(null);
+
+onMounted(() => {
+  lastItem.value?.scrollIntoView();
+});
 </script>
