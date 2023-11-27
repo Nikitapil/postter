@@ -6,6 +6,9 @@ export default defineEventHandler(async (event) => {
     const authorId = event.context?.auth?.user?.id as string;
     const { userToId, text } = await readBody(event);
     const message = await createMessage({ authorId, userToId, text });
+    event.context.io
+      .to(`chat_${message.message.chatId}`)
+      .emit('message', message);
     return message;
   } catch (e) {
     return handleError(event, e);
