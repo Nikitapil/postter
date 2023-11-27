@@ -1,5 +1,6 @@
 import {
   IChat,
+  IChatMessage,
   IGetChatResponse,
   IGetSingleChatParams
 } from '~/types/messages-client-types';
@@ -18,6 +19,7 @@ export default () => {
     } catch (e: any) {
       const { $toast } = useNuxtApp();
       $toast.error(e?.statusMessage || 'Error on create message');
+      chat.value = null;
     }
   };
 
@@ -26,15 +28,17 @@ export default () => {
       return;
     }
 
-    const messageResponse = await createMessageInitial({
+    await createMessageInitial({
       userToId: chat.value.companionUser.id,
       text
     });
+  };
 
-    if (messageResponse?.message) {
-      chat.value.messages.push(messageResponse.message);
+  const addMessage = (message: IChatMessage) => {
+    if (chat.value) {
+      chat.value.messages.push(message);
     }
   };
 
-  return { getChat, createMessage, chat };
+  return { getChat, createMessage, addMessage, chat };
 };
