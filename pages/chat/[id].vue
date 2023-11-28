@@ -5,16 +5,23 @@
     :title="title"
   >
     <!--    TODO add state when chat not found-->
-    <MessagesList
-      v-if="chat"
-      :messages="chat.messages"
-      :user-id="user.id"
-      @end-of-chat="openMessages"
-    />
-    <MessageForm
-      :is-loading="isCreateMessageInProgress"
-      @create-message="onCreateMessage"
-    />
+    <div v-if="chat">
+      <MessagesList
+        :messages="chat.messages"
+        :user-id="user.id"
+        @end-of-chat="openMessages"
+      />
+      <MessageForm
+        :is-loading="isCreateMessageInProgress"
+        @create-message="onCreateMessage"
+      />
+    </div>
+    <div
+      v-else
+      class="text-center text-2xl dark:text-white"
+    >
+      Chat not found
+    </div>
   </MainSection>
 </template>
 
