@@ -6,7 +6,7 @@
     <template #title>
       <div
         v-if="profile"
-        class="flex items-center gap-2"
+        class="flex items-start gap-2"
       >
         <UserAvatar :link="profile.profileImage" />
         <span>{{ profile.name }}</span>
@@ -17,14 +17,24 @@
         >
           Edit Profile
         </NuxtLink>
-        <button
+        <div
           v-else
-          class="profileHeaderButton"
-          :disabled="isFollowToggleInProgress"
-          @click="onClickFollow"
+          class="ml-auto"
         >
-          {{ profileHeaderButtonText }}
-        </button>
+          <button
+            class="profileHeaderButton"
+            :disabled="isFollowToggleInProgress"
+            @click="onClickFollow"
+          >
+            {{ profileHeaderButtonText }}
+          </button>
+          <button
+            class="profileHeaderButton block mt-2"
+            @click="onOpenMessagesModal"
+          >
+            Message
+          </button>
+        </div>
       </div>
     </template>
 
@@ -63,6 +73,11 @@
         :posts="posts"
         @feed-end="loadMorePosts"
       />
+      <MessagesModal
+        :is-open="isMessageModalOpened"
+        :user-to="profile"
+        @close-modal="onCloseMessagesModal"
+      />
     </template>
     <div
       v-else
@@ -83,6 +98,7 @@ import UserAvatar from '~/components/ui/UserAvatar.vue';
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid';
 import { NoSymbolIcon } from '@heroicons/vue/24/solid';
 import ListFeed from '~/components/posts/ListFeed.vue';
+import MessagesModal from '~/components/Chat/MessagesModal.vue';
 
 const { useAuthUser } = useAuth();
 const user = useAuthUser();
@@ -95,6 +111,7 @@ const route = useRoute();
 
 const isPageLoading = ref(true);
 const isFollowToggleInProgress = ref(false);
+const isMessageModalOpened = ref(false);
 
 const profileId = computed(() => route.params.id as string);
 
@@ -135,6 +152,9 @@ const loadPostsInitial = async () => {
     isInitial: true
   });
 };
+
+const onOpenMessagesModal = () => (isMessageModalOpened.value = true);
+const onCloseMessagesModal = () => (isMessageModalOpened.value = false);
 
 onMounted(async () => {
   isPageLoading.value = true;

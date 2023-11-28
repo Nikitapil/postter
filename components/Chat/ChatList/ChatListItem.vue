@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="linkToChat"
-    class="flex gap-3 items-center bg-blue-100 dark:bg-dim-300 w-full border-b p-3 dark:text-white cursor-pointer hover:bg-blue-200 dark:hover:bg-dim-400 default-transition overflow-hidden"
+    class="flex mb-2 gap-3 items-center bg-blue-100 dark:bg-dim-300 w-full rounded-md p-3 dark:text-white cursor-pointer hover:bg-blue-200 dark:hover:bg-dim-400 default-transition overflow-hidden"
   >
     <div>
       <h3 class="text-xs text-blue-900 dark:text-blue-400 font-bold mb-2">

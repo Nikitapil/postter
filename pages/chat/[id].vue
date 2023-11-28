@@ -4,7 +4,6 @@
     :loading="isLoading"
     :title="title"
   >
-    <!--    TODO add state when chat not found-->
     <div v-if="chat">
       <MessagesList
         :messages="chat.messages"
