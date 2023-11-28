@@ -109,7 +109,7 @@ export const getAllUserChats = async (params: IGetAllUserChatsParams) => {
         has: userId
       }
     },
-    include: getChatInclude(userId, 1),
+    include: getChatInclude(userId, 1, 'desc'),
     orderBy: {
       updatedAt: 'desc'
     }

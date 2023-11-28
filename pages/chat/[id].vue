@@ -9,6 +9,7 @@
       v-if="chat"
       :messages="chat.messages"
       :user-id="user.id"
+      @end-of-chat="openMessages"
     />
     <MessageForm
       :is-loading="isCreateMessageInProgress"
@@ -24,7 +25,8 @@ import { IChatMessage } from '~/types/messages-client-types';
 
 const route = useRoute();
 
-const { chat, getChat, createMessage, addMessage } = useSingleChat();
+const { chat, getChat, createMessage, addMessage, openMessages } =
+  useSingleChat();
 const { connect, joinRoom, subscribe } = useSocket();
 const { useAuthUser } = useAuth();
 const user = useAuthUser();

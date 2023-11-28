@@ -40,5 +40,22 @@ export default () => {
     }
   };
 
-  return { getChat, createMessage, addMessage, chat };
+  const openMessages = async () => {
+    if (!chat.value) {
+      return;
+    }
+    try {
+      await useFetchApi(`/api/messages/open`, {
+        method: 'PATCH',
+        body: {
+          chatId: chat.value.id
+        }
+      });
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Error on setting opened messages');
+    }
+  };
+
+  return { getChat, createMessage, addMessage, openMessages, chat };
 };

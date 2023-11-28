@@ -27,7 +27,8 @@ export default defineEventHandler(async (event) => {
     '/api/user/top?*',
     '/api/messages/message',
     '/api/messages/chat/:chatId',
-    '/api/messages/chat/all'
+    '/api/messages/chat/all',
+    '/api/messages/open'
   ];
 
   const isHandledByThisMiddleware = endpoints.some((endpoint) => {

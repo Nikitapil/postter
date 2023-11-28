@@ -86,7 +86,8 @@ export const getPaginationParams = (page?: number, limit?: number) => {
 
 export const getChatInclude = (
   userId: string,
-  messagesCount?: number
+  messagesCount?: number,
+  messagesOrder?: 'asc' | 'desc'
 ): Prisma.ChatInclude => {
   return {
     users: {
@@ -99,7 +100,7 @@ export const getChatInclude = (
         }
       },
       orderBy: {
-        createdAt: 'asc'
+        createdAt: messagesOrder || 'asc'
       },
       take: messagesCount
     },

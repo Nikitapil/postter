@@ -15,7 +15,8 @@
       </p>
     </div>
     <div
-      class="flex items-center justify-center rounded-full bg-red-600 p-1 text-xs text-white"
+      v-if="chat.unreadMessageCount"
+      class="flex items-center justify-center rounded-full bg-red-600 p-1 text-xs text-white ml-auto"
     >
       <span class="flex items-center justify-center w-4 h-4">
         {{ chat.unreadMessageCount }}
