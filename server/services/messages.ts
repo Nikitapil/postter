@@ -82,6 +82,13 @@ export const createMessage = async (params: ICreateMessageParams) => {
     }
   });
 
+  await prisma.chat.update({
+    where: { id: chat.id },
+    data: {
+      lastMessageUpdate: new Date()
+    }
+  });
+
   return { message };
 };
 
@@ -111,7 +118,7 @@ export const getAllUserChats = async (params: IGetAllUserChatsParams) => {
     },
     include: getChatInclude(userId, 1, 'desc'),
     orderBy: {
-      updatedAt: 'desc'
+      lastMessageUpdate: 'desc'
     }
   });
 
