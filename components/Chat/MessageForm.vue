@@ -3,7 +3,6 @@
     class="flex gap-5 w-full items-center px-2 mb-2"
     @submit.prevent="onCreateMessage"
   >
-    <!--    TODO add loading and disable textarea and button-->
     <AppTextArea
       v-model="message"
       class="flex-1"

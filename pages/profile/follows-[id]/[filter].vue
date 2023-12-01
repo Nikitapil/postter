@@ -30,7 +30,6 @@ onMounted(async () => {
     filter.value !== EUserFollowListFilter.FOLLOWERS &&
     filter.value !== EUserFollowListFilter.FOLLOWING
   ) {
-    // TODO handle error on error page
     showError('Page not found');
     return;
   }

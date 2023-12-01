@@ -53,7 +53,6 @@
         <p class="dark:text-gray-200 mb-2">
           {{ profile.about }}
         </p>
-        <!--      TODO add links to profile following page-->
         <div class="flex gap-3">
           <NuxtLink
             class="link-gray"
