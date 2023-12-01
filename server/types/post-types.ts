@@ -58,6 +58,7 @@ export interface ITransformedPost extends IPostFromDb {
   postedAt: string;
   replies: ITransformedPost[];
   isLiked: boolean;
+  canDelete: boolean;
 }
 
 export interface IGetPostById {

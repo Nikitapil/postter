@@ -87,7 +87,7 @@ export const createPost = async (postData: IPostDto) => {
 
   const files = await Promise.all(filesPromises);
 
-  return { ...postTransformer(post), mediaFiles: files };
+  return { ...postTransformer(post, newPostData.authorId), mediaFiles: files };
 };
 
 export const getPosts = async (params: IGetPostsRequest) => {
@@ -125,7 +125,10 @@ export const getPosts = async (params: IGetPostsRequest) => {
   const totalCount = await prisma.post.count({
     where
   });
-  return { posts: posts.map((post) => postTransformer(post)), totalCount };
+  return {
+    posts: posts.map((post) => postTransformer(post, userId)),
+    totalCount
+  };
 };
 
 export const getTopPosts = async (params: IGetPostsBaseRequest) => {
@@ -148,7 +151,10 @@ export const getTopPosts = async (params: IGetPostsBaseRequest) => {
     ...paginationParams
   });
   const totalCount = await prisma.post.count();
-  return { posts: posts.map((post) => postTransformer(post)), totalCount };
+  return {
+    posts: posts.map((post) => postTransformer(post, userId)),
+    totalCount
+  };
 };
 
 export const getMyFeed = async (params: IGetMyFeedParams) => {
@@ -177,7 +183,10 @@ export const getMyFeed = async (params: IGetMyFeedParams) => {
   const totalCount = await prisma.post.count({
     where
   });
-  return { posts: posts.map((post) => postTransformer(post)), totalCount };
+  return {
+    posts: posts.map((post) => postTransformer(post, userId)),
+    totalCount
+  };
 };
 
 export const getPostById = async (params: IGetPostById) => {
@@ -202,7 +211,7 @@ export const getPostById = async (params: IGetPostById) => {
   if (!post) {
     throw ApiError.NotFoundError('Post not found');
   }
-  return postTransformer(post);
+  return postTransformer(post, userId);
 };
 
 export const getReplies = async (params: IGetPostById) => {
@@ -221,7 +230,7 @@ export const getReplies = async (params: IGetPostById) => {
     ],
     ...paginationParams
   });
-  return replies.map((reply) => postTransformer(reply));
+  return replies.map((reply) => postTransformer(reply, userId));
 };
 
 export const toggleLike = async (params: IToggleLike) => {
