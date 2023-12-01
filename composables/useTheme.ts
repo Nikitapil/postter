@@ -1,12 +1,15 @@
 export default () => {
-  const useDarkMode = () =>
-    useState<boolean>('dark_mode', () => {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches || false;
-    });
+  const useDarkMode = () => useState<boolean>('dark_mode', () => true);
 
-  const toggleTheme = () => {
+  const setInitialTheme = () => {
     const darkMode = useDarkMode();
-    darkMode.value = !darkMode.value;
+    const themeFromLocalStorage = localStorage.getItem('postter-theme');
+    if (themeFromLocalStorage) {
+      darkMode.value = themeFromLocalStorage === 'dark';
+    } else {
+      darkMode.value =
+        window?.matchMedia('(prefers-color-scheme: dark)').matches || false;
+    }
   };
 
   const isDarkMode = computed(() => {
@@ -14,5 +17,11 @@ export default () => {
     return darkMode.value;
   });
 
-  return { toggleTheme, isDarkMode };
+  const toggleTheme = () => {
+    const darkMode = useDarkMode();
+    darkMode.value = !darkMode.value;
+    localStorage.setItem('postter-theme', isDarkMode.value ? 'dark' : 'light');
+  };
+
+  return { toggleTheme, isDarkMode, setInitialTheme };
 };

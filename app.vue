@@ -51,7 +51,7 @@ import useAuth from '~/composables/useAuth';
 import useTheme from '~/composables/useTheme';
 import ConfirmModal from '~/components/ui/ConfirmModal.vue';
 
-const { isDarkMode } = useTheme();
+const { isDarkMode, setInitialTheme } = useTheme();
 
 const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth();
 
@@ -70,5 +70,6 @@ const handleUserLogout = () => {
 
 onBeforeMount(async () => {
   await initAuth();
+  setInitialTheme();
 });
 </script>

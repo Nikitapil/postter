@@ -7,11 +7,13 @@
       <UiSpinner />
     </div>
     <div v-else>
-      <PostFormInput
-        :user="user"
-        :placeholder="placeholder"
-        @on-submit="handleFormSubmit"
-      />
+      <ClientOnly>
+        <PostFormInput
+          :user="user"
+          :placeholder="placeholder"
+          @on-submit="handleFormSubmit"
+        />
+      </ClientOnly>
     </div>
   </div>
 </template>
