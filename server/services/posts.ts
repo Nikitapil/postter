@@ -1,4 +1,5 @@
 import {
+  IDeletePostParams,
   IGetMyFeedParams,
   IGetPostById,
   IGetPostsBaseRequest,
@@ -62,6 +63,11 @@ const toggleLikeSchema = z.object({
 const repostSchema = z.object({
   repostFromId: z.string().min(1),
   authorId: z.string().min(1)
+});
+
+const deletePostSchema = z.object({
+  postId: z.string().min(1),
+  userId: z.string().min(1)
 });
 
 export const createPost = async (postData: IPostDto) => {
@@ -295,4 +301,26 @@ export const repost = async (params: IRepostParams) => {
   );
 
   return { ...post, mediaFiles };
+};
+
+export const deletePost = async (params: IDeletePostParams) => {
+  const { userId, postId } = deletePostSchema.parse(params);
+
+  const post = await prisma.post.findUnique({
+    where: { id: postId }
+  });
+
+  if (!post) {
+    throw ApiError.NotFoundError('Post not found');
+  }
+
+  if (post.authorId !== userId) {
+    throw ApiError.PermissionError();
+  }
+
+  await prisma.post.delete({
+    where: { id: postId }
+  });
+
+  return { message: 'success' };
 };

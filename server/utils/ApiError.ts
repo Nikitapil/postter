@@ -9,7 +9,11 @@ export class ApiError extends Error {
   }
 
   static UnauthorizedError() {
-    return new ApiError(403, 'Unauthorized');
+    return new ApiError(401, 'Unauthorized');
+  }
+
+  static PermissionError() {
+    return new ApiError(403, 'Permission denied');
   }
 
   static BadRequest(message: string) {

@@ -76,3 +76,8 @@ export interface IRepostParams {
   repostFromId: string;
   authorId: string;
 }
+
+export interface IDeletePostParams {
+  postId: string;
+  userId: string;
+}
