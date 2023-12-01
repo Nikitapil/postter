@@ -327,6 +327,26 @@ export const deletePost = async (params: IDeletePostParams) => {
     throw ApiError.PermissionError();
   }
 
+  // MongoDB do not support cascade delete
+  await prisma.post.deleteMany({
+    where: {
+      OR: [
+        {
+          replyToId: postId
+        },
+        {
+          repostFromId: postId
+        }
+      ]
+    }
+  });
+
+  await prisma.mediaFile.deleteMany({
+    where: {
+      postId: postId
+    }
+  });
+
   await prisma.post.delete({
     where: { id: postId }
   });

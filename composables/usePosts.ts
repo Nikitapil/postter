@@ -195,6 +195,19 @@ export default () => {
     }
   };
 
+  const deletePost = async (postId: string) => {
+    try {
+      await useFetchApi(`/api/posts/${postId}`, {
+        method: 'DELETE'
+      });
+      return true;
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Error on like method');
+      return false;
+    }
+  };
+
   return {
     createPost,
     getPosts,
@@ -203,6 +216,7 @@ export default () => {
     toggleLike,
     repost,
     getMyPosts,
-    getTopPosts
+    getTopPosts,
+    deletePost
   };
 };

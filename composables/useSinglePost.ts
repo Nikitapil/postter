@@ -3,7 +3,7 @@ import usePosts from '~/composables/usePosts';
 
 const REPLIES_LIMIT = 50;
 export default () => {
-  const { getPostById, getReplies } = usePosts();
+  const { getPostById, getReplies, deletePost: deletePostInitial } = usePosts();
 
   const post = ref<IPost | null>(null);
 
@@ -38,5 +38,15 @@ export default () => {
     post.value.replies.push(...replies);
   };
 
-  return { post, getPost, loadMoreReplies };
+  const deletePost = async () => {
+    if (!post.value) {
+      return false;
+    }
+
+    const isDeleted = await deletePostInitial(post.value.id);
+
+    return isDeleted;
+  };
+
+  return { post, getPost, loadMoreReplies, deletePost };
 };
