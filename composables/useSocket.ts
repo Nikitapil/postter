@@ -6,8 +6,8 @@ export default () => {
   const connected = ref(false);
 
   if (!socket) {
-    // TODO get url from env var
-    socket = io('http://localhost:3000');
+    const config = useRuntimeConfig();
+    socket = io(config.baseUrl as string);
   }
 
   const connect = () => {

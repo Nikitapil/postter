@@ -22,7 +22,6 @@
       <ScrollObserver @intersect="$emit('feedEnd')" />
     </li>
   </ul>
-  <!--  Todo add observer to load more users-->
 </template>
 
 <script setup lang="ts">

@@ -8,6 +8,7 @@
       v-model="message"
       class="flex-1"
       placeholder="Enter your message"
+      :disabled="isLoading"
     />
     <AppButton
       size="sm"

@@ -24,7 +24,7 @@ import {
 } from '~/server/utils/db-query-helpers';
 import { userTransformer } from '~/server/transformers/user-transformers';
 import { Prisma } from '.prisma/client';
-// TODO decompose this file
+
 const createUserSchema = z.object({
   username: z.string().min(1),
   email: z.string().email().min(1),

@@ -2,7 +2,7 @@
   <UserList
     :loading="isUsersLoading"
     :users="usersList"
-    @feed-end="onLoadMorePosts"
+    @feed-end="onLoadMoreUsers"
   />
 </template>
 
@@ -17,7 +17,7 @@ const isUsersLoading = ref(false);
 const profileId = computed(() => route.params.id as string);
 const filter = computed(() => route.params.filter as EUserFollowListFilter);
 
-const onLoadMorePosts = async () => {
+const onLoadMoreUsers = async () => {
   await getUserFollowList({
     profileId: profileId.value,
     filter: filter.value,
