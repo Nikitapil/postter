@@ -16,7 +16,6 @@ export default defineEventHandler(async (event) => {
 
     return users;
   } catch (e) {
-    console.log(e);
     return handleError(event, e);
   }
 });

@@ -9,13 +9,10 @@ export default defineEventHandler(async (event) => {
 
     const userId = event.context?.auth?.user?.id as string;
 
-    console.log(postId);
-
     const response = await deletePost({ postId, userId });
 
     return response;
   } catch (e) {
-    console.log(e);
     return handleError(event, e);
   }
 });
