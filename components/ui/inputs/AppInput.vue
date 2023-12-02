@@ -1,12 +1,11 @@
 <template>
   <div>
-    <label
-      v-if="label"
-      class="block pl-3 ml-px text-sm font-medium text-gray-700 dark:text-white"
-      :for="id"
-    >
-      {{ label }}
-    </label>
+    <AppInputLabel
+      :id="id"
+      :value-length="valueLength"
+      :label="label"
+      :limit="limit"
+    />
     <div class="mt-1">
       <input
         :id="id"
@@ -15,6 +14,7 @@
         :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
+        :maxlength="limit"
         @input="$emit('update:modelValue', $event.target.value)"
       />
     </div>
@@ -22,7 +22,9 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
+import AppInputLabel from '~/components/ui/inputs/AppInputLabel.vue';
+
+const props = withDefaults(
   defineProps<{
     modelValue: string;
     placeholder?: string;
@@ -30,6 +32,7 @@ withDefaults(
     type?: 'text' | 'password';
     disabled: boolean;
     id: string;
+    limit?: number;
   }>(),
   {
     placeholder: '',
@@ -42,4 +45,6 @@ withDefaults(
 defineEmits<{
   'update:modelValue': [string];
 }>();
+
+const valueLength = computed(() => props.modelValue.length);
 </script>

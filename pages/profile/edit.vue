@@ -54,8 +54,8 @@
   </MainSection>
 </template>
 <script setup lang="ts">
-import AppInput from '~/components/ui/AppInput.vue';
-import AppTextArea from '~/components/ui/AppTextArea.vue';
+import AppInput from '~/components/ui/inputs/AppInput.vue';
+import AppTextArea from '~/components/ui/inputs/AppTextArea.vue';
 import ProfileImageUploader from '~/components/Auth/ProfileImageUploader.vue';
 import AppButton from '~/components/ui/AppButton.vue';
 import { createFileFromString } from '~/helpers/files';

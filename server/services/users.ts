@@ -25,52 +25,63 @@ import {
 import { userTransformer } from '~/server/transformers/user-transformers';
 import { Prisma } from '.prisma/client';
 
+const usernameSchema = z.string().min(1).max(16);
+const emailSchema = z.string().email().min(1).max(30);
+const passwordSchema = z.string().min(8).max(16);
+const nameSchema = z.string().min(1).max(16);
+const profileImageSchema = z.string();
+const aboutSchema = z.string().max(500);
+const userIdRequiredSchema = z.string().min(1);
+
+const pageOptionalSchema = z.number().optional();
+const limitOptionalSchema = z.number().optional();
+
 const createUserSchema = z.object({
-  username: z.string().min(1),
-  email: z.string().email().min(1),
-  password: z.string().min(8),
-  repeatPassword: z.string(),
-  name: z.string().min(1),
-  profileImage: z.string(),
-  about: z.string()
+  username: usernameSchema,
+  email: emailSchema,
+  password: passwordSchema,
+  repeatPassword: passwordSchema,
+  name: nameSchema,
+  profileImage: profileImageSchema,
+  about: aboutSchema
 });
 
 const editUserSchema = z.object({
-  userId: z.string().min(1),
-  username: z.string().min(1),
-  email: z.string().email().min(1),
-  name: z.string().min(1),
-  profileImage: z.string(),
-  about: z.string()
+  userId: userIdRequiredSchema,
+  username: usernameSchema,
+  email: emailSchema,
+  name: nameSchema,
+  profileImage: profileImageSchema,
+  about: aboutSchema
 });
 
 const loginSchema = z.object({
-  username: z.string().min(1),
-  password: z.string().min(1)
+  username: usernameSchema,
+  password: passwordSchema
 });
 
 const getProfileSchema = z.object({
-  profileId: z.string().min(1),
-  currentUserId: z.string().min(1)
+  profileId: userIdRequiredSchema,
+  currentUserId: userIdRequiredSchema
 });
 
 const followUserSchema = z.object({
-  followByUserId: z.string().min(1),
-  followToUserId: z.string().min(1)
+  followByUserId: userIdRequiredSchema,
+  followToUserId: userIdRequiredSchema
 });
 
 const getFollowUsersListSchema = z.object({
-  currentUserId: z.string().min(1),
-  profileId: z.string().min(1),
+  currentUserId: userIdRequiredSchema,
+  profileId: userIdRequiredSchema,
   filter: z.union([z.literal('followers'), z.literal('following')]),
-  page: z.number().optional(),
-  limit: z.number().optional()
+  page: pageOptionalSchema,
+  limit: limitOptionalSchema
 });
 
 const getTopUsersListSchema = z.object({
-  currentUserId: z.string().min(1),
-  page: z.number().optional(),
-  limit: z.number().optional()
+  currentUserId: userIdRequiredSchema,
+  page: pageOptionalSchema,
+  limit: limitOptionalSchema
 });
 
 export const createUser = async (userData: ICreateUserData) => {

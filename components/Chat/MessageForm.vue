@@ -18,7 +18,7 @@
   </form>
 </template>
 <script setup lang="ts">
-import AppTextArea from '~/components/ui/AppTextArea.vue';
+import AppTextArea from '~/components/ui/inputs/AppTextArea.vue';
 import AppButton from '~/components/ui/AppButton.vue';
 import { PaperAirplaneIcon } from '@heroicons/vue/24/solid';
 

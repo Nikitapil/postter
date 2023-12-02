@@ -14,6 +14,7 @@
         v-model="userData.username"
         label="Username"
         placeholder="@username"
+        :limit="16"
         :disabled="loading"
       />
       <AppInput
@@ -22,6 +23,7 @@
         label="Password"
         placeholder="password"
         type="password"
+        :limit="16"
         :disabled="loading"
       />
 
@@ -32,6 +34,7 @@
           label="Repeat password"
           placeholder="password"
           type="password"
+          :limit="16"
           :disabled="loading"
         />
         <AppInput
@@ -39,6 +42,7 @@
           v-model="userData.email"
           label="Email"
           placeholder="your email"
+          :limit="30"
           :disabled="loading"
         />
         <AppInput
@@ -46,6 +50,7 @@
           v-model="userData.name"
           label="Name"
           placeholder="your name"
+          :limit="16"
           :disabled="loading"
         />
         <AppTextArea
@@ -54,6 +59,7 @@
           use-contrast-colors
           label="Profile information"
           placeholder="Information about you"
+          :limit="500"
         />
         <ProfileImageUploader
           v-model="userData.profileImage"
@@ -80,12 +86,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import AppInput from '~/components/ui/AppInput.vue';
+import AppInput from '~/components/ui/inputs/AppInput.vue';
 import useAuth from '~/composables/useAuth';
 import AppButton from '~/components/ui/AppButton.vue';
 import PostterLogo from '~/components/icons/PostterLogo.vue';
 import { IRegisterData } from '~/types/auth-types';
-import AppTextArea from '~/components/ui/AppTextArea.vue';
+import AppTextArea from '~/components/ui/inputs/AppTextArea.vue';
 import ProfileImageUploader from '~/components/Auth/ProfileImageUploader.vue';
 
 const { login, register } = useAuth();

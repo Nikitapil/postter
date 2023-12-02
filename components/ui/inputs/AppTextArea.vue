@@ -1,12 +1,11 @@
 <template>
   <div>
-    <label
-      v-if="label"
-      class="block pl-3 ml-px text-sm font-medium text-gray-700 dark:text-white"
-      :for="id"
-    >
-      {{ label }}
-    </label>
+    <AppInputLabel
+      :id="id"
+      :value-length="valueLength"
+      :label="label"
+      :limit="limit"
+    />
     <textarea
       :id="id"
       ref="textAreaRef"
@@ -19,6 +18,7 @@
       :value="modelValue"
       :placeholder="placeholder"
       :disabled="disabled"
+      :maxlength="limit"
       @input="$emit('update:modelValue', $event.target.value)"
     >
     </textarea>
@@ -26,9 +26,11 @@
 </template>
 
 <script setup lang="ts">
+import AppInputLabel from '~/components/ui/inputs/AppInputLabel.vue';
+
 const textAreaRef = ref(null);
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     modelValue: string;
     placeholder: string;
@@ -36,6 +38,7 @@ withDefaults(
     id?: string;
     label?: string;
     disabled?: boolean;
+    limit?: number;
   }>(),
   {
     useContrastColors: false,
@@ -48,6 +51,8 @@ withDefaults(
 defineEmits<{
   'update:modelValue': [string];
 }>();
+
+const valueLength = computed(() => props.modelValue.length);
 
 defineExpose({
   textAreaRef

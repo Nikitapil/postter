@@ -94,7 +94,7 @@ import { IUser } from '~/types/auth-types';
 import { IPostFormData } from '~/types/post-client-types';
 import AppButton from '~/components/ui/AppButton.vue';
 import UserAvatar from '~/components/ui/UserAvatar.vue';
-import AppTextArea from '~/components/ui/AppTextArea.vue';
+import AppTextArea from '~/components/ui/inputs/AppTextArea.vue';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import ImageUploadIcon from '~/components/icons/ImageUploadIcon.vue';
 import SmileIcon from '~/components/icons/SmileIcon.vue';
