@@ -19,55 +19,64 @@ import { z } from 'zod';
 import { createMediaFile } from '~/server/services/mediaFiles';
 import { Prisma } from '.prisma/client';
 
+const idRequiredSchema = z.string().min(1);
+const idOptionalSchema = z.string().optional();
+const postTextSchema = z.string().min(1).max(800);
+const mediaFilesSchema = z.array(z.string().min(1));
+const searchSchema = z.string();
+
+const pageOptionalSchema = z.number().optional();
+const limitOptionalSchema = z.number().optional();
+
 const createPostSchema = z.object({
-  authorId: z.string().min(1),
-  text: z.string().min(1),
-  replyToId: z.string().optional(),
-  repostFromId: z.string().optional(),
-  mediaFilesUrls: z.array(z.string().min(1))
+  authorId: idRequiredSchema,
+  text: postTextSchema,
+  replyToId: idOptionalSchema,
+  repostFromId: idOptionalSchema,
+  mediaFilesUrls: mediaFilesSchema
 });
 
 const getPostsSchema = z.object({
-  search: z.string(),
-  page: z.number().optional(),
-  limit: z.number().optional(),
-  userId: z.string().min(1),
-  profileId: z.string().optional(),
-  likedByUserId: z.string().optional()
+  search: searchSchema,
+  page: pageOptionalSchema,
+  limit: limitOptionalSchema,
+  userId: idRequiredSchema,
+  profileId: idOptionalSchema,
+  likedByUserId: idOptionalSchema
 });
 
 const getMyFeedSchema = z.object({
-  page: z.number().optional(),
-  limit: z.number().optional(),
-  userId: z.string().min(1)
+  page: pageOptionalSchema,
+  limit: limitOptionalSchema,
+  userId: idRequiredSchema
 });
 
 const getTopPostsSchema = z.object({
-  page: z.number().optional(),
-  limit: z.number().optional(),
-  userId: z.string().min(1)
+  page: pageOptionalSchema,
+  limit: limitOptionalSchema,
+  userId: idRequiredSchema
 });
 
 const getPostsByIdSchema = z.object({
-  id: z.string().min(1),
-  userId: z.string().min(1),
-  repliesPage: z.number().optional(),
-  repliesLimit: z.number().optional()
+  id: idRequiredSchema,
+  userId: idRequiredSchema,
+  repliesPage: pageOptionalSchema,
+  repliesLimit: limitOptionalSchema
 });
 
 const toggleLikeSchema = z.object({
-  postId: z.string().min(1),
-  userId: z.string().min(1)
+  postId: idRequiredSchema,
+  userId: idRequiredSchema
 });
 
 const repostSchema = z.object({
-  repostFromId: z.string().min(1),
-  authorId: z.string().min(1)
+  repostFromId: idRequiredSchema,
+  authorId: idRequiredSchema
 });
 
 const deletePostSchema = z.object({
-  postId: z.string().min(1),
-  userId: z.string().min(1)
+  postId: idRequiredSchema,
+  userId: idRequiredSchema
 });
 
 export const createPost = async (postData: IPostDto) => {

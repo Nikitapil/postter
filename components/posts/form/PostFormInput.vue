@@ -10,6 +10,7 @@
           ref="textArea"
           v-model="text"
           :placeholder="placeholder"
+          :limit="800"
         />
       </div>
     </div>

@@ -9,7 +9,12 @@
     >
       {{ label }}
     </label>
-    <div v-if="limit">{{ valueLength }}/{{ limit }}</div>
+    <div
+      v-if="limit"
+      class="ml-auto"
+    >
+      {{ valueLength }}/{{ limit }}
+    </div>
   </div>
 </template>
 
