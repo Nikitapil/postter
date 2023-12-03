@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
     '/api/posts/replies',
     '/api/posts/replies?*',
     '/api/posts/repost',
+    '/api/posts/edit',
     '/api/user/edit',
     '/api/user/profile',
     '/api/user/profile?*',

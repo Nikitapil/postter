@@ -1,7 +1,7 @@
 import formidable from 'formidable';
-import { createPost } from '~/server/services/posts';
-import { ICreatePostParams } from '~/server/types/post-types';
 import { firstValues } from 'formidable/src/helpers/firstValues.js';
+import { IEditPostParams } from '~/server/types/post-types';
+import { editPost } from '~/server/services/posts';
 import { handleError } from '~/server/utils/ErrorHandler';
 
 export default defineEventHandler(async (event) => {
@@ -12,22 +12,19 @@ export default defineEventHandler(async (event) => {
 
     const userId = event.context?.auth?.user?.id as string;
 
-    const { text = '', replyToId = '' } = firstValues(form, fields);
+    const { text = '', postId = '' } = firstValues(form, fields);
     const filesValues = firstValues(form, files);
 
-    const postData: ICreatePostParams = {
-      authorId: userId,
+    const postData: IEditPostParams = {
+      userId,
+      postId,
       text,
       mediaFilesUrls: Object.keys(filesValues).map(
         (key) => filesValues[key].filepath
       )
     };
 
-    if (replyToId) {
-      postData.replyToId = replyToId;
-    }
-
-    const post = await createPost(postData);
+    const post = await editPost(postData);
 
     return {
       post

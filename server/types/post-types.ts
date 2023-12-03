@@ -1,12 +1,19 @@
 import { IUserDataFiltered } from '~/server/types/users-types';
 import { IMediaFileFromDb } from '~/server/types/media-files-types';
 
-export interface IPostDto {
+export interface ICreatePostParams {
   authorId: string;
   text: string;
   replyToId?: string;
   mediaFilesUrls?: string[];
   repostFromId?: string;
+}
+
+export interface IEditPostParams {
+  postId: string;
+  userId: string;
+  text: string;
+  mediaFilesUrls?: string[];
 }
 
 export interface IGetPostsBaseRequest {

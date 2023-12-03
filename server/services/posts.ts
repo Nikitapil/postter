@@ -4,9 +4,10 @@ import {
   IGetPostById,
   IGetPostsBaseRequest,
   IGetPostsRequest,
-  IPostDto,
+  ICreatePostParams,
   IRepostParams,
-  IToggleLike
+  IToggleLike,
+  IEditPostParams
 } from '~/server/types/post-types';
 import { prisma } from '~/server/services/index';
 import {
@@ -33,6 +34,13 @@ const createPostSchema = z.object({
   text: postTextSchema,
   replyToId: idOptionalSchema,
   repostFromId: idOptionalSchema,
+  mediaFilesUrls: mediaFilesSchema
+});
+
+const editPostSchema = z.object({
+  postId: idRequiredSchema,
+  userId: idRequiredSchema,
+  text: postTextSchema,
   mediaFilesUrls: mediaFilesSchema
 });
 
@@ -79,7 +87,7 @@ const deletePostSchema = z.object({
   userId: idRequiredSchema
 });
 
-export const createPost = async (postData: IPostDto) => {
+export const createPost = async (postData: ICreatePostParams) => {
   const { mediaFilesUrls, ...newPostData } = createPostSchema.parse(postData);
   const post = await prisma.post.create({
     data: newPostData,
@@ -97,6 +105,46 @@ export const createPost = async (postData: IPostDto) => {
   const files = await Promise.all(filesPromises);
 
   return { ...postTransformer(post, newPostData.authorId), mediaFiles: files };
+};
+
+export const editPost = async (params: IEditPostParams) => {
+  const { postId, userId, text, mediaFilesUrls } = editPostSchema.parse(params);
+
+  const post = await prisma.post.findUnique({
+    where: { id: postId }
+  });
+
+  if (!post) {
+    throw ApiError.NotFoundError('Post not found');
+  }
+
+  if (post.authorId !== userId) {
+    throw ApiError.PermissionError();
+  }
+
+  const updatedPost = await prisma.post.update({
+    where: {
+      id: postId
+    },
+    data: {
+      text,
+      mediaFiles: {
+        deleteMany: { postId }
+      }
+    },
+    include: getPostIncludeWithUserLikes(userId)
+  });
+
+  const filesPromises = mediaFilesUrls.map((url) =>
+    createMediaFile({
+      url,
+      userId,
+      postId
+    })
+  );
+
+  const files = await Promise.all(filesPromises);
+  return { ...postTransformer(updatedPost, userId), mediaFiles: files };
 };
 
 export const getPosts = async (params: IGetPostsRequest) => {
