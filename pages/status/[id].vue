@@ -11,14 +11,21 @@
             <button
               v-if="canEdit"
               class="action-button mr-2"
-              @click="onOpenEditForm"
+              @click="onClickEdit"
             >
-              <PencilIcon class="w-6 h-6" />
+              <XMarkIcon
+                v-if="isEditMode"
+                class="w-6 h-6"
+              />
+              <PencilIcon
+                v-else
+                class="w-6 h-6"
+              />
             </button>
             <button
               v-if="canDelete"
               class="action-button"
-              @click="onDeletePost"
+              @click="onOpenDeleteModal"
             >
               <TrashIcon class="w-6 h-6" />
             </button>
@@ -51,6 +58,12 @@
       >
         Post not found
       </div>
+      <ConfirmModal
+        title="Do you want to delete this post?"
+        :is-open="isDeleteModalOpened"
+        @close-modal="onCloseDeleteModal"
+        @confirm="onDeletePost"
+      />
     </MainSection>
   </div>
 </template>
@@ -58,8 +71,9 @@
 import useAuth from '~/composables/useAuth';
 import PostDetails from '~/components/posts/PostDetails.vue';
 import useSinglePost from '~/composables/useSinglePost';
-import { TrashIcon, PencilIcon } from '@heroicons/vue/24/solid';
+import { TrashIcon, PencilIcon, XMarkIcon } from '@heroicons/vue/24/solid';
 import { IPostFormData } from '~/types/post-client-types';
+import ConfirmModal from '~/components/ui/ConfirmModal.vue';
 
 const { post, getPost, loadMoreReplies, deletePost, editPost } =
   useSinglePost();
@@ -69,6 +83,7 @@ const user = useAuthUser();
 
 const loading = ref(false);
 const isEditMode = ref(false);
+const isDeleteModalOpened = ref(false);
 
 const canDelete = computed(() => post.value?.canDelete || false);
 const canEdit = computed(() => post.value?.canEdit || false);
@@ -91,6 +106,17 @@ const onDeletePost = async () => {
 
 const onOpenEditForm = () => (isEditMode.value = true);
 const onCloseEditForm = () => (isEditMode.value = false);
+
+const onOpenDeleteModal = () => (isDeleteModalOpened.value = true);
+const onCloseDeleteModal = () => (isDeleteModalOpened.value = false);
+
+const onClickEdit = () => {
+  if (isEditMode.value) {
+    onCloseEditForm();
+    return;
+  }
+  onOpenEditForm();
+};
 
 const onEditPost = async (data: IPostFormData) => {
   loading.value = true;
