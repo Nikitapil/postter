@@ -84,3 +84,10 @@ export interface IGetUsersParams extends IPaginationParams {
 export interface IGetUsersQueries extends IPaginationQueryParams {
   search?: string;
 }
+
+export interface IChangePasswordParams {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+  repeatPassword: string;
+}

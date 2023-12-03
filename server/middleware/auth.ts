@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
     '/api/posts/top?*',
     '/api/user/list?*',
     '/api/user/list',
+    '/api/user/password',
     '/api/messages/message',
     '/api/messages/chat/:chatId',
     '/api/messages/chat/all',

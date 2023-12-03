@@ -1,6 +1,7 @@
 import { prisma } from '~/server/services/index';
 import bcrypt from 'bcrypt';
 import {
+  IChangePasswordParams,
   ICreateUserData,
   IEditUserData,
   IFollowUserParams,
@@ -83,6 +84,13 @@ const getUsersListSchema = z.object({
   page: pageOptionalSchema,
   limit: limitOptionalSchema,
   search: z.string()
+});
+
+const changePasswordSchema = z.object({
+  userId: userIdRequiredSchema,
+  currentPassword: passwordSchema,
+  newPassword: passwordSchema,
+  repeatPassword: passwordSchema
 });
 
 export const createUser = async (userData: ICreateUserData) => {
@@ -376,4 +384,38 @@ export const getUsers = async (params: IGetUsersParams) => {
     users: users.map((user) => userTransformer(user)),
     totalCount
   };
+};
+
+export const changePassword = async (params: IChangePasswordParams) => {
+  const { userId, currentPassword, newPassword, repeatPassword } =
+    changePasswordSchema.parse(params);
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId }
+  });
+
+  if (!user) {
+    throw ApiError.NotFoundError('User not found');
+  }
+
+  const isPasswordMatch = await bcrypt.compare(currentPassword, user.password);
+
+  if (!isPasswordMatch) {
+    throw ApiError.BadRequest('Password incorrect');
+  }
+
+  if (newPassword !== repeatPassword) {
+    throw ApiError.BadRequest('New password is not equal to repeat password');
+  }
+
+  const passwordToSave = bcrypt.hashSync(newPassword, 10);
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      password: passwordToSave
+    }
+  });
+
+  return { message: 'Success' };
 };
