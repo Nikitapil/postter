@@ -6,6 +6,31 @@
     <Head>
       <Title>Edit profile / Postter</Title>
     </Head>
+
+    <template #title>
+      <div class="flex justify-between items-center">
+        <span>Edit profile</span>
+        <div
+          v-if="user"
+          class="w-fit"
+        >
+          <AppButton
+            class="dark:text-white"
+            liquid
+            @click="onOpenChangePasswordModal"
+          >
+            Change Password
+          </AppButton>
+          <ChangePasswordModal
+            :is-open="isChangePasswordModalOpened"
+            :loading="isChangePasswordInProgress"
+            @close-modal="onCloseChangePasswordModal"
+            @change-password="onChangePassword"
+          />
+        </div>
+      </div>
+    </template>
+
     <form
       class="px-5 flex flex-col gap-5"
       @submit.prevent
@@ -63,13 +88,16 @@ import AppTextArea from '~/components/ui/inputs/AppTextArea.vue';
 import ProfileImageUploader from '~/components/Auth/ProfileImageUploader.vue';
 import AppButton from '~/components/ui/AppButton.vue';
 import { createFileFromString } from '~/helpers/files';
-import { IEditUserData } from '~/types/auth-types';
+import { IChangePasswordParams, IEditUserData } from '~/types/auth-types';
+import ChangePasswordModal from '~/components/profile/ChangePasswordModal.vue';
 
-const { useAuthUser, editUser } = useAuth();
+const { useAuthUser, editUser, changePassword } = useAuth();
 const user = useAuthUser();
 
 const formLoading = ref(false);
 const pageLoading = ref(true);
+const isChangePasswordModalOpened = ref(false);
+const isChangePasswordInProgress = ref(false);
 
 const userData = ref<IEditUserData>({
   username: '',
@@ -92,6 +120,21 @@ const handleSubmit = async () => {
   formLoading.value = true;
   await editUser(userData.value);
   formLoading.value = false;
+};
+
+const onOpenChangePasswordModal = () =>
+  (isChangePasswordModalOpened.value = true);
+
+const onCloseChangePasswordModal = () =>
+  (isChangePasswordModalOpened.value = false);
+
+const onChangePassword = async (passwordParams: IChangePasswordParams) => {
+  isChangePasswordInProgress.value = true;
+  const isChanged = await changePassword(passwordParams);
+  isChangePasswordInProgress.value = false;
+  if (isChanged) {
+    onCloseChangePasswordModal();
+  }
 };
 
 onMounted(async () => {

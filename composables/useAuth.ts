@@ -1,4 +1,5 @@
 import {
+  IChangePasswordParams,
   IEditUserData,
   IEditUserResponse,
   IJwtDecodedToken,
@@ -132,6 +133,21 @@ export default () => {
     }
   };
 
+  const changePassword = async (passwordData: IChangePasswordParams) => {
+    const { $toast } = useNuxtApp();
+    try {
+      await useFetchApi<IEditUserResponse>('/api/user/password', {
+        method: 'PUT',
+        body: passwordData
+      });
+      $toast.success('Changed');
+      return true;
+    } catch (e: any) {
+      $toast.error(e?.statusMessage || 'Service Unavailable, try again later');
+      return false;
+    }
+  };
+
   return {
     login,
     useAuthUser,
@@ -140,6 +156,7 @@ export default () => {
     useAuthLoading,
     logout,
     register,
-    editUser
+    editUser,
+    changePassword
   };
 };

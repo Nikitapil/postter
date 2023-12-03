@@ -16,6 +16,12 @@ export interface IEditUserData {
   profileImage?: File | null;
 }
 
+export interface IChangePasswordParams {
+  currentPassword: string;
+  newPassword: string;
+  repeatPassword: string;
+}
+
 export interface ILoginData {
   username: string;
   password: string;
