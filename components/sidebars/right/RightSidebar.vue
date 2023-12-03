@@ -45,7 +45,7 @@ import PreviewCardItem from '~/components/PreviewCard/PreviewCardItem.vue';
 import SearchForm from '~/components/ui/SearchForm.vue';
 
 const { posts, getTopPosts } = usePostsFeed();
-const { usersList, getTopUserList } = useUsersList();
+const { usersList, getUsersList } = useUsersList();
 
 const handleSearch = (search: string) => {
   const router = useRouter();
@@ -64,6 +64,6 @@ onMounted(async () => {
   };
 
   await getTopPosts(request);
-  await getTopUserList(request);
+  await getUsersList(request);
 });
 </script>

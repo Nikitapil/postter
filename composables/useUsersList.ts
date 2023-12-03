@@ -7,7 +7,7 @@ import {
 
 const USERS_LIMIT = 50;
 
-export const useUsersList = () => {
+export default () => {
   const usersList = ref<IUser[]>([]);
   const totalCountUsers = ref(0);
 
@@ -51,14 +51,14 @@ export const useUsersList = () => {
     }
   };
 
-  const getTopUserList = async ({ limit, isInitial }: IGetTopUsersParams) => {
+  const getUsersList = async ({ limit, isInitial }: IGetTopUsersParams) => {
     if (!isInitial && usersList.value.length >= totalCountUsers.value) {
       return;
     }
 
     try {
       const { users, totalCount } =
-        await useFetchApi<IGetUserFollowListResponse>('/api/user/top', {
+        await useFetchApi<IGetUserFollowListResponse>('/api/user/list', {
           method: 'GET',
           params: {
             page: isInitial ? 1 : currentPage.value + 1,
@@ -74,9 +74,9 @@ export const useUsersList = () => {
       }
     } catch (e: any) {
       const { $toast } = useNuxtApp();
-      $toast.error(e?.statusMessage || 'Error while getting top posts');
+      $toast.error(e?.statusMessage || 'Error while getting users');
     }
   };
 
-  return { usersList, getUserFollowList, getTopUserList };
+  return { usersList, getUserFollowList, getUsersList };
 };

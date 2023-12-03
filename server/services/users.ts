@@ -6,7 +6,7 @@ import {
   IFollowUserParams,
   IGetFollowUsersList,
   IGetProfile,
-  IGetTopUsersParams,
+  IGetUsersParams,
   ILoginApiData,
   ISafeUserFromDb
 } from '~/server/types/users-types';
@@ -78,7 +78,7 @@ const getFollowUsersListSchema = z.object({
   limit: limitOptionalSchema
 });
 
-const getTopUsersListSchema = z.object({
+const getUsersListSchema = z.object({
   currentUserId: userIdRequiredSchema,
   page: pageOptionalSchema,
   limit: limitOptionalSchema
@@ -339,8 +339,8 @@ export const getFollowUsersList = async (params: IGetFollowUsersList) => {
   };
 };
 
-export const getTopUsers = async (params: IGetTopUsersParams) => {
-  const { currentUserId, page, limit } = getTopUsersListSchema.parse(params);
+export const getUsers = async (params: IGetUsersParams) => {
+  const { currentUserId, page, limit } = getUsersListSchema.parse(params);
 
   const paginationParams = getPaginationParams(page, limit);
   const users = await prisma.user.findMany({

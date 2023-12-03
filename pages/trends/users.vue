@@ -6,13 +6,13 @@
 </template>
 
 <script setup lang="ts">
-const { usersList, getTopUserList } = useUsersList();
+const { usersList, getUsersList } = useUsersList();
 
 const isUsersLoading = ref(false);
 
 onMounted(async () => {
   isUsersLoading.value = true;
-  await getTopUserList({
+  await getUsersList({
     isInitial: true
   });
   isUsersLoading.value = false;

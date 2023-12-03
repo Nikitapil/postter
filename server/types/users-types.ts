@@ -73,6 +73,6 @@ export interface IGetFollowUsersList extends IGetFollowUsersListQuery {
   currentUserId: string;
 }
 
-export interface IGetTopUsersParams extends IPaginationParams {
+export interface IGetUsersParams extends IPaginationParams {
   currentUserId: string;
 }
