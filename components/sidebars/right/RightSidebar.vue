@@ -1,6 +1,14 @@
 <template>
   <div class="flex flex-col">
-    <SearchForm @search="handleSearch" />
+    <SearchForm
+      placeholder="Search posts"
+      @search="handleSearchPost"
+    />
+
+    <SearchForm
+      placeholder="Search users"
+      @search="handleSearchUsers"
+    />
 
     <PreviewCard
       v-if="posts.length"
@@ -47,10 +55,20 @@ import SearchForm from '~/components/ui/SearchForm.vue';
 const { posts, getTopPosts } = usePostsFeed();
 const { usersList, getUsersList } = useUsersList();
 
-const handleSearch = (search: string) => {
+const handleSearchPost = (search: string) => {
   const router = useRouter();
   router.push({
-    path: '/search',
+    path: '/search/posts',
+    query: {
+      q: search
+    }
+  });
+};
+
+const handleSearchUsers = (search: string) => {
+  const router = useRouter();
+  router.push({
+    path: '/search/users',
     query: {
       q: search
     }

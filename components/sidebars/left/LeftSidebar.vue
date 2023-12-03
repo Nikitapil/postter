@@ -25,7 +25,7 @@
         <template #name> Home </template>
       </Tab>
 
-      <Tab to="/search">
+      <Tab to="/search/posts">
         <template #icon>
           <MagnifyingGlassIcon />
         </template>

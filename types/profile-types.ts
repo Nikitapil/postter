@@ -20,9 +20,10 @@ export interface IGetUserFollowListParams {
   limit?: number;
 }
 
-export interface IGetTopUsersParams {
+export interface IGetUsersParams {
   isInitial: boolean;
   limit?: number;
+  search?: string;
 }
 
 export interface IGetUserFollowListResponse {

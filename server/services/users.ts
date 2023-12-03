@@ -81,7 +81,8 @@ const getFollowUsersListSchema = z.object({
 const getUsersListSchema = z.object({
   currentUserId: userIdRequiredSchema,
   page: pageOptionalSchema,
-  limit: limitOptionalSchema
+  limit: limitOptionalSchema,
+  search: z.string()
 });
 
 export const createUser = async (userData: ICreateUserData) => {
@@ -340,10 +341,17 @@ export const getFollowUsersList = async (params: IGetFollowUsersList) => {
 };
 
 export const getUsers = async (params: IGetUsersParams) => {
-  const { currentUserId, page, limit } = getUsersListSchema.parse(params);
+  const { currentUserId, page, limit, search } =
+    getUsersListSchema.parse(params);
 
   const paginationParams = getPaginationParams(page, limit);
   const users = await prisma.user.findMany({
+    where: {
+      username: {
+        contains: search,
+        mode: 'insensitive'
+      }
+    },
     select: getSafeUserSelectWithFollowedBy(currentUserId),
     ...paginationParams,
     orderBy: [
@@ -355,7 +363,14 @@ export const getUsers = async (params: IGetUsersParams) => {
     ]
   });
 
-  const totalCount = await prisma.user.count({});
+  const totalCount = await prisma.user.count({
+    where: {
+      username: {
+        contains: search,
+        mode: 'insensitive'
+      }
+    }
+  });
 
   return {
     users: users.map((user) => userTransformer(user)),

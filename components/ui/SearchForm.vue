@@ -16,7 +16,7 @@
       v-model="value"
       class="flex items-center w-full pl-12 text-sm font-normal text-gray-800 dark:text-gray-100 bg-gray-200 border border-gray-200 rounded-full shadow dark:bg-dim-400 dark:border-dim-400 focus:bg-gray-100 dark:focus:bg-dim-200 h-9"
       type="text"
-      placeholder="Search post"
+      :placeholder="placeholder"
     />
   </form>
 </template>
@@ -25,6 +25,7 @@ import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps<{
   initialValue?: string;
+  placeholder?: string;
 }>();
 
 const value = ref('');

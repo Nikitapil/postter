@@ -1,6 +1,6 @@
 import { IUser } from '~/types/auth-types';
 import {
-  IGetTopUsersParams,
+  IGetUsersParams,
   IGetUserFollowListParams,
   IGetUserFollowListResponse
 } from '~/types/profile-types';
@@ -51,7 +51,11 @@ export default () => {
     }
   };
 
-  const getUsersList = async ({ limit, isInitial }: IGetTopUsersParams) => {
+  const getUsersList = async ({
+    limit,
+    isInitial,
+    search
+  }: IGetUsersParams) => {
     if (!isInitial && usersList.value.length >= totalCountUsers.value) {
       return;
     }
@@ -62,7 +66,8 @@ export default () => {
           method: 'GET',
           params: {
             page: isInitial ? 1 : currentPage.value + 1,
-            limit: limit || USERS_LIMIT
+            limit: limit || USERS_LIMIT,
+            search: search || ''
           }
         });
 
