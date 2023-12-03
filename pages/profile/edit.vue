@@ -15,6 +15,7 @@
         v-model="userData.username"
         label="Username"
         placeholder="@username"
+        :limit="16"
         :disabled="formLoading"
       />
       <AppInput
@@ -22,6 +23,7 @@
         v-model="userData.email"
         label="Email"
         placeholder="your email"
+        :limit="30"
         :disabled="formLoading"
       />
       <AppInput
@@ -29,6 +31,7 @@
         v-model="userData.name"
         label="Name"
         placeholder="your name"
+        :limit="16"
         :disabled="formLoading"
       />
       <AppTextArea
@@ -37,6 +40,7 @@
         use-contrast-colors
         label="Profile information"
         placeholder="Information about you"
+        :limit="500"
       />
       <ProfileImageUploader
         v-model="userData.profileImage"
