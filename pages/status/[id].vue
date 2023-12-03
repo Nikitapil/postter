@@ -7,26 +7,44 @@
       <template #title>
         <div class="flex justify-between">
           <span>Post</span>
-          <button
-            v-if="canDelete"
-            class="dark:hover:bg-white/20 hover:bg-black/20 default-transition p-1 rounded-md"
-            @click="onDeletePost"
-          >
-            <TrashIcon class="w-6 h-6" />
-          </button>
+          <div>
+            <button
+              v-if="canEdit"
+              class="action-button mr-2"
+              @click="onOpenEditForm"
+            >
+              <PencilIcon class="w-6 h-6" />
+            </button>
+            <button
+              v-if="canDelete"
+              class="action-button"
+              @click="onDeletePost"
+            >
+              <TrashIcon class="w-6 h-6" />
+            </button>
+          </div>
         </div>
       </template>
       <Head>
         <Title>Post / Postter</Title>
       </Head>
 
-      <PostDetails
-        v-if="post && user"
-        :post="post"
-        :user="user"
-        @on-reply="loadPost"
-        @replies-end="loadMoreReplies"
-      />
+      <div v-if="post && user">
+        <PostsFormPostFormInput
+          v-if="isEditMode"
+          placeholder="Enter post text"
+          :user="user"
+          :initial-post-values="post"
+          @on-submit="onEditPost"
+        />
+        <PostDetails
+          v-else
+          :post="post"
+          :user="user"
+          @on-reply="loadPost"
+          @replies-end="loadMoreReplies"
+        />
+      </div>
       <div
         v-else
         class="text-center text-2xl dark:text-white"
@@ -40,16 +58,20 @@
 import useAuth from '~/composables/useAuth';
 import PostDetails from '~/components/posts/PostDetails.vue';
 import useSinglePost from '~/composables/useSinglePost';
-import { TrashIcon } from '@heroicons/vue/24/solid';
+import { TrashIcon, PencilIcon } from '@heroicons/vue/24/solid';
+import { IPostFormData } from '~/types/post-client-types';
 
-const { post, getPost, loadMoreReplies, deletePost } = useSinglePost();
+const { post, getPost, loadMoreReplies, deletePost, editPost } =
+  useSinglePost();
 const { useAuthUser } = useAuth();
 
 const user = useAuthUser();
 
 const loading = ref(false);
+const isEditMode = ref(false);
 
 const canDelete = computed(() => post.value?.canDelete || false);
+const canEdit = computed(() => post.value?.canEdit || false);
 
 const loadPost = async () => {
   loading.value = true;
@@ -67,7 +89,23 @@ const onDeletePost = async () => {
   loading.value = false;
 };
 
+const onOpenEditForm = () => (isEditMode.value = true);
+const onCloseEditForm = () => (isEditMode.value = false);
+
+const onEditPost = async (data: IPostFormData) => {
+  loading.value = true;
+  await editPost(data);
+  onCloseEditForm();
+  loading.value = false;
+};
+
 onMounted(() => {
   loadPost();
 });
 </script>
+
+<style scoped>
+.action-button {
+  @apply dark:hover:bg-white/20 hover:bg-black/20 default-transition p-1 rounded-md;
+}
+</style>

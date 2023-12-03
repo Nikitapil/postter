@@ -56,6 +56,7 @@ export interface IPostFromDb extends IPostFromDbBase {
   replies?: IPostFromDbBase[];
   likes: ILikeFromDb[];
   text: string;
+  repostFrom: IPostFromDbBase | null;
 }
 
 export interface ITransformedPost extends IPostFromDb {
@@ -66,6 +67,7 @@ export interface ITransformedPost extends IPostFromDb {
   replies: ITransformedPost[];
   isLiked: boolean;
   canDelete: boolean;
+  canEdit: boolean;
 }
 
 export interface IGetPostById {

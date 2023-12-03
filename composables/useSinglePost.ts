@@ -1,5 +1,10 @@
-import { IPost } from '~/types/post-client-types';
+import {
+  IPost,
+  IPostFormData,
+  ISinglePostResponse
+} from '~/types/post-client-types';
 import usePosts from '~/composables/usePosts';
+import useFetchApi from '~/composables/useFetchApi';
 
 const REPLIES_LIMIT = 50;
 export default () => {
@@ -48,5 +53,35 @@ export default () => {
     return isDeleted;
   };
 
-  return { post, getPost, loadMoreReplies, deletePost };
+  const editPost = async (data: IPostFormData) => {
+    if (!post.value) {
+      return null;
+    }
+
+    try {
+      const form = new FormData();
+
+      form.append('text', data.text);
+      form.append('postId', post.value.id);
+
+      data.mediaFiles.forEach((file) => {
+        form.append(`media_file_${file.name}`, file);
+      });
+
+      const { post: updatedPost } = await useFetchApi<ISinglePostResponse>(
+        '/api/posts/edit',
+        {
+          method: 'PUT',
+          body: form
+        }
+      );
+      post.value = updatedPost;
+    } catch (e: any) {
+      const { $toast } = useNuxtApp();
+      $toast.error(e?.statusMessage || 'Error while editing post');
+      return null;
+    }
+  };
+
+  return { post, getPost, loadMoreReplies, deletePost, editPost };
 };

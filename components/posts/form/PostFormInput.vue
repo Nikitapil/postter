@@ -92,7 +92,7 @@
 </template>
 <script setup lang="ts">
 import { IUser } from '~/types/auth-types';
-import { IPostFormData } from '~/types/post-client-types';
+import { IPost, IPostFormData } from '~/types/post-client-types';
 import AppButton from '~/components/ui/AppButton.vue';
 import UserAvatar from '~/components/ui/UserAvatar.vue';
 import AppTextArea from '~/components/ui/inputs/AppTextArea.vue';
@@ -102,11 +102,18 @@ import SmileIcon from '~/components/icons/SmileIcon.vue';
 import EmojiPicker from 'vue3-emoji-picker';
 import { useClickOutside } from '~/composables/useClickOutside';
 import { insertIntoString } from '~/helpers/strings';
+import { createFileFromString } from '~/helpers/files';
 
-defineProps<{
-  user: IUser;
-  placeholder: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    user: IUser;
+    placeholder: string;
+    initialPostValues?: IPost | null;
+  }>(),
+  {
+    initialPostValues: null
+  }
+);
 
 const emit = defineEmits<{
   onSubmit: [IPostFormData];
@@ -161,6 +168,17 @@ const onSelectEmoji = (emoji: { i: string }) => {
     textArea.value?.textAreaRef?.selectionStart || text.value.length;
   text.value = insertIntoString(text.value, emoji.i, cursorPosition);
 };
+
+onMounted(async () => {
+  if (props.initialPostValues) {
+    text.value = props.initialPostValues.text;
+    const filesPromises =
+      props.initialPostValues.mediaFiles?.map((file) =>
+        createFileFromString(file.url)
+      ) || [];
+    selectedFiles.value = await Promise.all(filesPromises);
+  }
+});
 </script>
 
 <style scoped>

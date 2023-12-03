@@ -44,6 +44,7 @@ export interface IPost {
   isLiked: boolean;
   repostsCount: number;
   canDelete: boolean;
+  canEdit: boolean;
 }
 
 export interface IPostsResponse {
