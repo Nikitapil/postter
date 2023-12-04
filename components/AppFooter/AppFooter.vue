@@ -4,15 +4,15 @@
       v-if="appearance === 'full'"
       class="mx-2 my-4 text-xs text-gray-500 dark:text-gray-300"
     >
-      <li class="inline-block mx-2">
+      <li class="li-full">
         <button
           class="hover:underline"
-          @click.prevent="toggleTheme"
+          @click="toggleTheme"
         >
           {{ themeText }}
         </button>
       </li>
-      <li class="inline-block mx-2">
+      <li class="li-full">
         <a
           href="https://github.com/Nikitapil/postter"
           class="hover:underline"
@@ -25,15 +25,15 @@
     <ul v-else>
       <li class="block my-2">
         <button
-          class="hover:bg-gray-200 p-2 rounded-full default-transition dark:hover:bg-dim-200"
-          @click.prevent="toggleTheme"
+          class="icons-btn"
+          @click="toggleTheme"
         >
           <ThemeIconComponent class="w-8 h-8 dark:text-white" />
         </button>
       </li>
       <li class="my-2 flex justify-center">
         <a
-          class="block hover:bg-gray-200 p-2 rounded-full default-transition dark:hover:bg-dim-200 mr-2"
+          class="block mr-2 icons-btn"
           href="https://github.com/Nikitapil/postter"
           target="_blank"
         >
@@ -69,3 +69,13 @@ const ThemeIconComponent = computed(() =>
   isDarkMode.value ? LightBulbIcon : LightBulbIconLight
 );
 </script>
+
+<style scoped>
+.li-full {
+  @apply inline-block mx-2;
+}
+
+.icons-btn {
+  @apply hover:bg-gray-200 p-2 rounded-full default-transition dark:hover:bg-dim-200;
+}
+</style>
