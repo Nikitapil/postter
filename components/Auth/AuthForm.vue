@@ -5,6 +5,7 @@
         <PostterLogo />
       </div>
     </div>
+
     <form
       class="pt-5 flex flex-col gap-4"
       @submit.prevent
@@ -60,6 +61,7 @@
           label="Profile information"
           placeholder="Information about you"
           :limit="500"
+          :disabled="loading"
         />
         <ProfileImageUploader
           v-model="userData.profileImage"
@@ -68,7 +70,6 @@
       </template>
 
       <AppButton
-        class="dark:text-white"
         liquid
         :disabled="isSubmitDisable"
         @click="handleSubmit"
@@ -120,19 +121,18 @@ const handleSubmit = async () => {
 };
 
 const isSubmitDisable = computed(() => {
+  const isBaseDisabled =
+    loading.value || !userData.value.username || !userData.value.password;
+
   if (registeredMode.value) {
     return (
-      loading.value ||
-      !userData.value.username ||
-      !userData.value.password ||
+      isBaseDisabled ||
       !userData.value.repeatPassword ||
       !userData.value.email ||
       !userData.value.name
     );
   } else {
-    return (
-      loading.value || !userData.value.username || !userData.value.password
-    );
+    return isBaseDisabled;
   }
 });
 
