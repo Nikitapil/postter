@@ -1,5 +1,4 @@
 import { getQuery } from 'h3';
-import { IPaginationQueryParams } from '~/server/types/common';
 import { handleError } from '~/server/utils/ErrorHandler';
 import { getUsers } from '~/server/services/users';
 import { IGetUsersQueries } from '~/server/types/users-types';

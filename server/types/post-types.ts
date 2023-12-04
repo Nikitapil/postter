@@ -1,5 +1,6 @@
 import { IUserDataFiltered } from '~/server/types/users-types';
 import { IMediaFileFromDb } from '~/server/types/media-files-types';
+import { IPaginationQueryParams } from '~/server/types/common';
 
 export interface ICreatePostParams {
   authorId: string;
@@ -90,4 +91,14 @@ export interface IRepostParams {
 export interface IDeletePostParams {
   postId: string;
   userId: string;
+}
+
+export interface IGePostsQueryParams extends IPaginationQueryParams {
+  query: string;
+  profileId?: string;
+  likedByUserId?: string;
+}
+
+export interface IGetRepliesParams extends IPaginationQueryParams {
+  id: string;
 }

@@ -91,3 +91,7 @@ export interface IChangePasswordParams {
   newPassword: string;
   repeatPassword: string;
 }
+
+export interface IGetProfileQueryParams {
+  profileId: string;
+}
