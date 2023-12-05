@@ -1,13 +1,11 @@
 <template>
-  <div
+  <button
     class="flex items-center text-gray-400 cursor-pointer group"
     @click.stop.prevent="$emit('click')"
   >
     <div
       class="p-2 rounded-full dark:group-hover:bg-opacity-20 default-transition"
-      :class="`group-hover:bg-${appearance}-100 group-hover:text-${appearance}-400 ${
-        active ? `text-${appearance}-400` : ''
-      }`"
+      :class="iconClasses"
     >
       <slot
         name="icon"
@@ -17,16 +15,14 @@
 
     <span
       class="ml-1 default-transition"
-      :class="`group-hover:text-${appearance}-400 ${
-        active ? `text-${appearance}-400` : ''
-      }`"
+      :class="textClasses"
     >
       <slot />
     </span>
-  </div>
+  </button>
 </template>
 <script setup lang="ts">
-withDefaults(
+const props = withDefaults(
   defineProps<{
     active?: boolean;
     appearance?: 'blue' | 'green' | 'red';
@@ -40,4 +36,17 @@ withDefaults(
 defineEmits<{
   click: [];
 }>();
+
+const iconClasses = computed(() => {
+  const hoverBg = `group-hover:bg-${props.appearance}-100`;
+  const hoverText = `group-hover:text-${props.appearance}-400`;
+  const activeText = props.active ? `text-${props.appearance}-400` : '';
+  return `${hoverBg} ${hoverText} ${activeText}`;
+});
+
+const textClasses = computed(() => {
+  const hoverClass = `group-hover:text-${props.appearance}-400`;
+  const activeText = props.active ? `text-${props.appearance}-400` : '';
+  return `${hoverClass} ${activeText}`;
+});
 </script>
