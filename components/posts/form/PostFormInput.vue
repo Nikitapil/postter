@@ -90,6 +90,7 @@
     </div>
   </form>
 </template>
+
 <script setup lang="ts">
 import { IUser } from '~/types/auth-types';
 import { IPost, IPostFormData } from '~/types/post-client-types';

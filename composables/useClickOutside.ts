@@ -1,13 +1,9 @@
 export const useClickOutside = (
   callback: () => void,
-  ref: Ref<null>,
-  excludedRef?: Ref<null>
+  ref: Ref<null | HTMLElement>
 ) => {
   const fn = (e: MouseEvent) => {
-    if (
-      e.target !== ref.value &&
-      e.target !== (excludedRef?.value as unknown)
-    ) {
+    if (!ref.value?.contains(e.target as Node)) {
       callback();
     }
   };
