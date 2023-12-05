@@ -8,7 +8,9 @@
     />
 
     <div :class="postBodyClasses">
-      <p class="flex-shrink font-medium text-gray-800 w-auto dark:text-white px-1">
+      <p
+        class="flex-shrink font-medium text-gray-800 w-auto dark:text-white px-1"
+      >
         {{ post.text }}
       </p>
       <div
