@@ -3,7 +3,7 @@
     :is-open="isOpen"
     @close-modal="$emit('closeModal')"
   >
-    <h2 class="font-bold text-center mb-2">
+    <h2 class="font-bold text-center mb-2 dark:text-white">
       Send Message to {{ userTo.name }} (@{{ userTo.username }})
     </h2>
     <MessageForm

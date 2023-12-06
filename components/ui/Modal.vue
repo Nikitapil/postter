@@ -7,6 +7,7 @@
     <Dialog
       as="div"
       class="relative z-10"
+      :class="{ dark: isDarkMode }"
       @close="closeModal"
     >
       <TransitionChild
@@ -35,7 +36,7 @@
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              class="w-full max-w-md transform rounded-2xl bg-white dark:bg-dim-200 p-6 text-left align-middle shadow-xl transition-all"
             >
               <slot />
             </DialogPanel>
@@ -53,6 +54,8 @@ import {
   Dialog,
   DialogPanel
 } from '@headlessui/vue';
+
+const { isDarkMode } = useTheme();
 
 defineProps<{
   isOpen: boolean;

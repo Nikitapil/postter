@@ -3,7 +3,9 @@
     :is-open="isOpen"
     @close-modal="closeModal"
   >
-    <h2 class="text-center mb-5 text-xl font-semibold">{{ title }}</h2>
+    <h2 class="text-center mb-5 text-xl font-semibold dark:text-white">
+      {{ title }}
+    </h2>
 
     <div class="flex w-full gap-2">
       <button
