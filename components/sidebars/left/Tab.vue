@@ -2,7 +2,7 @@
   <NuxtLink
     class="flex items-center rounded-full gap-4 p-3 w-min hover:bg-gray-200 dark:hover:bg-dim-200 dark:text-white default-transition"
     :to="to"
-    exact-active-class="font-semibold"
+    exact-active-class="font-semibold bg-gray-100 dark:bg-dim-300"
   >
     <div class="w-6 h-6">
       <slot name="icon" />
