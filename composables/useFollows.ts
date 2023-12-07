@@ -1,7 +1,7 @@
 import { IUser } from '~/types/auth-types';
 import { IFollowResponse } from '~/types/profile-types';
 
-export const useFollows = () => {
+export default () => {
   const toggleFollow = async (user: IUser) => {
     try {
       const { isFollowedByCurrent } = await useFetchApi<IFollowResponse>(
