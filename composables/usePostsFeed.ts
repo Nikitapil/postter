@@ -5,8 +5,8 @@ const POSTS_LIMIT = 50;
 
 export default () => {
   const {
-    getPosts: getPostsInitial,
     getMyPosts,
+    getPosts: getPostsInitial,
     getTopPosts: getTopPostsInitial
   } = usePosts();
 
