@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Head>
+      <Title>Post / Postter</Title>
+    </Head>
+
     <MainSection
       title="Post"
       :loading="loading"
@@ -32,9 +36,6 @@
           </div>
         </div>
       </template>
-      <Head>
-        <Title>Post / Postter</Title>
-      </Head>
 
       <div v-if="post && user">
         <PostsFormPostFormInput
