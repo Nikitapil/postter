@@ -3,13 +3,16 @@
     <Head>
       <Title>Profile / Postter</Title>
     </Head>
+
     <template #title>
       <div
         v-if="profile"
         class="flex items-start gap-2"
       >
-        <UserAvatar :link="profile.profileImage" />
-        <span>{{ profile.name }}</span>
+        <div class="flex gap-2 items-center">
+          <UserAvatar :link="profile.profileImage" />
+          <span>{{ profile.name }}</span>
+        </div>
         <NuxtLink
           v-if="isMyUser"
           to="/profile/edit"
@@ -26,7 +29,7 @@
             :disabled="isFollowToggleInProgress"
             @click="onClickFollow"
           >
-            {{ profileHeaderButtonText }}
+            {{ profileFollowButtonText }}
           </button>
           <button
             class="profileHeaderButton block mt-2"
@@ -39,10 +42,7 @@
     </template>
 
     <template v-if="profile">
-      <div
-        v-if="profile"
-        class="px-4 border-b pb-4"
-      >
+      <div class="px-4 border-b pb-4">
         <div class="flex gap-4 text-gray-400 mb-2">
           <p>@{{ profile.username }}</p>
           <p class="flex items-center gap-1">
@@ -50,9 +50,11 @@
             registered at {{ registeredDateText }}
           </p>
         </div>
+
         <p class="dark:text-gray-200 mb-2">
           {{ profile.about }}
         </p>
+
         <div class="flex gap-3">
           <NuxtLink
             class="link-gray"
@@ -68,16 +70,19 @@
           </NuxtLink>
         </div>
       </div>
+
       <ListFeed
         :posts="posts"
         @feed-end="loadMorePosts"
       />
+
       <MessagesModal
         :is-open="isMessageModalOpened"
         :user-to="profile"
         @close-modal="onCloseMessagesModal"
       />
     </template>
+
     <div
       v-else
       class="flex flex-col items-center"
@@ -117,9 +122,10 @@ const profileId = computed(() => route.params.id as string);
 const registeredDateText = computed(() =>
   profile.value ? new Date(profile.value.createdAt).toLocaleDateString() : ''
 );
+
 const isMyUser = computed(() => user.value?.id === profileId.value);
 
-const profileHeaderButtonText = computed(() =>
+const profileFollowButtonText = computed(() =>
   profile.value?.isFollowedByCurrent ? 'Unfollow' : 'Follow'
 );
 
@@ -157,7 +163,7 @@ const onCloseMessagesModal = () => (isMessageModalOpened.value = false);
 
 onMounted(async () => {
   isPageLoading.value = true;
-  await getProfile(route.params.id as string);
+  await getProfile(profileId.value);
   await loadPostsInitial();
   isPageLoading.value = false;
 });
