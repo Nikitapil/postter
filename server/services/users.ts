@@ -185,7 +185,7 @@ export const createUserDataWithTokens = async (user: ISafeUserFromDb) => {
   return {
     accessToken,
     refreshToken,
-    user: userTransformer(user)
+    user: userTransformer(user, user.id)
   };
 };
 
@@ -253,7 +253,7 @@ export const getProfile = async (params: IGetProfile) => {
     throw ApiError.NotFoundError('User not found');
   }
 
-  return { profile: userTransformer(profile) };
+  return { profile: userTransformer(profile, currentUserId) };
 };
 
 export const followUser = async (params: IFollowUserParams) => {
@@ -343,7 +343,7 @@ export const getFollowUsersList = async (params: IGetFollowUsersList) => {
   });
 
   return {
-    users: users.map((user) => userTransformer(user)),
+    users: users.map((user) => userTransformer(user, currentUserId)),
     totalCount
   };
 };
@@ -381,7 +381,7 @@ export const getUsers = async (params: IGetUsersParams) => {
   });
 
   return {
-    users: users.map((user) => userTransformer(user)),
+    users: users.map((user) => userTransformer(user, currentUserId)),
     totalCount
   };
 };

@@ -12,7 +12,10 @@
         </div>
       </div>
 
-      <div class="flex h-full">
+      <div
+        v-if="user.canFollow"
+        class="flex h-full"
+      >
         <button
           class="px-4 py-2 font-bold text-xs text-white dark:text-black bg-black dark:bg-white rounded-full hover:opacity-75 disabled:opacity-50"
           :disabled="isFollowToggleInProgress"

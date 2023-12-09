@@ -5,13 +5,15 @@ export const chatTransformer = (chat: IChatFromDb, currentUserId: string) => {
   const companionUser = chat.users.find((user) => user.id !== currentUserId);
   return {
     ...chat,
-    users: chat.users.map((user) => userTransformer(user)),
+    users: chat.users.map((user) => userTransformer(user, currentUserId)),
     companionUser,
     unreadMessageCount: chat._count.messages,
     messages: chat.messages.map((message) => {
       return {
         ...message,
-        author: message.author ? userTransformer(message.author) : null
+        author: message.author
+          ? userTransformer(message.author, currentUserId)
+          : null
       };
     })
   };

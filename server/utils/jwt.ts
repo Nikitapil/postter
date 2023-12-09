@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { IUserDataFiltered } from '~/server/types/users-types';
+import {ISafeUserFromDb, IUserDataFiltered} from '~/server/types/users-types';
 
-const generateAccessToken = (user: IUserDataFiltered) => {
+const generateAccessToken = (user: ISafeUserFromDb) => {
   const config = useRuntimeConfig();
 
   return jwt.sign({ userId: user.id }, config.jwtAccessSecret, {
@@ -9,7 +9,7 @@ const generateAccessToken = (user: IUserDataFiltered) => {
   });
 };
 
-const generateRefreshToken = (user: IUserDataFiltered) => {
+const generateRefreshToken = (user: ISafeUserFromDb) => {
   const config = useRuntimeConfig();
 
   return jwt.sign({ userId: user.id }, config.jwtRefreshSecret, {
@@ -35,7 +35,7 @@ export const decodeAccessToken = (token: string) => {
   }
 };
 
-export const generateTokens = (user: IUserDataFiltered) => {
+export const generateTokens = (user: ISafeUserFromDb) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 

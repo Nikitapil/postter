@@ -38,6 +38,7 @@ export interface IUser {
   followedByCount?: number;
   followingCount?: number;
   isFollowedByCurrent?: boolean;
+  canFollow: boolean;
 }
 
 export interface IJwtDecodedToken {
