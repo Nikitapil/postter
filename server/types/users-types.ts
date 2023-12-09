@@ -33,7 +33,7 @@ export interface IUserDataFiltered {
   followedByCount?: number;
   followingCount?: number;
   isFollowedByCurrent?: boolean;
-  canFollow: boolean;
+  canFollow?: boolean;
 }
 
 export interface ISafeUserFromDb {
