@@ -7,6 +7,7 @@ import usePosts from '~/composables/usePosts';
 import useFetchApi from '~/composables/useFetchApi';
 
 const REPLIES_LIMIT = 50;
+
 export default () => {
   const { getPostById, getReplies, deletePost: deletePostInitial } = usePosts();
 
