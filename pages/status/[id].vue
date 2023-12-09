@@ -38,7 +38,7 @@
       </template>
 
       <div v-if="post && user">
-        <PostsFormPostFormInput
+        <PostFormInput
           v-if="isEditMode"
           placeholder="Enter post text"
           :user="user"
@@ -75,6 +75,7 @@ import useSinglePost from '~/composables/useSinglePost';
 import { TrashIcon, PencilIcon, XMarkIcon } from '@heroicons/vue/24/solid';
 import { IPostFormData } from '~/types/post-client-types';
 import ConfirmModal from '~/components/ui/ConfirmModal.vue';
+import PostFormInput from '~/components/posts/form/PostFormInput.vue';
 
 const { post, getPost, loadMoreReplies, deletePost, editPost } =
   useSinglePost();

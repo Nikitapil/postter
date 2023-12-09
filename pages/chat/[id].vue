@@ -4,6 +4,9 @@
     :loading="isLoading"
     :title="title"
   >
+    <Head>
+      <Title>Chat / Postter</Title>
+    </Head>
     <div v-if="chat">
       <MessagesList
         :messages="chat.messages"

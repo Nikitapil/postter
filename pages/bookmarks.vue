@@ -4,8 +4,14 @@
       title="Bookmarks"
       :loading="loading"
     >
+      <Head>
+        <Title>Bookmarks / Postter</Title>
+      </Head>
       <p class="dark:text-white text-sm pl-4">Posts you liked</p>
-      <ListFeed :posts="posts" @feed-end="loadMorePosts" />
+      <ListFeed
+        :posts="posts"
+        @feed-end="loadMorePosts"
+      />
     </MainSection>
   </div>
 </template>

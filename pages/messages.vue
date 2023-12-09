@@ -4,6 +4,10 @@
       title="Messages"
       :loading="isLoading"
     >
+      <Head>
+        <Title>Messages / Postter</Title>
+      </Head>
+
       <ChatList :chat-list="chats" />
     </MainSection>
   </div>

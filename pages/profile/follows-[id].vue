@@ -1,6 +1,10 @@
 <template>
   <div>
     <MainSection :loading="false">
+      <Head>
+        <Title>Follows / Postter</Title>
+      </Head>
+
       <template #title>
         <PageSubNav :links="navLinks" />
       </template>

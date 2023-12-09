@@ -3,6 +3,10 @@
     title="Trending"
     :loading="false"
   >
+    <Head>
+      <Title>Trends / Postter</Title>
+    </Head>
+
     <div class="border-b">
       <PageSubNav :links="navlinks" />
     </div>
