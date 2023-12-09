@@ -2,7 +2,7 @@
   <div>
     <MainSection :loading="false">
       <template #title>
-        <PageSubNav :links="navlinks" />
+        <PageSubNav :links="navLinks" />
       </template>
 
       <NuxtPage />
@@ -25,7 +25,7 @@ const followingLink = computed(
   () => `/profile/follows-${profileId.value}/following`
 );
 
-const navlinks = computed<INavLink[]>(() => {
+const navLinks = computed<INavLink[]>(() => {
   return [
     {
       to: followersLink.value,
