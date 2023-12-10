@@ -1,12 +1,17 @@
-import { getCookie } from 'h3';
 import { removeRefreshToken } from '~/server/services/refresh-tokens';
 import { handleError } from '~/server/utils/ErrorHandler';
+import {
+  deleteRefreshTokenCookie,
+  getRefreshTokenCookie
+} from '~/server/utils/cookies';
 
 export default defineEventHandler(async (event) => {
   try {
-    const token = getCookie(event, 'postter-refresh-token');
+    const token = getRefreshTokenCookie(event);
+
     await removeRefreshToken(token as string);
-    deleteCookie(event, 'postter-refresh-token');
+
+    deleteRefreshTokenCookie(event);
 
     return { message: 'Success' };
   } catch (e) {

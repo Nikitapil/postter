@@ -1,18 +1,19 @@
-import { getCookie } from 'h3';
 import { refreshAuth } from '~/server/services/users';
 import { handleError } from '~/server/utils/ErrorHandler';
+import {
+  getRefreshTokenCookie,
+  setRefreshTokenCookie
+} from '~/server/utils/cookies';
 
 export default defineEventHandler(async (event) => {
   try {
-    const refreshTokenFromCookie = getCookie(event, 'postter-refresh-token');
+    const refreshTokenFromCookie = getRefreshTokenCookie(event);
     const { accessToken, refreshToken, user } = await refreshAuth(
       refreshTokenFromCookie
     );
 
-    setCookie(event, 'postter-refresh-token', refreshToken, {
-      httpOnly: true,
-      sameSite: true
-    });
+    setRefreshTokenCookie(event, refreshToken);
+
     return { accessToken, user };
   } catch (e) {
     return handleError(event, e);

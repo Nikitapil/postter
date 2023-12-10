@@ -3,6 +3,7 @@ import formidable from 'formidable';
 import { firstValues } from 'formidable/src/helpers/firstValues.js';
 import { imageToBase64 } from '~/server/utils/images';
 import { handleError } from '~/server/utils/ErrorHandler';
+import { setRefreshTokenCookie } from '~/server/utils/cookies';
 
 export default defineEventHandler(async (event) => {
   const form = formidable();
@@ -32,10 +33,7 @@ export default defineEventHandler(async (event) => {
 
     const { accessToken, refreshToken, user } = await createUser(userData);
 
-    setCookie(event, 'postter-refresh-token', refreshToken, {
-      httpOnly: true,
-      sameSite: true
-    });
+    setRefreshTokenCookie(event, refreshToken);
 
     return { accessToken, user };
   } catch (e) {

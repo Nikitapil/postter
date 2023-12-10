@@ -1,5 +1,6 @@
 import { login } from '~/server/services/users';
 import { handleError } from '~/server/utils/ErrorHandler';
+import { setRefreshTokenCookie } from '~/server/utils/cookies';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -12,10 +13,7 @@ export default defineEventHandler(async (event) => {
       password
     });
 
-    setCookie(event, 'postter-refresh-token', refreshToken, {
-      httpOnly: true,
-      sameSite: true
-    });
+    setRefreshTokenCookie(event, refreshToken);
 
     return {
       user,
