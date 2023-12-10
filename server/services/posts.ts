@@ -7,7 +7,8 @@ import {
   ICreatePostParams,
   IRepostParams,
   IToggleLike,
-  IEditPostParams
+  IEditPostParams,
+  IPostFromDb
 } from '~/server/types/post-types';
 import { prisma } from '~/server/services/prisma';
 import {
@@ -87,13 +88,10 @@ const deletePostSchema = z.object({
   userId: idRequiredSchema
 });
 
-export const createPost = async (postData: ICreatePostParams) => {
-  const { mediaFilesUrls, ...newPostData } = createPostSchema.parse(postData);
-  const post = await prisma.post.create({
-    data: newPostData,
-    include: getPostIncludeWithUserLikes(newPostData.authorId)
-  });
-
+const createPostMediafiles = async (
+  post: IPostFromDb,
+  mediaFilesUrls: string[]
+) => {
   const filesPromises = mediaFilesUrls.map((url) =>
     createMediaFile({
       url,
@@ -103,6 +101,17 @@ export const createPost = async (postData: ICreatePostParams) => {
   );
 
   const files = await Promise.all(filesPromises);
+  return files;
+};
+
+export const createPost = async (postData: ICreatePostParams) => {
+  const { mediaFilesUrls, ...newPostData } = createPostSchema.parse(postData);
+  const post = await prisma.post.create({
+    data: newPostData,
+    include: getPostIncludeWithUserLikes(newPostData.authorId)
+  });
+
+  const files = await createPostMediafiles(post, mediaFilesUrls);
 
   return { ...postTransformer(post, newPostData.authorId), mediaFiles: files };
 };
@@ -135,15 +144,8 @@ export const editPost = async (params: IEditPostParams) => {
     include: getPostIncludeWithUserLikes(userId)
   });
 
-  const filesPromises = mediaFilesUrls.map((url) =>
-    createMediaFile({
-      url,
-      userId,
-      postId
-    })
-  );
+  const files = await createPostMediafiles(updatedPost, mediaFilesUrls);
 
-  const files = await Promise.all(filesPromises);
   return { ...postTransformer(updatedPost, userId), mediaFiles: files };
 };
 
@@ -237,9 +239,11 @@ export const getMyFeed = async (params: IGetMyFeedParams) => {
     ],
     ...paginationParams
   });
+
   const totalCount = await prisma.post.count({
     where
   });
+
   return {
     posts: posts.map((post) => postTransformer(post, userId)),
     totalCount
@@ -249,7 +253,9 @@ export const getMyFeed = async (params: IGetMyFeedParams) => {
 export const getPostById = async (params: IGetPostById) => {
   const { id, repliesPage, repliesLimit, userId } =
     getPostsByIdSchema.parse(params);
+
   const paginationParams = getPaginationParams(repliesPage, repliesLimit);
+
   const post = await prisma.post.findUnique({
     where: { id },
     include: {
@@ -265,16 +271,20 @@ export const getPostById = async (params: IGetPostById) => {
       }
     }
   });
+
   if (!post) {
     throw ApiError.NotFoundError('Post not found');
   }
+
   return postTransformer(post, userId);
 };
 
 export const getReplies = async (params: IGetPostById) => {
   const { id, repliesPage, repliesLimit, userId } =
     getPostsByIdSchema.parse(params);
+
   const paginationParams = getPaginationParams(repliesPage, repliesLimit);
+
   const replies = await prisma.post.findMany({
     where: {
       replyToId: id
@@ -287,11 +297,13 @@ export const getReplies = async (params: IGetPostById) => {
     ],
     ...paginationParams
   });
+
   return replies.map((reply) => postTransformer(reply, userId));
 };
 
 export const toggleLike = async (params: IToggleLike) => {
   const { postId, userId } = toggleLikeSchema.parse(params);
+
   const post = await prisma.post.findUnique({
     where: { id: postId },
     include: {
