@@ -14,28 +14,30 @@ import {
 } from '~/server/utils/db-query-helpers';
 import { chatTransformer } from '~/server/transformers/messages-transformers';
 
+const idRequiredSchema = z.string().min(1);
+
 const createChatParamsSchema = z.object({
-  usersIds: z.array(z.string().min(1)).min(2)
+  usersIds: z.array(idRequiredSchema).min(2)
 });
 
 const createMessageSchema = z.object({
   text: z.string().min(1),
-  authorId: z.string().min(1),
-  userToId: z.string().min(1)
+  authorId: idRequiredSchema,
+  userToId: idRequiredSchema
 });
 
 const getChatSchema = z.object({
-  userId: z.string().min(1),
-  chatId: z.string().min(1)
+  userId: idRequiredSchema,
+  chatId: idRequiredSchema
 });
 
 const getAllUserChatsSchema = z.object({
-  userId: z.string().min(1)
+  userId: idRequiredSchema
 });
 
 const openMessagesSchema = z.object({
-  userId: z.string().min(1),
-  chatId: z.string().min(1)
+  userId: idRequiredSchema,
+  chatId: idRequiredSchema
 });
 
 export const createChat = async (params: ICreateChatParams) => {
