@@ -6,7 +6,7 @@ import {
   IOpenMessagesParams
 } from '~/server/types/messages-types';
 import { z } from 'zod';
-import { prisma } from '~/server/services/index';
+import { prisma } from '~/server/services/prisma';
 import { ApiError } from '~/server/utils/ApiError';
 import {
   getChatInclude,

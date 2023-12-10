@@ -9,7 +9,7 @@ import {
   IToggleLike,
   IEditPostParams
 } from '~/server/types/post-types';
-import { prisma } from '~/server/services/index';
+import { prisma } from '~/server/services/prisma';
 import {
   getPaginationParams,
   getPostIncludeWithUserLikes

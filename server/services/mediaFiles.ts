@@ -1,5 +1,5 @@
 import { IMediaFileDto } from '~/server/types/media-files-types';
-import { prisma } from '~/server/services/index';
+import { prisma } from '~/server/services/prisma';
 import { imageToBase64 } from '~/server/utils/images';
 
 export const createMediaFile = (mediaFile: IMediaFileDto) => {

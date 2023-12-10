@@ -1,4 +1,4 @@
-import { prisma } from '~/server/services/index';
+import { prisma } from '~/server/services/prisma';
 import bcrypt from 'bcrypt';
 import {
   IChangePasswordParams,
