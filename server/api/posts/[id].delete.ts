@@ -1,5 +1,6 @@
 import { handleError } from '~/server/utils/ErrorHandler';
 import { deletePost } from '~/server/services/posts';
+import { getUserFromContext } from '~/server/utils/context';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -7,7 +8,7 @@ export default defineEventHandler(async (event) => {
       id: string;
     };
 
-    const userId = event.context?.auth?.user?.id as string;
+    const userId = getUserFromContext(event);
 
     const response = await deletePost({ postId, userId });
 

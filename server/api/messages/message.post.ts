@@ -1,10 +1,12 @@
 import { handleError } from '~/server/utils/ErrorHandler';
 import { createMessage } from '~/server/services/messages';
+import { getUserFromContext } from '~/server/utils/context';
 
 export default defineEventHandler(async (event) => {
   try {
-    const authorId = event.context?.auth?.user?.id as string;
+    const authorId = getUserFromContext(event);
     const { userToId, text } = await readBody(event);
+
     const message = await createMessage({ authorId, userToId, text });
 
     event.context.io
