@@ -35,7 +35,7 @@
 
     <PreviewCard
       v-if="usersList.length"
-      title="Who to follow"
+      title="Top users"
       show-more-link="/trends/users"
     >
       <UserListItem
