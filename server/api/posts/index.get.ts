@@ -2,6 +2,7 @@ import { getPosts } from '~/server/services/posts';
 import { getQuery } from 'h3';
 import { handleError } from '~/server/utils/ErrorHandler';
 import { IGePostsQueryParams } from '~/server/types/post-types';
+import { getUserIdFromContext } from '~/server/utils/context';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -13,7 +14,7 @@ export default defineEventHandler(async (event) => {
       likedByUserId
     } = getQuery<IGePostsQueryParams>(event);
 
-    const userId = event.context?.auth?.user?.id as string;
+    const userId = getUserIdFromContext(event);
 
     const { posts, totalCount } = await getPosts({
       userId,

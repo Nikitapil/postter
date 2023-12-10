@@ -1,7 +1,7 @@
 import { handleError } from '~/server/utils/ErrorHandler';
 import { deletePost } from '~/server/services/posts';
 import {
-  getRoutParamsFromContext,
+  getRouteParamsFromContext,
   getUserIdFromContext
 } from '~/server/utils/context';
 
@@ -11,7 +11,7 @@ type TRouteParams = {
 
 export default defineEventHandler(async (event) => {
   try {
-    const { id: postId } = getRoutParamsFromContext<TRouteParams>(event);
+    const { id: postId } = getRouteParamsFromContext<TRouteParams>(event);
 
     const userId = getUserIdFromContext(event);
 

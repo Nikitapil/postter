@@ -1,7 +1,7 @@
 import { handleError } from '~/server/utils/ErrorHandler';
 import { getChat } from '~/server/services/messages';
 import {
-  getRoutParamsFromContext,
+  getRouteParamsFromContext,
   getUserIdFromContext
 } from '~/server/utils/context';
 
@@ -11,7 +11,7 @@ type TRouteParams = {
 
 export default defineEventHandler(async (event) => {
   try {
-    const { chatId } = getRoutParamsFromContext<TRouteParams>(event);
+    const { chatId } = getRouteParamsFromContext<TRouteParams>(event);
     const userId = getUserIdFromContext(event);
 
     const chat = await getChat({

@@ -3,6 +3,7 @@ import { createPost } from '~/server/services/posts';
 import { ICreatePostParams } from '~/server/types/post-types';
 import { firstValues } from 'formidable/src/helpers/firstValues.js';
 import { handleError } from '~/server/utils/ErrorHandler';
+import { getUserIdFromContext } from '~/server/utils/context';
 
 export default defineEventHandler(async (event) => {
   const form = formidable({});
@@ -10,7 +11,7 @@ export default defineEventHandler(async (event) => {
   try {
     const [fields, files] = await form.parse(event.node.req);
 
-    const userId = event.context?.auth?.user?.id as string;
+    const userId = getUserIdFromContext(event);
 
     const { text = '', replyToId = '' } = firstValues(form, fields);
     const filesValues = firstValues(form, files);

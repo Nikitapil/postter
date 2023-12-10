@@ -2,7 +2,10 @@ import { getPostById } from '~/server/services/posts';
 import { handleError } from '~/server/utils/ErrorHandler';
 import { getQuery } from 'h3';
 import { IPaginationQueryParams } from '~/server/types/common';
-import {getRoutParamsFromContext, getUserIdFromContext} from '~/server/utils/context';
+import {
+  getRouteParamsFromContext,
+  getUserIdFromContext
+} from '~/server/utils/context';
 
 type TRouteParams = {
   id: string;
@@ -10,7 +13,7 @@ type TRouteParams = {
 
 export default defineEventHandler(async (event) => {
   try {
-    const { id } = getRoutParamsFromContext<TRouteParams>(event);
+    const { id } = getRouteParamsFromContext<TRouteParams>(event);
     const { page = 0, limit = 0 } = getQuery<IPaginationQueryParams>(event);
 
     const userId = getUserIdFromContext(event);
