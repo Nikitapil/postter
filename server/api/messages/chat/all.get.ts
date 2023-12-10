@@ -1,10 +1,10 @@
 import { handleError } from '~/server/utils/ErrorHandler';
 import { getAllUserChats } from '~/server/services/messages';
-import { getUserFromContext } from '~/server/utils/context';
+import { getUserIdFromContext } from '~/server/utils/context';
 
 export default defineEventHandler(async (event) => {
   try {
-    const userId = getUserFromContext(event);
+    const userId = getUserIdFromContext(event);
 
     const chats = await getAllUserChats({ userId });
 

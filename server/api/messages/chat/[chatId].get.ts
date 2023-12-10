@@ -1,11 +1,18 @@
 import { handleError } from '~/server/utils/ErrorHandler';
 import { getChat } from '~/server/services/messages';
-import { getUserFromContext } from '~/server/utils/context';
+import {
+  getRoutParamsFromContext,
+  getUserIdFromContext
+} from '~/server/utils/context';
+
+type TRouteParams = {
+  chatId: string;
+};
 
 export default defineEventHandler(async (event) => {
   try {
-    const { chatId } = event.context.params as { chatId: string };
-    const userId = getUserFromContext(event);
+    const { chatId } = getRoutParamsFromContext<TRouteParams>(event);
+    const userId = getUserIdFromContext(event);
 
     const chat = await getChat({
       chatId,
