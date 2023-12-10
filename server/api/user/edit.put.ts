@@ -3,10 +3,11 @@ import { firstValues } from 'formidable/src/helpers/firstValues.js';
 import { imageToBase64 } from '~/server/utils/images';
 import formidable from 'formidable';
 import { editUser } from '~/server/services/users';
+import { getUserIdFromContext } from '~/server/utils/context';
 
 export default defineEventHandler(async (event) => {
   try {
-    const userId = event.context?.auth?.user?.id as string;
+    const userId = getUserIdFromContext(event);
     const form = formidable();
     const [fields, files] = await form.parse(event.node.req);
 
