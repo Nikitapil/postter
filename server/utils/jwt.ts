@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import {ISafeUserFromDb, IUserDataFiltered} from '~/server/types/users-types';
+import { ISafeUserFromDb } from '~/server/types/users-types';
 
 const generateAccessToken = (user: ISafeUserFromDb) => {
   const config = useRuntimeConfig();
