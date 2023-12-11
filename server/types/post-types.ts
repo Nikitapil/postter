@@ -25,9 +25,6 @@ export interface IGetPostsBaseRequest {
 
 export interface IGetPostsRequest extends IGetPostsBaseRequest {
   search: string;
-  userId: string;
-  page?: number | null;
-  limit?: number | null;
   profileId?: string | null;
   likedByUserId?: string;
 }
@@ -99,6 +96,6 @@ export interface IGePostsQueryParams extends IPaginationQueryParams {
   likedByUserId?: string;
 }
 
-export interface IGetRepliesParams extends IPaginationQueryParams {
+export interface IGetRepliesQueryParams extends IPaginationQueryParams {
   id: string;
 }

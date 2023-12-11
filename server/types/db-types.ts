@@ -1,4 +1,4 @@
-export interface IPaginationParams {
+export interface IPaginationDbParams {
   take?: number;
   skip?: number;
 }

@@ -82,7 +82,7 @@ export interface IGetUsersParams extends IPaginationParams {
   search: string;
 }
 
-export interface IGetUsersQueries extends IPaginationQueryParams {
+export interface IGetUsersQueryParams extends IPaginationQueryParams {
   search?: string;
 }
 

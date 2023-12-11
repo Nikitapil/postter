@@ -1,7 +1,7 @@
 import { getQuery } from 'h3';
 import { handleError } from '~/server/utils/ErrorHandler';
 import { getUsers } from '~/server/services/users';
-import { IGetUsersQueries } from '~/server/types/users-types';
+import { IGetUsersQueryParams } from '~/server/types/users-types';
 import { getUserIdFromContext } from '~/server/utils/context';
 
 export default defineEventHandler(async (event) => {
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
       page = 0,
       limit = 0,
       search = ''
-    } = getQuery<IGetUsersQueries>(event);
+    } = getQuery<IGetUsersQueryParams>(event);
 
     const currentUserId = getUserIdFromContext(event);
 
