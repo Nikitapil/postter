@@ -28,6 +28,7 @@ export const getSafeUserSelectWithFollowedBy = (
     }
   };
 };
+
 export const postInclude: Prisma.PostInclude = {
   author: {
     select: safeUserSelect
