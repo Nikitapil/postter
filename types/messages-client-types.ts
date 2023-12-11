@@ -15,7 +15,7 @@ export interface IBaseMessage {
   updatedAt: Date;
 }
 
-export interface IChatMessage extends IBaseMessage{
+export interface IChatMessage extends IBaseMessage {
   author: IUser;
 }
 
