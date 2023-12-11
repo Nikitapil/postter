@@ -353,13 +353,16 @@ export const getUsers = async (params: IGetUsersParams) => {
     getUsersListSchema.parse(params);
 
   const paginationParams = getPaginationParams(page, limit);
+
+  const where: Prisma.UserWhereInput = {
+    username: {
+      contains: search,
+      mode: 'insensitive'
+    }
+  };
+
   const users = await prisma.user.findMany({
-    where: {
-      username: {
-        contains: search,
-        mode: 'insensitive'
-      }
-    },
+    where,
     select: getSafeUserSelectWithFollowedBy(currentUserId),
     ...paginationParams,
     orderBy: [
@@ -372,12 +375,7 @@ export const getUsers = async (params: IGetUsersParams) => {
   });
 
   const totalCount = await prisma.user.count({
-    where: {
-      username: {
-        contains: search,
-        mode: 'insensitive'
-      }
-    }
+    where
   });
 
   return {
